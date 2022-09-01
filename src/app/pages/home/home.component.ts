@@ -58,13 +58,14 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   selectedValue = '';
 
-  eventToDisplay!: any;
+  eventToDisplay!: Event;
   eventOptions = [EventEnumType.NAILS, EventEnumType.EYES];
 
   subscriptionArr: Subscription[] = [];
   index!: number
 
   done() {
+    this.completed = true;
     this.completed = true;
     this.state = 'done';
     console.log(this.firstFormGroup.valid);
@@ -194,6 +195,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     } catch (e: any) {
       console.error(e);
       this.handleError(e.message);
+      this.onReset();
     }
 
   }

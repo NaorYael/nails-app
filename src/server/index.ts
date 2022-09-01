@@ -10,20 +10,24 @@ app.use(api);
 const accountSid = process.env['accountSid'];
 const authToken = process.env['authToken'];
 
+// console.log({accountSid,authToken})
 
 app.listen(3002, () => console.log("Server started"));
 const twilio = require('twilio');
 
 const client = new twilio(accountSid, authToken);
 
-UserController.sendSMS = (code: number, phone: string) =>{
-  console.log(code, phone)
-  client.messages
-    .create({
-      body: code,
-      to: phone, // Text this number
-      from: '+16187643550', // From a valid Twilio number
-    })
-    .then((message: any) => console.log(message.sid));
+UserController.sendSMS = async (code: number, phone: string) =>{
+  try {
+     await client.messages
+      .create({
+        body: code,
+        to: phone, // Text this number
+        from: '+16187643550', // From a valid Twilio number
+      });
+  }catch (err:any){
+    console.log(err);
+  }
 }
+// UserController.sendSMS(5270 ,'+972507330590')
 

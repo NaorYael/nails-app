@@ -29,10 +29,18 @@
             <mat-datepicker  [touchUi]="true"
                              (closed)="input.blur()" #picker></mat-datepicker>
           </mat-form-field>
-          <button *ngIf="showEventTimes" fxLayoutAlign="center" color="secondary" mat-raised-button (click)="onReset()">איפוס</button>
         </div>
         <div *ngIf="appointmentArr.length > 0">
-          <button fxLayoutAlign="center" color="primary" mat-raised-button>{{appointmentArr[0].id | date:"HH:mm"}}</button>
+<!--          <button fxLayoutAlign="center" color="primary" mat-raised-button>{{appointmentArr[0].id | date:"HH:mm"}}</button>-->
+          <div class="container" dir="ltr">
+            <h4><a (click)="onReset()">שינוי</a> <span class="price" style="color:black"><b>סיכום</b></span></h4>
+            <br>
+            <p><span>{{eventToDisplay.title}}</span> <span class="price">סוג הטיפול</span></p>
+            <p><span>{{appointmentArr[0].id | date:"HH:mm"}}</span> <span class="price">שעה</span></p>
+<!--            <p><span>{{eventToDisplay.time}}</span>דקות<span class="price">זמן משוער</span></p>-->
+            <hr>
+            <p><b>₪{{eventToDisplay.price}}</b><span class="price" style="color:black">סה"כ</span></p>
+          </div>
         </div>
         <br>
         <div *ngIf="showEventTimes">
@@ -49,9 +57,7 @@
   <mat-step dir="rtl" [completed]="completed" [state]="state">
     <ng-template matStepLabel>קבענו</ng-template>
     <div fxLayoutAlign="center" dir="rtl">
-      <h2>שלב סליקה</h2>
-<!--      <button mat-button matStepperPrevious>Back</button>-->
-<!--      <button mat-button (click)="done()">Confirm</button>-->
+        <app-payment></app-payment>
     </div>
   </mat-step>
 

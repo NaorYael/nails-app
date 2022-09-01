@@ -1,0 +1,44 @@
+
+.example-full-width {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.mat-stepper-horizontal {
+  background-color: transparent;
+}
+
+.mat-card {
+  padding: 20px;
+
+  h4 {
+    margin-bottom: 5px;// $uxg-spacing-5
+  }
+
+  .payment-type-container {
+    margin-bottom: 5px;// $uxg-spacing-5
+
+    .mat-radio-button {
+      margin-bottom: 5px;// $uxg-spacing-5
+    }
+
+    .payment-logo {
+      width: 90px;
+      margin-left: 2px; // $uxg-spacing-2
+    }
+  }
+
+  .mat-card-content {
+    margin-bottom: 5px;// $uxg-spacing-5
+
+    .card-form-container {
+      max-width: 419px;
+      min-width: 200px;
+    }
+  }
+
+  .expire-month {
+    width: 90px;
+    margin-left: 2px; // $uxg-spacing-2
+  }
+}

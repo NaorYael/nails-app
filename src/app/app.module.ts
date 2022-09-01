@@ -34,6 +34,7 @@ import {CodeInputModule} from 'angular-code-input';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component'
 import {NotFoundComponent} from "./pages/not-found.component";
+import {PaymentComponent} from "./components/payment/payment.component";
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import {NotFoundComponent} from "./pages/not-found.component";
     HomeComponent,
     HeaderComponent,
     FooterComponent,
+    PaymentComponent,
     NotFoundComponent
   ],
   imports: [
