@@ -1,0 +1,35 @@
+<div class="signin-content">
+  <mat-card>
+
+    <mat-card-title fxLayoutAlign="center">הזדהות</mat-card-title>
+    <mat-card-subtitle fxLayoutAlign="center">הכנס מספר טלפון</mat-card-subtitle>
+    <mat-card-content>
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12">
+            <form [formGroup]="form" (ngSubmit)="savePhoneOnDB()">
+              <div class="form-width">
+                <mat-form-field appearance="outline" >
+                  <ngx-mat-intl-tel-input formControlName="phone"
+                                          [onlyCountries]="['il']"
+                                          [enablePlaceholder]="true"
+                                          name="phone" #phone>
+                  </ngx-mat-intl-tel-input>
+                  <mat-hint>eg : {{phone.selectedCountry?.placeHolder}}</mat-hint>
+                </mat-form-field>
+              </div>
+              <div fxLayoutAlign="center" class="m-t-10 error" *ngIf="phoneValue.touched && phoneValue.invalid">מספר טלפון לא תקין</div>
+              <div class="btn m-t-10">
+                <button  mat-raised-button color="primary">שלח</button>
+              </div>
+            </form>
+          </div>
+          <div class="m-t-10" *ngIf="phoneNumber">
+            Entered Phone number : {{phoneNumber}}
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+<!--<pre *ngIf="errMsg">{{ errMsg | json}}</pre>-->

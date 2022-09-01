@@ -1,0 +1,68 @@
+<mat-horizontal-stepper [linear]="true" #stepper dir="rtl">
+  <mat-step label="למה?" dir="rtl">
+    <mat-card class="card">
+      <mat-card-header>
+        <div mat-card-avatar class="card__avatar-image"></div>
+        <mat-card-title dir="rtl">Noy Yael | Beauty</mat-card-title>
+        <mat-card-subtitle>
+          <div dir="rtl" fxLayoutAlign="center">
+            יש לבחור את סוג שירות
+          </div>
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-actions>
+        <app-card (onSelected)="handleSelectedEvent($event)"></app-card>
+      </mat-card-actions>
+    </mat-card>
+  </mat-step>
+
+  <mat-step label="מתי?" dir="rtl">
+    <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+
+        <div class="" style="display: flex; box-sizing: border-box" >
+          <mat-form-field (click)="picker.open()">
+
+            <mat-label>בחר תאריך</mat-label>
+            <input matInput [matDatepicker]="picker" #input
+                   (dateInput)="onSelectDate($event)">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker  [touchUi]="true"
+                             (closed)="input.blur()" #picker></mat-datepicker>
+          </mat-form-field>
+          <button *ngIf="showEventTimes" fxLayoutAlign="center" color="secondary" mat-raised-button (click)="onReset()">איפוס</button>
+        </div>
+        <div *ngIf="appointmentArr.length > 0">
+          <button fxLayoutAlign="center" color="primary" mat-raised-button>{{appointmentArr[0].id | date:"HH:mm"}}</button>
+        </div>
+        <br>
+        <div *ngIf="showEventTimes">
+          <mat-label *ngIf="!isEventSelected">בחר שעה</mat-label>
+          <div class="time" *ngFor="let event of eventsTimeArr" fxLayoutAlign="center">
+            <mat-card *ngIf="appointmentArr.length === 0" (click)="onSelectTime(event)">
+              <div class="time__digits" fxLayoutAlign="center">{{event | date:"HH:mm"}}</div>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+  </mat-step>
+
+  <mat-step dir="rtl" [completed]="completed" [state]="state">
+    <ng-template matStepLabel>קבענו</ng-template>
+    <div fxLayoutAlign="center" dir="rtl">
+      <h2>שלב סליקה</h2>
+<!--      <button mat-button matStepperPrevious>Back</button>-->
+<!--      <button mat-button (click)="done()">Confirm</button>-->
+    </div>
+  </mat-step>
+
+</mat-horizontal-stepper>
+
+<footer>
+  <div class="wrap-action" fxLayout="row" fxLayoutAlign="center center">
+    <button class="action" color="primary" [disabled]="!isEventSelected"
+      (click)="stepper.selectedIndex === 1 ?  onSubmit() : handleNextStep()" mat-raised-button >
+      {{stepper.selectedIndex === 2 ?  'סיום' : 'הבא'}}
+    </button>
+  </div>
+</footer>
+

@@ -1,0 +1,41 @@
+<div fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-around center" fxLayoutGap="25px">
+  <div *ngFor="let member of members; let i = index" fxFlex="calc(33%-25px)" fxFlex.sm="calc(50%-25px)">
+
+    <mat-chip-list style="display: none"></mat-chip-list>
+    <div fxLayout="row" fxFlex="grow" fxLayoutAlign="center strech" (click)="onClick(member)">
+      <div
+        style="align-items: unset"
+        fxFlex="0 1 1280px"
+        fxFlex.lt-lg="0 1 100%"
+        fxLayoutGap="24px"
+        fxLayoutGap.lt-md="0px"
+      >
+        <section [class.active]="member === activeEvent"  (click)="activeEvent = member" fxFlex.lt-md="0 1 100%" fxFlex="1 0 calc(100% - 300px)">
+          <mat-card style="border: 1px solid gray;box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2); border-radius: 15px;width: 100%;">
+            <div fxLayout="row" fxFlex="100" >
+              <img
+                src="{{member.url}}"
+                width="65"
+                height="65"
+                style="border-radius: 50%;"
+              />
+              <div fxLayout="column" class="wrap" dir="rtl">
+                <mat-card-title>{{member.title}}</mat-card-title>
+                <mat-card-subtitle>{{member.subtitle}}</mat-card-subtitle>
+
+                <div class="horizontal-list" fxLayout="row" fxLayoutAlign="start">
+                  <mat-chip class="item" style="margin-right: 55px;">
+                    ₪{{member.price}}
+                  </mat-chip>
+                  <mat-chip class="item">
+                    {{member.time}}<mat-icon>access_time</mat-icon>
+                  </mat-chip>
+                </div>
+              </div>
+            </div>
+          </mat-card>
+        </section>
+      </div>
+    </div >
+  </div>
+</div>

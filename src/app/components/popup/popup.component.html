@@ -1,0 +1,22 @@
+<mat-card class="card" *ngIf="event ?? noContent">
+  <div class="card__title" fxLayoutAlign="center">{{event.title}}</div>
+  <mat-card-header>
+    <div mat-card-avatar class="card__avatar-image"></div>
+    <mat-card-title>{{event.title}}</mat-card-title>
+    <mat-card-subtitle>{{event.subtitle}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    {{event.description}}
+    <hr>
+  </mat-card-content>
+  <mat-card-actions>
+    <div class="action" fxLayoutAlign="center">
+      <button color="secondary" mat-button (click)="onClose()">בטל</button>
+      <button color="primary" mat-raised-button (click)="onSubmit()">אישור</button>
+    </div>
+  </mat-card-actions>
+</mat-card>
+
+<ng-container #noContent>
+  <div fxLayoutAlign="center">noContent.</div>
+</ng-container>

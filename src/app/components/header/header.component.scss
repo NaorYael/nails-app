@@ -1,0 +1,12 @@
+mat-toolbar {
+  background-color: black;
+  color: white;
+  .example-spacer {
+    flex: 1 1 auto;
+  }
+  img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+  }
+}

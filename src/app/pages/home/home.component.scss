@@ -1,0 +1,108 @@
+.time mat-card {
+  margin: 5px;
+  width: 90%;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  height: 120%;
+}
+
+.card {
+    transition: none !important;
+    box-shadow: none !important;
+  .mat-card-header .mat-card-title {
+    font-size: x-large;
+    padding: 5px;
+    width: max-content;
+  }
+  .mat-card-subtitle {
+    font-size: medium;
+  }
+  mat-card {
+
+    .list {
+      background-image: url('../../../assets/logo.jpeg');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    .mat-card-header {
+      display: grid;
+    }
+    .mat-card-header .mat-card-title {
+      font-size: medium;
+    }
+    .mat-card-subtitle {
+      font-size: small;
+    }
+  }
+  &__avatar-image {
+    background-image: url('../../../assets/logo.jpeg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  input {
+    width: 100%;
+  }
+}
+
+button.mat-focus-indicator.mat-stepper-next.action.mat-raised-button.mat-button-base.mat-primary._mat-animation-noopable {
+  width: 100% !important;
+}
+button.mat-focus-indicator.mat-raised-button.mat-button-base.mat-secondary._mat-animation-noopable.ng-star-inserted {
+  height: fit-content;
+  margin-right: 28px;
+  top: 7px;
+}
+::ng-deep .mat-step-header .mat-step-icon-state-done {
+  background-color: green;
+}
+
+::ng-deep .mat-step-header .mat-step-icon-selected {
+  background-color: black;
+}
+::ng-deep .mat-focused .mat-form-field-label {
+  /*change color of label*/
+  color: black !important;
+}
+
+::ng-deep.mat-form-field-underline {
+  /*change color of underline*/
+  background-color: black !important;
+}
+
+::ng-deep.mat-form-field-ripple {
+  /*change color of underline when focused*/
+  background-color: black !important;;
+}
+
+::ng-deep .mat-form-field-label {
+  /*change color of label*/
+  color: black !important;
+}
+
+
+mat-datepicker-toggle {
+  color: black !important;
+}
+
+footer {
+  background-color: white;
+  height: 10%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  .wrap-action {
+    position: relative;
+    top: 15px;
+
+    button {
+      width: 90%;
+    }
+  }
+
+}

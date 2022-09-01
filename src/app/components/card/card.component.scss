@@ -1,0 +1,45 @@
+mat-card {
+  border-radius: 15px;
+  .active {
+    border: 3px solid green;
+    border-radius: 15px;
+  }
+  div {
+    align-items: unset!important;
+  }
+
+  .wrap {
+    min-width: 0;
+    .mat-card-title, .mat-card-subtitle {
+      margin-inline-start: 50px;
+    }
+    .mat-card-title{
+      font-size: medium;
+    }
+    .mat-card-subtitle{
+      font-size: small;
+    }
+  }
+
+  .horizontal-list {
+    overflow-x: hidden;
+    white-space: nowrap;
+    place-content: stretch flex-end!important;
+    -webkit-overflow-scrolling: touch;
+
+    .mat-icon {
+      font-size: larger;
+      height: 17px;
+    }
+  }
+
+  .item {
+    display: inline-flex;
+    margin-right: 8px;
+  }
+
+  .chip-img {
+    padding-right: 6px;
+  }
+
+}
