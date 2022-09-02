@@ -35,6 +35,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component'
 import {NotFoundComponent} from "./pages/not-found.component";
 import {PaymentComponent} from "./components/payment/payment.component";
+import {UsernameComponent} from "./components/username/username.component";
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import {PaymentComponent} from "./components/payment/payment.component";
     HeaderComponent,
     FooterComponent,
     PaymentComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    UsernameComponent
   ],
   imports: [
     NoopAnimationsModule,

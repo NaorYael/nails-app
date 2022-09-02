@@ -11,7 +11,7 @@ export class User extends EntityBase {
   phone? = '';
 
   @Fields.string()
-  username? = '';
+  username?: string;
 
   @Fields.string()
   password? = '';

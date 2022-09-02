@@ -9,18 +9,24 @@
           <div class="col-xs-12 col-sm-12">
             <form [formGroup]="form" (ngSubmit)="savePhoneOnDB()">
               <div class="form-width">
-                <mat-form-field appearance="outline" >
+                <mat-form-field appearance="outline">
                   <ngx-mat-intl-tel-input formControlName="phone"
                                           [onlyCountries]="['il']"
                                           [enablePlaceholder]="true"
-                                          name="phone" #phone>
+                                          [format]="'national'"
+                                          name="phone"
+                                          #phone
+                                          (keyup.enter)="savePhoneOnDB()"
+                  >
                   </ngx-mat-intl-tel-input>
                   <mat-hint>eg : {{phone.selectedCountry?.placeHolder}}</mat-hint>
                 </mat-form-field>
               </div>
-              <div fxLayoutAlign="center" class="m-t-10 error" *ngIf="phoneValue.touched && phoneValue.invalid">מספר טלפון לא תקין</div>
+              <div fxLayoutAlign="center" class="m-t-10 error" *ngIf="phoneValue.touched && phoneValue.invalid">מספר
+                טלפון לא תקין
+              </div>
               <div class="btn m-t-10">
-                <button  mat-raised-button color="primary">שלח</button>
+                <button mat-raised-button color="primary" type="submit">שלח</button>
               </div>
             </form>
           </div>

@@ -17,16 +17,17 @@ const twilio = require('twilio');
 
 const client = new twilio(accountSid, authToken);
 
-UserController.sendSMS = async (code: number, phone: string) =>{
+UserController.sendSMS = async (code: string, phone: string) => {
   try {
-     await client.messages
+    return await client.messages
       .create({
         body: code,
         to: phone, // Text this number
         from: '+16187643550', // From a valid Twilio number
       });
-  }catch (err:any){
-    console.log(err);
+  } catch (err: any) {
+    console.log({err});
+    return err;
   }
 }
 // UserController.sendSMS(5270 ,'+972507330590')

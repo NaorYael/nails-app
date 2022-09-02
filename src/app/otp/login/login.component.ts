@@ -41,16 +41,26 @@ export class LoginComponent implements OnInit {
 
   async savePhoneOnDB() {
     if (this.form.valid) {
-      this.phoneNumber = this.form.get('phone')!.value;
+      this.phoneNumber = this.form.value.phone;
+      this.user = this.form.value as User;
+    } else {
+      return;
     }
     // const phone = this.phoneNumber.replace('+972', '0');
-    this.user = { phone: this.phoneNumber } as User;
 
     try {
       this.userController.user = await this.user;
-      await this.userController.loginOtp();
+      await this.userController.loginOtp().then(response => {
+        console.log(response);
+        // if (response.status === 'queued') {
+        this.user = this.userController.user;
+        this.authService.user.next(this.user);
+        this.router.navigate(['/confirm']);
+        // }
+        // this.handleError(JSON.stringify('error code : ' + response.code))
+      });
 
-      await this.router.navigate(['/confirm']);
+
     } catch (e: any) {
       this.errMsg = e;
       console.error(e.message);
