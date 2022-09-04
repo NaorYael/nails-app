@@ -119,7 +119,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     this.dateAdapter.setLocale('he');
 
-    //this.dateToString = this.parseDateToStr(this.selectedDate);
     this.setInitWorkHoursAndBreak();
     this.extractAvailableWorkHours();
   }
@@ -184,6 +183,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.appointmentArr.push(this.event);
     this.extractAvailableWorkHours();
     this.isEventSelected = true;
+    this.dateToString = this.parseDateToStr(this.selectedDate);
   }
 
   async onSubmit() {
@@ -220,6 +220,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.extractAvailableWorkHours();
     this.showEventTimes = false;
     this.isEventSelected = false
+    this.dateToString = '';
   }
 
   private handleError(msg: string) {

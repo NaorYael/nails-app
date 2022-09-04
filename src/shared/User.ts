@@ -1,13 +1,11 @@
-import {Entity, EntityBase, Fields, Validators} from "remult";
+import {Entity, EntityBase, Fields} from "remult";
 
 @Entity<User>("auth", {
   allowApiCrud: true
 })
 export class User extends EntityBase {
 
-  @Fields.string({
-    // validate: Validators.unique
-  })
+  @Fields.string()
   phone? = '';
 
   @Fields.string()
@@ -17,6 +15,6 @@ export class User extends EntityBase {
   password? = '';
 
   @Fields.date()
-  registrationDate? = new Date();
+  lastLoginDate? = new Date();
 
 }

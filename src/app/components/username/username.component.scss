@@ -1,37 +1,25 @@
 .card {
   max-width: 400px;
 
-  //background-size: auto;
-  //background-image: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url('../../assets/logo.jpeg');
-
-  mat-card-subtitle.mat-card-subtitle {
+  .mat-card-header .mat-card-title {
     font-size: large;
   }
 
-  mat-card-content.mat-card-content {
-     padding: 20px;
-   }
-
   &__title {
-    font-size: xx-large;
-    padding: 25px;
+    font-size: large;
+    padding: 20px;
   }
 
-  &__avatar-image {
-    background-image: url('../../../assets/logo.jpeg');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
-  .card__price {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 5px;
+  &__header {
 
-    .total-price {
-      direction: rtl;
-      font-weight: 600;
-      font-size: large;
-    }
   }
+
+  form {
+
+  }
+
+  //mat-card-content.mat-card-content {
+  //   padding: 20px;
+  // }
+
 }

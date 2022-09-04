@@ -6,7 +6,7 @@
         <mat-card-title dir="rtl">Noy Yael | Beauty</mat-card-title>
         <mat-card-subtitle>
           <div dir="rtl" fxLayoutAlign="center">
-            יש לבחור את סוג שירות
+            יש לבחור את סוג השירות
           </div>
         </mat-card-subtitle>
       </mat-card-header>
@@ -25,19 +25,22 @@
             <mat-label>בחר תאריך</mat-label>
             <input matInput [matDatepicker]="picker" #input
                    (dateInput)="onSelectDate($event)">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker-toggle matSuffix [for]="picker"
+                                   [disabled]="dateToString !== ''"></mat-datepicker-toggle>
             <mat-datepicker  [touchUi]="true"
+                             [disabled]="dateToString !== ''"
                              (closed)="input.blur()" #picker></mat-datepicker>
           </mat-form-field>
         </div>
         <div *ngIf="appointmentArr.length > 0">
-<!--          <button fxLayoutAlign="center" color="primary" mat-raised-button>{{appointmentArr[0].id | date:"HH:mm"}}</button>-->
+          <a (click)="onReset()">שינוי</a>
           <div class="container" dir="ltr">
-            <h4><a (click)="onReset()">שינוי</a> <span class="price" style="color:black"><b>סיכום</b></span></h4>
+            <div style="text-align: center; font-size: medium"><b>סיכום</b></div>
             <br>
             <p><span>{{eventToDisplay.title}}</span> <span class="price">סוג הטיפול</span></p>
             <p><span>{{appointmentArr[0].id | date:"HH:mm"}}</span> <span class="price">שעה</span></p>
-<!--            <p><span>{{eventToDisplay.time}}</span>דקות<span class="price">זמן משוער</span></p>-->
+            <p>דקות <span>{{eventToDisplay.time}}</span><span class="price">זמן משוער</span></p>
+            <p><span>{{dateToString}}</span><span class="price">תאריך</span></p>
             <hr>
             <p><b>₪{{eventToDisplay.price}}</b><span class="price" style="color:black">סה"כ</span></p>
           </div>

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {AuthService} from "../../otp/auth.service";
+import {Router} from "@angular/router";
+import {User} from "../../../shared/User";
 
 @Component({
   selector: 'app-header',
@@ -7,9 +10,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  user!: User;
+
+  constructor(private authService: AuthService,
+              private router: Router) { }
 
   ngOnInit(): void {
+    this.user = this.authService.user.value;
+  }
+
+  logout(){
+    this.authService.logout();
+    this.router.navigate(['/login'])
+    this.user.password = '';
   }
 
 }

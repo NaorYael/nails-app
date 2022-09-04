@@ -21,30 +21,27 @@ export class ConfirmComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  // this called every time when user changed the code
   onCodeChanged(code: string) {
-    console.log('Changed', code)
     this.code = +code;
   }
 
-  // this called only if user entered full code
   async onCodeCompleted(code: string) {
     const userRepo = this.remult.repo(User);
-    // for (let user of await ) {
     let user = await userRepo.findId(this.authService.user.value.phone!);
-    console.log(user.password);
-    console.log(code);
     if (user?.password === code) {
+      this.authService.user.next(user);
       this.authService.login(user);
     } else {
-      this.snake.open('קוד לא תקין', "סגור", {
-        duration: 5000,
-        horizontalPosition: "center",
-        verticalPosition: "bottom",
-        direction: "rtl"
-      });
-      // }
+      this.loginFailedMsg();
     }
   }
 
+  private loginFailedMsg() {
+    this.snake.open('קוד לא תקין', "סגור", {
+      duration: 5000,
+      horizontalPosition: "center",
+      verticalPosition: "bottom",
+      direction: "rtl"
+    });
+  }
 }

@@ -7,8 +7,8 @@ import {AuthGuard} from './otp/auth.guard'
 import {NotFoundComponent} from "./pages/not-found.component";
 
 const routes: Routes = [
-  {path: '', component: HomeComponent, canActivate: [AuthGuard]},
-  // {path: '', component: HomeComponent},
+  // {path: '', component: HomeComponent, canActivate: [AuthGuard]},
+  {path: '', component: HomeComponent},
   {path: 'login', component: LoginComponent},
   {path: 'confirm', component: ConfirmComponent},
   {path: '**', redirectTo: '', component: NotFoundComponent}

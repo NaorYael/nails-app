@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  async savePhoneOnDB() {
+  async sendOtp() {
     if (this.form.valid) {
       this.phoneNumber = this.form.value.phone;
       this.user = this.form.value as User;
@@ -50,8 +50,7 @@ export class LoginComponent implements OnInit {
 
     try {
       this.userController.user = await this.user;
-      await this.userController.loginOtp().then(response => {
-        console.log(response);
+      await this.userController.loginOtp().then(() => {
         // if (response.status === 'queued') {
         this.user = this.userController.user;
         this.authService.user.next(this.user);

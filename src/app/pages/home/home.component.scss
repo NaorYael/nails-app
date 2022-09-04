@@ -1,24 +1,32 @@
+@use '../../../assets/global' as c;
+
 .time mat-card {
   margin: 5px;
   width: 90%;
   background-color: black;
   color: white;
   cursor: pointer;
-  height: 120%;
+  height: 100%;
 }
 
 .card {
-    transition: none !important;
-    box-shadow: none !important;
+  transition: none !important;
+  box-shadow: none !important;
+
   .mat-card-header .mat-card-title {
     font-size: x-large;
     padding: 5px;
     width: max-content;
   }
+
   .mat-card-subtitle {
     font-size: medium;
   }
+
   mat-card {
+    height: 85%;
+    align-items: center;
+    position: absolute;
 
     .list {
       background-image: url('../../../assets/logo.jpeg');
@@ -26,16 +34,20 @@
       background-repeat: no-repeat;
       background-size: cover;
     }
+
     .mat-card-header {
       display: grid;
     }
+
     .mat-card-header .mat-card-title {
       font-size: medium;
     }
+
     .mat-card-subtitle {
       font-size: small;
     }
   }
+
   &__avatar-image {
     background-image: url('../../../assets/logo.jpeg');
     background-position: center;
@@ -48,41 +60,44 @@
 button.mat-focus-indicator.mat-stepper-next.action.mat-raised-button.mat-button-base.mat-primary._mat-animation-noopable {
   width: 100% !important;
 }
+
 button.mat-focus-indicator.mat-raised-button.mat-button-base.mat-secondary._mat-animation-noopable.ng-star-inserted {
   height: fit-content;
   margin-right: 28px;
   top: 7px;
 }
+
 ::ng-deep .mat-step-header .mat-step-icon-state-done {
-  background-color: green;
+  background-color: c.$nail-app--secondary;
 }
 
 ::ng-deep .mat-step-header .mat-step-icon-selected {
-  background-color: black;
+  background-color: c.$nail-app--primary;
 }
+
 ::ng-deep .mat-focused .mat-form-field-label {
   /*change color of label*/
-  color: black !important;
+  color: c.$nail-app--primary !important;
 }
 
 ::ng-deep.mat-form-field-underline {
   /*change color of underline*/
-  background-color: black !important;
+  background-color: c.$nail-app--primary !important;
 }
 
 ::ng-deep.mat-form-field-ripple {
   /*change color of underline when focused*/
-  background-color: black !important;;
+  background-color: c.$nail-app--primary !important;;
 }
 
 ::ng-deep .mat-form-field-label {
   /*change color of label*/
-  color: black !important;
+  color: c.$nail-app--primary !important;
 }
 
 
 mat-datepicker-toggle {
-  color: black !important;
+  color: c.$nail-app--primary !important;
 }
 
 [dir=rtl] .mat-form-field {
@@ -109,97 +124,105 @@ footer {
   }
 
 }
-/*-----------------clean unused code*/
-body {
-  font-size: 17px;
-  padding: 8px;
+
+p, span, h4 {
+  font-size: medium;
 }
 
-* {
-  box-sizing: border-box;
-}
+///*-----------------clean unused code*/
+//body {
+//  font-size: 17px;
+//  padding: 8px;
+//}
+//
+//* {
+//  box-sizing: border-box;
+//}
+//
+//.row {
+//  display: -ms-flexbox; /* IE10 */
+//  display: flex;
+//  -ms-flex-wrap: wrap; /* IE10 */
+//  flex-wrap: wrap;
+//  margin: 0 -16px;
+//}
 
-.row {
-  display: -ms-flexbox; /* IE10 */
-  display: flex;
-  -ms-flex-wrap: wrap; /* IE10 */
-  flex-wrap: wrap;
-  margin: 0 -16px;
-}
-
-.col-25 {
-  -ms-flex: 25%; /* IE10 */
-  flex: 25%;
-}
-
-.col-50 {
-  -ms-flex: 50%; /* IE10 */
-  flex: 50%;
-}
-
-.col-75 {
-  -ms-flex: 75%; /* IE10 */
-  flex: 75%;
-}
-
-.col-25,
-.col-50,
-.col-75 {
-  padding: 0 16px;
-}
+//.col-25 {
+//  -ms-flex: 25%; /* IE10 */
+//  flex: 25%;
+//}
+//
+//.col-50 {
+//  -ms-flex: 50%; /* IE10 */
+//  flex: 50%;
+//}
+//
+//.col-75 {
+//  -ms-flex: 75%; /* IE10 */
+//  flex: 75%;
+//}
+//
+//.col-25,
+//.col-50,
+//.col-75 {
+//  padding: 0 16px;
+//}
 
 .container {
   background-color: #f2f2f2;
-  padding: 5px 20px 15px 20px;
+  padding: 20px 20px 20px 20px;
+  top: 15px;
   border: 1px solid lightgrey;
   border-radius: 3px;
+  position: relative;
 }
+//
+//input[type=text] {
+//  width: 100%;
+//  margin-bottom: 20px;
+//  padding: 12px;
+//  border: 1px solid #ccc;
+//  border-radius: 3px;
+//}
 
-input[type=text] {
-  width: 100%;
-  margin-bottom: 20px;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-}
+//label {
+//  margin-bottom: 10px;
+//  display: block;
+//}
+//
+//.icon-container {
+//  margin-bottom: 20px;
+//  padding: 7px 0;
+//  font-size: 24px;
+//}
 
-label {
-  margin-bottom: 10px;
-  display: block;
-}
+//.btn {
+//  background-color: #04AA6D;
+//  color: white;
+//  padding: 12px;
+//  margin: 10px 0;
+//  border: none;
+//  width: 100%;
+//  border-radius: 3px;
+//  cursor: pointer;
+//  font-size: 17px;
+//}
 
-.icon-container {
-  margin-bottom: 20px;
-  padding: 7px 0;
-  font-size: 24px;
-}
-
-.btn {
-  background-color: #04AA6D;
-  color: white;
-  padding: 12px;
-  margin: 10px 0;
-  border: none;
-  width: 100%;
-  border-radius: 3px;
-  cursor: pointer;
-  font-size: 17px;
-}
-
-.btn:hover {
-  background-color: #45a049;
-}
+//.btn:hover {
+//  background-color: #45a049;
+//}
 
 span {
   color: black;
 }
-a {
-  color: dodgerblue;
-}
 
-hr {
-  border: 1px solid lightgrey;
+a {
+  color: c.$nail-app--secondary;
 }
+//
+//hr {
+//  border: 1px solid lightgrey;
+//}
 
 span.price {
   float: right;
@@ -215,5 +238,3 @@ span.price {
     margin-bottom: 20px;
   }
 }
-
-

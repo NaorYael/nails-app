@@ -4,6 +4,7 @@ import {User} from "../../../shared/User";
 import {FormBuilder} from "@angular/forms";
 import {AuthService} from "../../otp/auth.service";
 import {Remult} from "remult";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-username',
@@ -19,6 +20,7 @@ export class UsernameComponent {
 
   constructor(public dialogRef: MatDialogRef<UsernameComponent>,
               private fb: FormBuilder,
+              private router: Router,
               private authService: AuthService,
               private remult: Remult) {
   }
@@ -28,8 +30,8 @@ export class UsernameComponent {
       this.user = {...this.user, ...this.form.value} as User;
       let userRepo = this.remult.repo(User);
       let user = await userRepo.save(this.user);
-      this.authService.user.next(user);
       this.dialogRef.close();
+      this.authService.login(user);
     }
   }
 }

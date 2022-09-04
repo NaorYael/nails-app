@@ -1,12 +1,20 @@
+@use '../../../assets/global' as c;
+
 mat-toolbar {
-  background-color: black;
+  background-color:  c.$nail-app--primary;
   color: white;
+
   .example-spacer {
     flex: 1 1 auto;
   }
+
   img {
     height: 40px;
     width: 40px;
     border-radius: 50%;
   }
+}
+
+mat-icon.mat-icon.notranslate.material-icons.mat-ligature-font.mat-icon-no-color {
+  margin: 6px;
 }

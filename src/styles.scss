@@ -1,3 +1,4 @@
+@use 'assets/global' as c;
 
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
@@ -54,17 +55,17 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 //}
 
 .mat-calendar-body-selected {
-  background-color:black;
+  background-color: c.$nail-app--primary;
 }
 .time mat-card  {
-  background-color:black !important;
+  background-color: c.$nail-app--primary !important;
 }
 .mat-input-element {
-  caret-color:black!important;
+  caret-color: c.$nail-app--primary!important;
 }
 .mat-input-element::placeholder {
-  caret-color:black!important;
+  caret-color: c.$nail-app--primary!important;
 }
 .mat-raised-button.mat-primary {
-  background-color:black;
+  background-color: c.$nail-app--primary;
 }

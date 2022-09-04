@@ -1,14 +1,13 @@
-<mat-card class="card" *ngIf="user ?? noContent">
-  <div class="card__title" fxLayoutAlign="center">שם</div>
+<mat-card class="card" *ngIf="user">
+  <div class="card__title" fxLayoutAlign="center">הכניס/י שם</div>
 
-  <mat-card-header>
-    <div mat-card-avatar class="card__avatar-image"></div>
-    <mat-card-title>איך תרצי שנכנה אותך?</mat-card-title>
+  <mat-card-header class="card__header">
+    <mat-card-title>איך תרצו שנכנה אותכם?</mat-card-title>
   </mat-card-header>
-  <form (ngSubmit)="onSubmit()" [formGroup]="form">
+  <form (ngSubmit)="onSubmit()" [formGroup]="form" dir="rtl">
 
     <mat-form-field appearance="fill" dense class="example-full-width">
-      <input matInput #input maxlength="16" placeholder="הכניסי שם..." formControlName="username"
+      <input matInput #input maxlength="16" placeholder="לדוגמא: מעיין" formControlName="username"
              (keyup.enter)="onSubmit()"/>
     </mat-form-field>
     <mat-card-actions>
@@ -18,7 +17,3 @@
     </mat-card-actions>
   </form>
 </mat-card>
-
-<ng-container #noContent>
-  <div fxLayoutAlign="center">noContent.</div>
-</ng-container>

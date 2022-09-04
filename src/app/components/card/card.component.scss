@@ -1,8 +1,10 @@
+@use '../../../assets/global' as c;
+
 mat-card {
   border-radius: 15px;
   .active {
-    border: 3px solid green;
-    border-radius: 15px;
+    border: 2px solid c.$nail-app--secondary;
+    border-radius: 18px;
   }
   div {
     align-items: unset!important;
@@ -42,4 +44,14 @@ mat-card {
     padding-right: 6px;
   }
 
+}
+
+
+@media (orientation: portrait) {
+  .mat-datepicker-content-touch .mat-datepicker-content-container {
+    width: 90vw!important;
+  }
+}
+.mat-calendar-table-header th {
+  font-size: large!important;
 }
