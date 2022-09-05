@@ -30,7 +30,19 @@ export class UserController extends ControllerBase {
 
   }
 
+  @BackendMethod({ allowed: true })
+   async signIn() {
+
+    const userRepo = this.remult.repo(User);
+    const userFromDB = await userRepo.findId(this.user.phone!);
+
+    if (!userFromDB || userFromDB.password !== this.user.password)
+      throw new Error("Invalid user, try 'Steve' or 'Jane'");
+    return (await import('jsonwebtoken')).sign(this.user, process.env['JWT_SECRET'] || "my secret");
+  }
+
   private generateOtpCode() {
     return Math.floor(1000 + Math.random() * 9000);
   }
 }
+

@@ -3,6 +3,7 @@ import {AuthService} from "../auth.service";
 import {Remult} from "remult";
 import {User} from "../../../shared/User";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {UserController} from '../../../shared/UserController'
 
 @Component({
   selector: 'app-confirm',
@@ -12,6 +13,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 export class ConfirmComponent implements OnInit {
 
   code: number = 0;
+  userController = new UserController(this.remult);
 
   constructor(private authService: AuthService,
               private snake: MatSnackBar,
@@ -26,14 +28,11 @@ export class ConfirmComponent implements OnInit {
   }
 
   async onCodeCompleted(code: string) {
-    const userRepo = this.remult.repo(User);
-    let user = await userRepo.findId(this.authService.user.value.phone!);
-    if (user?.password === code) {
-      this.authService.user.next(user);
-      this.authService.login(user);
-    } else {
-      this.loginFailedMsg();
-    }
+    // const userRepo = this.remult.repo(User);
+    // let user = await userRepo.findId(this.authService.user.value.phone!);
+      this.authService.user.next({...this.authService.user.value, password: String(this.code)} as User);
+      await this.authService.login();
+
   }
 
   private loginFailedMsg() {

@@ -1,4 +1,4 @@
-import {BackendMethod, Controller, ControllerBase, Fields, Remult} from "remult";
+import {Allow, BackendMethod, Controller, ControllerBase, Fields, Remult} from "remult";
 import {Roles} from '../app/models/roles';
 import {Event} from './Event';
 
@@ -9,7 +9,7 @@ export class EventsController extends ControllerBase {
   @Fields.object()
   event = new Event();
 
-  @BackendMethod({ allowed: true })
+  @BackendMethod({ allowed: Allow.authenticated} )
   async createEvent() {
     const eventRepo = this.remult.repo(Event);
     if (this.event) {

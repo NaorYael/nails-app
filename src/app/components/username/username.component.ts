@@ -5,6 +5,7 @@ import {FormBuilder} from "@angular/forms";
 import {AuthService} from "../../otp/auth.service";
 import {Remult} from "remult";
 import {Router} from "@angular/router";
+import {UserController} from '../../../shared/UserController'
 
 @Component({
   selector: 'app-username',
@@ -31,7 +32,7 @@ export class UsernameComponent {
       let userRepo = this.remult.repo(User);
       let user = await userRepo.save(this.user);
       this.dialogRef.close();
-      this.authService.login(user);
+      await this.authService.login()
     }
   }
 }

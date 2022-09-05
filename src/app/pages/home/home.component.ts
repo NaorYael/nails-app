@@ -14,6 +14,7 @@ import {EventsController} from '../../../shared/EventsController'
 import {PopupComponent} from '../../components/popup/popup.component'
 import {Subscription} from 'rxjs'
 import {EventService} from '../../services/event.service'
+import {Router} from '@angular/router'
 
 export interface WorkHours {
   blanks: Array<TimeRange>;
@@ -103,7 +104,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(private dialog: MatDialog,
               private dateAdapter: DateAdapter<any>,
               private snake: MatSnackBar,
-              private remult: Remult,
+              public remult: Remult,
+              private router: Router,
               private eventService: EventService,
               private fb: FormBuilder) {
   }
@@ -113,6 +115,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   errMsg = '';
 
   async ngOnInit() {
+    // if (!this.remult.authenticated()) {
+    //   this.router.navigate(['/login'])
+    // }
     // const eventRepo = this.remult.repo(Event)
     // console.log(await eventRepo.insert(this.event));
 

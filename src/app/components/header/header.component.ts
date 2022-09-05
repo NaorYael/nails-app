@@ -23,6 +23,7 @@ export class HeaderComponent implements OnInit {
     this.authService.logout();
     this.router.navigate(['/login'])
     this.user.password = '';
+    this.authService.setAuthToken(null);
   }
 
 }

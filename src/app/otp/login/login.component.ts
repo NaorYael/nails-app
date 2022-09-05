@@ -78,9 +78,10 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  onSubmit() {
+ async onSubmit() {
     if (this.form.valid) {
-      this.authService.login(this.form.value);
+      this.authService.user.next({...this.authService.user.value, ...this.form.value})
+      await this.authService.login();
     }
     this.formSubmitAttempt = true;
   }

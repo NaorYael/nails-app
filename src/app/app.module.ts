@@ -36,6 +36,8 @@ import { FooterComponent } from './components/footer/footer.component'
 import {NotFoundComponent} from "./pages/not-found.component";
 import {PaymentComponent} from "./components/payment/payment.component";
 import {UsernameComponent} from "./components/username/username.component";
+import {JwtModule} from '@auth0/angular-jwt'
+import {AuthService} from './otp/auth.service'
 
 @NgModule({
   declarations: [
@@ -48,7 +50,7 @@ import {UsernameComponent} from "./components/username/username.component";
     FooterComponent,
     PaymentComponent,
     NotFoundComponent,
-    UsernameComponent
+    UsernameComponent,
   ],
   imports: [
     NoopAnimationsModule,

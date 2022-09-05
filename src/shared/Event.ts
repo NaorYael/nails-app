@@ -1,11 +1,11 @@
-import {Entity, EntityBase, Fields, getEntityRef, isBackend, Validators} from "remult";
+import {Allow, Entity, EntityBase, Fields, getEntityRef, isBackend, Validators} from "remult";
 
 @Entity<Event>("events", {
-  allowApiCrud: true
+  allowApiCrud: Allow.authenticated
 })
 export class Event extends EntityBase {
   @Fields.number({
-    validate: Validators.unique.withMessage('לא ניתן לקבוע פגישה מכיוון שהשעה הזו תפוסה'), caption: 'אנא בחר מועד אחר'
+    validate: Validators.unique.withMessage('לא ניתן לקבוע פגישה מכיוון שהשעה הזו תפוסה'), caption: 'אנא בחר מועד אחר',
   })
   id?: number;
 

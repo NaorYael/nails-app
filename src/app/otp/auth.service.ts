@@ -5,11 +5,16 @@ import {User} from "../../shared/User";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {UsernameComponent} from "../components/username/username.component";
 import {Remult} from "remult";
+import {JwtHelperService} from '@auth0/angular-jwt'
+import {UserController} from '../../shared/UserController'
+
+const AUTH_TOKEN_KEY = "authToken";
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
   private loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   user: BehaviorSubject<User> = new BehaviorSubject<User>(new User());
+  userController = new UserController(this.remult);
 
   get isLoggedIn() {
     return this.loggedIn.asObservable();
@@ -20,26 +25,52 @@ export class AuthService {
     private remult: Remult,
     private dialog: MatDialog
   ) {
+    const token = AuthService.fromStorage();
+    if (token) {
+      this.setAuthToken(token);
+    }
   }
 
-  login(user: User) {
-    if (!user.username) {
+  static fromStorage(): string {
+    return sessionStorage.getItem(AUTH_TOKEN_KEY)!;
+  }
+
+  // Passes the decoded user information to Remult and stores the token in the local sessionStorage.
+  setAuthToken(token: string | null) {
+    if (token) {
+      this.remult.setUser(new JwtHelperService().decodeToken(token));
+      sessionStorage.setItem(AUTH_TOKEN_KEY, token);
+    } else {
+      this.remult.setUser(undefined!);
+      sessionStorage.removeItem(AUTH_TOKEN_KEY);
+    }
+  }
+
+  async login() {
+    if (!this.user.value.username) {
       let dialogRef: MatDialogRef<UsernameComponent>;
       dialogRef = this.dialog.open(UsernameComponent);
       dialogRef.componentInstance.user = this.user.value;
       dialogRef.afterClosed();
-    } else if (user.password !== '') {
-      this.loggedIn.next(true);
-      this.router.navigate(['/']);
+    } else if (this.user.value.password !== '') {
+      this.userController.user = this.user.value;
+      console.log(this.userController.user)
+      const token = await this.userController.signIn();
+      if (token) {
+        this.loggedIn.next(true);
+        await this.router.navigate(['/']);
+        return token;
+      }
     }
+    return null;
   }
 
   async logout() {
     this.loggedIn.next(false);
     await this.router.navigate(['/login']);
+    // not sure if needed...
     this.user.value.password = '';
     let userRepo = this.remult.repo(User);
     await userRepo.save(this.user.value);
-    console.log(this.user);
   }
 }
