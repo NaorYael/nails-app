@@ -9,8 +9,6 @@ import sslRedirect from 'heroku-ssl-redirect';
 import * as path from 'path';
 import {expressjwt} from 'express-jwt'
 
-// const secret = process.env['JWT_SECRET'];
-
 const app = express();
 app.use(expressjwt({
   secret: process.env['JWT_SECRET'] || "my secret",
@@ -26,10 +24,8 @@ app.use(express.static(path.join(__dirname, '../nails-app')));
 app.get('/*', function (req, res) {
   res.sendFile(path.join(__dirname, '../nails-app', 'index.html'));
 });
- const accountSid = process.env['accountSid'];
- const authToken = process.env['authToken'];
-
-// console.log({accountSid,authToken})
+const accountSid = process.env['accountSid'];
+const authToken = process.env['authToken'];
 
 app.listen(3002, () => console.log("Server started"));
 const twilio = require('twilio');

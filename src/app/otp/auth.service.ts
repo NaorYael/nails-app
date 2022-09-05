@@ -57,6 +57,7 @@ export class AuthService {
       console.log(this.userController.user)
       const token = await this.userController.signIn();
       if (token) {
+        this.setAuthToken(token);
         this.loggedIn.next(true);
         await this.router.navigate(['/']);
         return token;
