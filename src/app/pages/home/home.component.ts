@@ -78,7 +78,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   @ViewChild(MatDatepicker)
   picker!: MatDatepicker<Moment>;
 
-  currentIndex!: number;
 
   async handleNextStep() {
     this.stepper.linear = false;

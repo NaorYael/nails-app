@@ -29,7 +29,7 @@
                                    [disabled]="dateToString !== ''"></mat-datepicker-toggle>
             <mat-datepicker  [touchUi]="true"
                              [disabled]="dateToString !== ''"
-                             (closed)="input.blur()" #picker></mat-datepicker>
+                             #picker></mat-datepicker>
           </mat-form-field>
         </div>
         <div *ngIf="appointmentArr.length > 0">

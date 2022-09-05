@@ -1,10 +1,10 @@
 @use '../../../assets/global' as c;
 
 mat-card {
-  border-radius: 15px;
+  border-radius: 5px;
   .active {
     border: 2px solid c.$nail-app--secondary;
-    border-radius: 18px;
+    border-radius: 7px;
   }
   div {
     align-items: unset!important;

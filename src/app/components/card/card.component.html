@@ -10,13 +10,12 @@
         fxLayoutGap.lt-md="0px"
       >
         <section [class.active]="member === activeEvent"  (click)="activeEvent = member" fxFlex.lt-md="0 1 100%" fxFlex="1 0 calc(100% - 300px)">
-          <mat-card style="border: 1px solid gray;box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2); border-radius: 15px;width: 100%;">
+          <mat-card style="border: 1px solid gray;box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2); border-radius: 5px;width: 100%;">
             <div fxLayout="row" fxFlex="100" >
               <img
                 src="{{member.url}}"
-                width="85"
-                height="85"
-                style="border-radius: 50%;"
+                width="100"
+                height="100"
               />
               <div fxLayout="column" class="wrap" dir="rtl">
                 <mat-card-title>{{member.title}}</mat-card-title>
