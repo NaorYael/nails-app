@@ -27,7 +27,7 @@ app.get('/*', function (req, res) {
 const accountSid = process.env['accountSid'];
 const authToken = process.env['authToken'];
 
-app.listen(3002, () => console.log("Server started"));
+app.listen(process.env["PORT"] || 3002, () => console.log("Server started"));
 const twilio = require('twilio');
 
 const client = new twilio(accountSid, authToken);
