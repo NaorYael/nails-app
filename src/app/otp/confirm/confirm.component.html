@@ -4,7 +4,8 @@
     <mat-card-title fxLayoutAlign="center">הזדהות</mat-card-title>
     <mat-card-subtitle fxLayoutAlign="center">הכנס קוד</mat-card-subtitle>
     <mat-card-content>
-      <code-input [isCodeHidden]="false"
+      <code-input autofocus
+                  [isCodeHidden]="false"
                   [isNonDigitsCode]="false"
                   [codeLength]="4"
                   (codeChanged)="onCodeChanged($event)"

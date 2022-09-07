@@ -15,6 +15,7 @@ import {PopupComponent} from '../../components/popup/popup.component'
 import {Subscription} from 'rxjs'
 import {EventService} from '../../services/event.service'
 import {Router} from '@angular/router'
+import {AuthService} from "../../otp/auth.service";
 
 export interface WorkHours {
   blanks: Array<TimeRange>;
@@ -24,11 +25,6 @@ export interface WorkHours {
 export interface TimeRange {
   startTime: Date;
   endTime: Date;
-}
-
-export enum EventEnumType {
-  NAILS = 'לק ג׳ל',
-  EYES = 'הלחמת ריסים'
 }
 
 @Component({
@@ -60,7 +56,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   selectedValue = '';
 
   eventToDisplay!: Event;
-  eventOptions = [EventEnumType.NAILS, EventEnumType.EYES];
 
   subscriptionArr: Subscription[] = [];
   index!: number
@@ -107,6 +102,7 @@ export class HomeComponent implements OnInit, OnDestroy {
               public remult: Remult,
               private router: Router,
               private eventService: EventService,
+              public authService: AuthService,
               private fb: FormBuilder) {
   }
 
@@ -115,11 +111,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   errMsg = '';
 
   async ngOnInit() {
-    // if (!this.remult.authenticated()) {
-    //   this.router.navigate(['/login'])
-    // }
-    // const eventRepo = this.remult.repo(Event)
-    // console.log(await eventRepo.insert(this.event));
 
     this.dateAdapter.setLocale('he');
 

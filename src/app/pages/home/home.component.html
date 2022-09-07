@@ -1,5 +1,4 @@
-<ng-container *ngIf="remult.authenticated()"></ng-container>
-
+<ng-container *ngIf="authService.isLoggedIn | async">
 <mat-horizontal-stepper [linear]="true" #stepper dir="rtl">
   <mat-step label="למה?" dir="rtl">
     <mat-card class="card">
@@ -77,3 +76,4 @@
   </div>
 </footer>
 
+</ng-container>
