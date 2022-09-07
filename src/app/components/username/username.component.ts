@@ -32,7 +32,6 @@ export class UsernameComponent {
       let userFromDB = this.remult.repo(User);
       this.authService.user.next(await userFromDB.save(this.user));
       this.dialogRef.close();
-      await this.authService.login()
     }
   }
 }
