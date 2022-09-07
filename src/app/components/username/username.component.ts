@@ -29,8 +29,8 @@ export class UsernameComponent {
   async onSubmit() {
     if (this.form.valid) {
       this.user = {...this.user, ...this.form.value} as User;
-      let userRepo = this.remult.repo(User);
-      let user = await userRepo.save(this.user);
+      let userFromDB = this.remult.repo(User);
+      await userFromDB.save(this.user);
       this.dialogRef.close();
       await this.authService.login()
     }

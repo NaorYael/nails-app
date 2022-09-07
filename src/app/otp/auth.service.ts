@@ -50,9 +50,17 @@ export class AuthService {
 
   async login() {
     if (!this.user.value.username) {
-      this.isUsernameNotExists();
+      this.updateUsernameIfNotExists();
+      this.setUser();
+      const token = await this.userController.signIn();
+      if (token) {
+        this.setAuthToken(token);
+        this.loggedIn.next(true);
+        await this.router.navigate(['/']);
+        return token;
+      }
     } else if (this.user.value.password !== '') {
-      this.userController.user = this.user.value;
+      this.setUser();
       const token = await this.userController.signIn();
       if (token) {
         this.setAuthToken(token);
@@ -73,10 +81,14 @@ export class AuthService {
     this.setAuthToken(null);
   }
 
-  private isUsernameNotExists() {
+  private updateUsernameIfNotExists() {
     let dialogRef: MatDialogRef<UsernameComponent>;
     dialogRef = this.dialog.open(UsernameComponent);
     dialogRef.componentInstance.user = this.user.value;
     dialogRef.afterClosed();
+  }
+
+  private setUser() {
+    this.userController.user = this.user.value;
   }
 }
