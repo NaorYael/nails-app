@@ -30,7 +30,7 @@ export class UsernameComponent {
     if (this.form.valid) {
       this.user = {...this.user, ...this.form.value} as User;
       let userFromDB = this.remult.repo(User);
-      await userFromDB.save(this.user);
+      this.authService.user.next(await userFromDB.save(this.user));
       this.dialogRef.close();
       await this.authService.login()
     }

@@ -13,5 +13,8 @@ export const api = remultExpress({
   },
   entities: [Event, User],
   controllers: [EventsController, UserController],
-  // initApi: async remult => { }
+  initApi: async remult => {
+    const userRepo = remult.repo(User);
+      await userRepo.insert([]);
+  }
 });
