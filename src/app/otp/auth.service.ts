@@ -28,6 +28,8 @@ export class AuthService {
     const token = AuthService.fromStorage();
     if (token) {
       this.setAuthToken(token);
+      this.loggedIn.next(true);
+      this.router.navigate(['/']);
     }
   }
 
@@ -48,13 +50,9 @@ export class AuthService {
 
   async login() {
     if (!this.user.value.username) {
-      let dialogRef: MatDialogRef<UsernameComponent>;
-      dialogRef = this.dialog.open(UsernameComponent);
-      dialogRef.componentInstance.user = this.user.value;
-      dialogRef.afterClosed();
+      this.isUsernameNotExists();
     } else if (this.user.value.password !== '') {
       this.userController.user = this.user.value;
-      console.log(this.userController.user)
       const token = await this.userController.signIn();
       if (token) {
         this.setAuthToken(token);
@@ -69,9 +67,16 @@ export class AuthService {
   async logout() {
     this.loggedIn.next(false);
     await this.router.navigate(['/login']);
-    // not sure if needed...
     this.user.value.password = '';
     let userRepo = this.remult.repo(User);
     await userRepo.save(this.user.value);
+    this.setAuthToken(null);
+  }
+
+  private isUsernameNotExists() {
+    let dialogRef: MatDialogRef<UsernameComponent>;
+    dialogRef = this.dialog.open(UsernameComponent);
+    dialogRef.componentInstance.user = this.user.value;
+    dialogRef.afterClosed();
   }
 }

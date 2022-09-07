@@ -1,5 +1,5 @@
 <mat-toolbar dir="rtl">
-  <button mat-icon-button [matMenuTriggerFor]="menu" class="example-icon" aria-label="Example icon-button with menu icon">
+  <button *ngIf="authService.isLoggedIn | async" mat-icon-button [matMenuTriggerFor]="menu" class="example-icon" aria-label="Example icon-button with menu icon">
     <mat-icon>menu</mat-icon>
   </button>
   <mat-menu #menu="matMenu">

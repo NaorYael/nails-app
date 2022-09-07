@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../otp/auth.service";
-import {Router} from "@angular/router";
 import {User} from "../../../shared/User";
 
 @Component({
@@ -12,18 +11,15 @@ export class HeaderComponent implements OnInit {
 
   user!: User;
 
-  constructor(private authService: AuthService,
-              private router: Router) { }
+  constructor(public authService: AuthService,) {
+  }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.user = this.authService.user.value;
   }
 
-  logout(){
+  logout() {
     this.authService.logout();
-    this.router.navigate(['/login'])
-    this.user.password = '';
-    this.authService.setAuthToken(null);
   }
 
 }
