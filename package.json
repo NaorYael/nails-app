@@ -29,6 +29,7 @@
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
     "express-jwt": "^7.7.5",
+    "googleapis": "^107.0.0",
     "helmet": "^6.0.0",
     "heroku-ssl-redirect": "^0.1.1",
     "jsonwebtoken": "^8.5.1",
@@ -60,7 +61,8 @@
     "karma-jasmine-html-reporter": "~2.0.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "~4.7.2"
-  },"browser": {
-  "jsonwebtoken": false
-}
+  },
+  "browser": {
+    "jsonwebtoken": false
+  }
 }

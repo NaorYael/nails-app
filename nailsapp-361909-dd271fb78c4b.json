@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "nailsapp-361909",
+  "private_key_id": "dd271fb78c4b773677252fa0e14efdd59b19e938",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDnFO/N7v2ryMMS\nai9KPYnnjkJNmI1UmrVV2eclJz+ZruPbMKoNCmoBE6zbMk9XoXA0TVaDF2uZNVHh\nEQwg5/lgeDuJJLiKjikcrWMAXKrWMgDFqQZKwznNvTAZrR+834DP6fNs7Ek6jWOn\nxuTi10oQ6voBFXPTdwUQEjwWHQAMv7QwgW0IEZ/WNfE/X+KcmdOUFf/v0ZjZhH0Q\nZZ6F41/Z3Mjv/yIQT66BWkFYgKtHJ+Dg6LaHWzzqmsbmMJJnkjLwbwYVu9VAhJkU\nuc5sU/+Rv1CXoj6Lk98S4KylkoR+1kh3a78XxMWDA3GXNV8wNGmML06QrCNKtSCc\nPiylPrUhAgMBAAECggEADWxi7cSHSdZUtpoiex6OBzx1T4qgEx0VkZIh4j+gay4E\noHP4PN+w/rUE4orOnxmKqg8gCmdu4ax+QCO8X6D6FIeHddUDP1E4xCiySpAXgG/R\nKapC6k7i6bemtqce49rb4bgGYvpq2pLiChn8q8yzyb3Mngl/+/W6/o8AnIw8t4DD\nFbPP9zCvHBZybr1o3FVIMGdevJNp/gxuT6Beugj9BiE5PjOn7HJXxq0pLMG2euM4\ntanTXuzBfBgAOTJkXLTx5bP24nqPIDrX6u2QnX4cDXoxyGS5V26lYdhyEIH78J++\ntBhu4L+M18Y65s0O9T32vCq7eJzXQ2oxlZ+11xMRQQKBgQD1BPd+iWUurrzPDC9o\nPZgI3xFSYzoAF97XFMjHTYZXOZjQY3x8HgmR5vLRXblaS9F7dOAQZQpe8/pifNtJ\n4H7jmwLZIWIxAqcbJr4Hb0D1MkVVKZDSvczr3cOICI90VNAGE8ZbM/Xg2gD329JH\n57WFygFSAIjMwar7Ya0hpUVIGQKBgQDxcBFibJu+xQ6VT2AdL/5Txcq0JI4CgEHE\nGsSxZsgEC6Nu3uRHZMX+8m5w2/z2KUkb3TzUFC+e5erPhMt2LhcaKrtIbX64S3Ne\nvleHkrZGC/EwckU3nI4S2Ls9stz4/btCd5vGqPC+pSv8uObW17tYFTH6dIv6mEX+\nPTyNeAMWSQKBgBA7sgIKLE/5d7zn+8QWQJpl3QnuVQtoiXUKhXre4gWpZTx5Ougm\nPVATUwcYBI289DYPukCb0SIVXANmbkjovL9rp7anBZBlspiT6ocnkdAs8nb/9/5e\nYNNHsAq1Nnvompese7nTKXkqOGIziC0HZvlkNs4uBuI5+pAJGqVeA8cRAoGAcdIT\nYAMzqUvdBCbXeOsXSwcD+MkC6crtNjYoZDnAMagK9Em/9Khdb0N7LVmId8Qe4zP5\naUHa8V4SxKImCSDRY1Sh1hNImjl3ukKhoRhZNcyLd/tnBkCX+eqS2xNneTqk/UDF\n/3HFjRrxEcNZkA9EEtJrLVekZg9DcAgOc+MQEYECgYBIN3oPvlsF95GSBKnwiDMr\n2ejimyBehDm+4ryNbto65Im/f9mjKywHjKQFINdykGfrCJbAWKEjusELggLyGaEo\nMs20MwsCUoVkQcgBKppdRnX96XJRRLQ6caETNvEnQ+SHW3lf8QHEDNfaZWheT5SO\nkJkfjabFC9v+wCkRMyOOsg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "testing-goggle-calender-api@nailsapp-361909.iam.gserviceaccount.com",
+  "client_id": "108833330083165993063",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/testing-goggle-calender-api%40nailsapp-361909.iam.gserviceaccount.com"
+}
