@@ -14,7 +14,7 @@ export const api = remultExpress({
   entities: [Event, User],
   controllers: [EventsController, UserController],
   initApi: async remult => {
-    const userRepo = remult.repo(User);
-      await userRepo.delete('+972545870318')
+    // const userRepo = remult.repo(User);
+    //   await userRepo.delete('+972545870318')
   }
 });

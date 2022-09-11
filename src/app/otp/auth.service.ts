@@ -49,7 +49,7 @@ export class AuthService {
   }
 
   async login() {
-    if (!this.user.value.username) {
+    if (! (await this.user.value.username)) {
       this.updateUsernameIfNotExists();
       this.setUser();
       const token = await this.userController.signIn();

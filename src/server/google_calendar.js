@@ -14,7 +14,7 @@ const auth = new google.auth.JWT(
   SCOPES
 );
 
-const TIMEOFFSET = '+05:30'
+const TIMEOFFSET = '+03:00'
 
 const dateTimeForCalendar = () => {
   let date = new Date();
@@ -47,47 +47,55 @@ const dateTimeForCalendar = () => {
 
  console.log(dateTimeForCalendar())
 
-//
-//  const insertEvent = async (event)=> {
-//   try {
-//     let response = await calendar.events.insert({
-//       auth: auth,
-//       calendarId: CALENDAR_ID,
-//       resource: event
-//     });
-//     if (response[`status`] === 200) {
-//       return 1
-//     } else {
-//       console.log(response)
-//       return 0;
-//     }
-//   } catch (e) {
-//     console.log(`Error at insertEvent --> ${e}`);
-//     return 0;
-//   }
-// };
-//
-// let dateTime = dateTimeForCalendar();
-//
-// let event = {
-//   'summary': 'This is a summary.',
-//   'description': 'This is a description',
-//   'start': {
-//     'dateTime': dateTime['start'],
-//     'timeZone': 'Asia/Jerusalem'
-//   },
-//   'end': {
-//     'dateTime': dateTime['end'],
-//     'timeZone': 'Asia/Jerusalem'
-//   }
-// };
-//
-// insertEvent(event)
-//   .then((res) => {
-//   console.log(res);
-// }).catch((err) => {
-//   console.log(err);
-// })
+
+ const insertEvent = async (event)=> {
+  try {
+    let response = await calendar.events.insert({
+      auth: auth,
+      calendarId: CALENDAR_ID,
+      resource: event
+    });
+    if (response[`status`] === 200) {
+      console.log(response)
+      return 1
+    } else {
+      console.log(response)
+      return 0;
+    }
+  } catch (e) {
+    console.log(`Error at insertEvent --> ${e}`);
+    return 0;
+  }
+};
+ module.exports = {
+   addEvent:addEvent
+ }
+
+  function addEvent(){
+
+   let dateTime = dateTimeForCalendar();
+
+   let event = {
+     'summary': 'נועה לקוחה',
+     'description': 'לק ג\'ל',
+     'start': {
+       'dateTime': dateTime['start'],
+       'timeZone': 'Asia/Jerusalem'
+     },
+     'end': {
+       'dateTime': dateTime['end'],
+       'timeZone': 'Asia/Jerusalem'
+     }
+   };
+
+   insertEvent(event)
+     .then((res) => {
+       console.log(res);
+     }).catch((err) => {
+     console.log(err);
+   })
+ }
+
 //
 // const getEvents = async (dateTimeStart, dateTimeEnd) => {
 //     try {
@@ -118,28 +126,28 @@ const dateTimeForCalendar = () => {
 //   });
 
 
-  const deleteEvent = async (eventId) => {
-    try {
-      let response = await calendar.events.delete({
-        auth: auth,
-        calendarId: CALENDAR_ID,
-        eventId: eventId
-      });
-      if (response.data === ''){
-        return 1;
-      } else {
-        return 0;
-      }
-
-    } catch (e) {
-      console.log(`Error at deleteEvent -->  ${e}`)
-    }
-  }
-
-  let eventId = 'atqojad64lvmrbdiqkt45ll6s8';
-
-  deleteEvent(eventId).then((res) => {
-    console.log(res);
-  }).catch((err) => {
-    console.log(err);
-  });
+  // const deleteEvent = async (eventId) => {
+  //   try {
+  //     let response = await calendar.events.delete({
+  //       auth: auth,
+  //       calendarId: CALENDAR_ID,
+  //       eventId: eventId
+  //     });
+  //     if (response.data === ''){
+  //       return 1;
+  //     } else {
+  //       return 0;
+  //     }
+  //
+  //   } catch (e) {
+  //     console.log(`Error at deleteEvent -->  ${e}`)
+  //   }
+  // }
+  //
+  // let eventId = 'atqojad64lvmrbdiqkt45ll6s8';
+  //
+  // deleteEvent(eventId).then((res) => {
+  //   console.log(res);
+  // }).catch((err) => {
+  //   console.log(err);
+  // });

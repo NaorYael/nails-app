@@ -74,6 +74,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   @ViewChild(MatDatepicker)
   picker!: MatDatepicker<Moment>;
 
+  minDate = new Date();
+
+  myFilter = (d: Date | null): boolean => {
+    const day = (d || new Date()).getDay();
+    // Prevent Saturday from being selected.
+    return day !== 6;
+  };
 
   async handleNextStep() {
     this.stepper.linear = false;
@@ -111,6 +118,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   errMsg = '';
 
   async ngOnInit() {
+    this.minDate = new Date();
 
     this.dateAdapter.setLocale('he');
 
@@ -184,7 +192,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   async onSubmit() {
     try {
       this.eventController.event = await this.event;
-      await this.eventController.createEvent();
+      // await this.eventController.createEvent();
+      // await this.eventController.createEventOnGoggleCalendar();
       await this.handleNextStep();
       // phone name password
     } catch (e: any) {

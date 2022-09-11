@@ -22,9 +22,10 @@
 
         <div class="" style="display: flex; box-sizing: border-box" >
           <mat-form-field (click)="picker.open()">
-
             <mat-label>בחר תאריך</mat-label>
-            <input matInput [matDatepicker]="picker" #input
+            <input matInput [matDatepickerFilter]="myFilter"
+                   [matDatepicker]="picker" #input
+                   [required]="true" [min]="minDate"
                    (dateInput)="onSelectDate($event)">
             <mat-datepicker-toggle matSuffix [for]="picker"
                                    [disabled]="dateToString !== ''"></mat-datepicker-toggle>

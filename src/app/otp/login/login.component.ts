@@ -9,6 +9,7 @@ import {User} from "../../../shared/User";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -51,6 +52,8 @@ export class LoginComponent implements OnInit {
     try {
       this.userController.user = await this.user;
       await this.userController.loginOtp().then(() => {
+        // UserController.sendSMS('1234','טסט');
+        // sendSms('0545870318', 'טסט');
         // if (response.status === 'queued') {
         this.user = this.userController.user;
         this.authService.user.next(this.user);

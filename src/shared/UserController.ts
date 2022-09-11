@@ -7,7 +7,7 @@ export class UserController extends ControllerBase {
 
   @Fields.object()
   user = new User();
-  static sendSMS: (code: string, phone: string) => void;
+  static sendSMS: (text: string, number: string) => void;
 
   @BackendMethod({allowed: true})
   async loginOtp() {
