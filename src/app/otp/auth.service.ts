@@ -79,6 +79,7 @@ export class AuthService {
     let userRepo = this.remult.repo(User);
     await userRepo.save(this.user.value);
     this.setAuthToken(null);
+    localStorage.removeItem('userDetails');
   }
 
   private updateUsernameIfNotExists() {
@@ -90,5 +91,6 @@ export class AuthService {
 
   private setUser() {
     this.userController.user = this.user.value;
+    localStorage.setItem('userDetails', JSON.stringify(this.user.value));
   }
 }

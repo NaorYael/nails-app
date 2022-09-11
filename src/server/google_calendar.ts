@@ -13,38 +13,35 @@ const auth = new google.auth.JWT(
   CREDENTIALS.private_key,
   SCOPES
 );
+//
+// const TIMEOFFSET = '+03:00'
+//
+// const dateTimeForCalendar = (e: any) => {
+//   let date = e.date;
+//
+//   let year = date.getFullYear();
+//   let month = (date.getMonth() + 1).toString();
+//   if (month.length === 1) {
+//     month = `0${month}`;
+//   }
+//   let day = date.getDate().toString();
+//   if (day.length === 1) {
+//     day = `0${day}`;
+//   }
+//   let hour = date.getHours().toString().padStart(2, '0');
+//
+//   let minutes = date.getMinutes().toString().padStart(2, '0');
+//
+//
+//   let newDateTime = `${year}-${month}-${day}T${hour}:${minutes}:00.000${TIMEOFFSET}`;
+//
+//   let startDate = new Date(Date.parse(newDateTime));
+//   let endDate = new Date(new Date(startDate).setHours(startDate.getHours() + 1));
+//
+//   return {'start': startDate, 'end': endDate}
+// };
 
-const TIMEOFFSET = '+03:00'
-
-const dateTimeForCalendar = () => {
-  let date = new Date();
-
-  let year = date.getFullYear();
-  let month = (date.getMonth() + 1).toString();
-  if (month.length===1) {
-    month = `0${month}`;
-  }
-  let day = date.getDate().toString();
-  if (day.length===1) {
-    day = `0${day}`;
-  }
-  let hour = date.getHours().toString().padStart(2,'0');
-
-  let minutes = date.getMinutes().toString().padStart(2,'0');
-
-
-  let newDateTime = `${year}-${month}-${day}T${hour}:${minutes}:00.000${TIMEOFFSET}`;
-
-  let startDate = new Date(Date.parse(newDateTime));
-  let endDate = new Date(new Date(startDate).setHours(startDate.getHours() + 1));
-
-  return {'start': startDate, 'end': endDate}
-};
-
- console.log(dateTimeForCalendar())
-
-
- const insertEvent = async (event:any)=> {
+const insertEvent = async (event: any) => {
   try {
     let response = await calendar.events.insert({
       auth: auth,
@@ -52,10 +49,8 @@ const dateTimeForCalendar = () => {
       resource: event
     });
     if (response[`status`] === 200) {
-      console.log(response)
       return 1
     } else {
-      console.log(response)
       return 0;
     }
   } catch (e) {
@@ -64,30 +59,28 @@ const dateTimeForCalendar = () => {
   }
 };
 
- export  function addEvent(){
+export function addEvent(e: any) {
 
-   let dateTime = dateTimeForCalendar();
+  let event = {
+    'summary': e.username + ' | ' + e.title + ' - ' + e.subtitle,
+    'description': e.phone + ' | ' + e.price + '₪',
+    'start': {
+      'dateTime': e.startDate,
+      'timeZone': 'Asia/Jerusalem'
+    },
+    'end': {
+      'dateTime': e.endDate,
+      'timeZone': 'Asia/Jerusalem'
+    }
+  };
 
-   let event = {
-     'summary': 'נועה לקוחה',
-     'description': 'לק ג\'ל',
-     'start': {
-       'dateTime': dateTime['start'],
-       'timeZone': 'Asia/Jerusalem'
-     },
-     'end': {
-       'dateTime': dateTime['end'],
-       'timeZone': 'Asia/Jerusalem'
-     }
-   };
-
-   insertEvent(event)
-     .then((res) => {
-       console.log(res);
-     }).catch((err) => {
-     console.log(err);
-   })
- }
+  insertEvent(event)
+    .then((res) => {
+      console.log(res);
+    }).catch((err) => {
+    console.log(err);
+  })
+}
 
 //
 // const getEvents = async (dateTimeStart, dateTimeEnd) => {
@@ -119,28 +112,28 @@ const dateTimeForCalendar = () => {
 //   });
 
 
-  // const deleteEvent = async (eventId) => {
-  //   try {
-  //     let response = await calendar.events.delete({
-  //       auth: auth,
-  //       calendarId: CALENDAR_ID,
-  //       eventId: eventId
-  //     });
-  //     if (response.data === ''){
-  //       return 1;
-  //     } else {
-  //       return 0;
-  //     }
-  //
-  //   } catch (e) {
-  //     console.log(`Error at deleteEvent -->  ${e}`)
-  //   }
-  // }
-  //
-  // let eventId = 'atqojad64lvmrbdiqkt45ll6s8';
-  //
-  // deleteEvent(eventId).then((res) => {
-  //   console.log(res);
-  // }).catch((err) => {
-  //   console.log(err);
-  // });
+// const deleteEvent = async (eventId) => {
+//   try {
+//     let response = await calendar.events.delete({
+//       auth: auth,
+//       calendarId: CALENDAR_ID,
+//       eventId: eventId
+//     });
+//     if (response.data === ''){
+//       return 1;
+//     } else {
+//       return 0;
+//     }
+//
+//   } catch (e) {
+//     console.log(`Error at deleteEvent -->  ${e}`)
+//   }
+// }
+//
+// let eventId = 'atqojad64lvmrbdiqkt45ll6s8';
+//
+// deleteEvent(eventId).then((res) => {
+//   console.log(res);
+// }).catch((err) => {
+//   console.log(err);
+// });

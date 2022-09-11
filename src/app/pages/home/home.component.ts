@@ -16,6 +16,8 @@ import {Subscription} from 'rxjs'
 import {EventService} from '../../services/event.service'
 import {Router} from '@angular/router'
 import {AuthService} from "../../otp/auth.service";
+import {UserController} from "../../../shared/UserController";
+import {User} from "../../../shared/User";
 
 export interface WorkHours {
   blanks: Array<TimeRange>;
@@ -192,10 +194,23 @@ export class HomeComponent implements OnInit, OnDestroy {
   async onSubmit() {
     try {
       this.eventController.event = await this.event;
-      // await this.eventController.createEvent();
-      // await this.eventController.createEventOnGoggleCalendar();
+      await this.eventController.createEvent();
+
+      const userDetails = localStorage.getItem('userDetails');
+      const user = JSON.parse(userDetails!);
+
+      const selectedDateEnd = moment(this.selectedDate).add(2, 'hours');
+
+      await this.eventController.createEventOnGoggleCalendar({
+        ...this.eventToDisplay,
+        'username': user?.username,
+        'phone': user?.phone.replace('+972', '0'),
+        'startDate': this.selectedDate,
+        'endDate': selectedDateEnd
+      });
+
       await this.handleNextStep();
-      // phone name password
+
     } catch (e: any) {
       console.error(e);
       this.handleError(e.message);

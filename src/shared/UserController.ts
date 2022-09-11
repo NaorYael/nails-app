@@ -16,7 +16,6 @@ export class UserController extends ControllerBase {
     const random = String(this.generateOtpCode());
 
     let userFromDB = await userRepo.findId(this.user.phone!);
-    console.log(userFromDB);
     if (userFromDB === undefined) {
       this.user.password = random;
       await userRepo.insert(this.user);
@@ -24,7 +23,6 @@ export class UserController extends ControllerBase {
     } else {
       userFromDB.password = random;
       this.user = await userRepo.save(userFromDB);
-      console.log(random, userFromDB.phone);
       await UserController.sendSMS(random, userFromDB.phone!);
     }
 
