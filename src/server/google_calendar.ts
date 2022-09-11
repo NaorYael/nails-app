@@ -1,8 +1,8 @@
 const {google} = require('googleapis');
 require('dotenv').config();
 
-const CREDENTIALS = JSON.parse(process.env.CREDENTIALS);
-const CALENDAR_ID = process.env.CALENDAR_ID;
+const CREDENTIALS = JSON.parse(process.env['CREDENTIALS']!);
+const CALENDAR_ID = process.env['CALENDAR_ID']!;
 
 const SCOPES = 'https://www.googleapis.com/auth/calendar';
 const calendar = google.calendar({version: "v3"});
@@ -20,22 +20,18 @@ const dateTimeForCalendar = () => {
   let date = new Date();
 
   let year = date.getFullYear();
-  let month = date.getMonth() + 1;
-  if (month < 10) {
+  let month = (date.getMonth() + 1).toString();
+  if (month.length===1) {
     month = `0${month}`;
   }
-  let day = date.getDate();
-  if (day < 10) {
+  let day = date.getDate().toString();
+  if (day.length===1) {
     day = `0${day}`;
   }
-  let hour = date.getHours();
-  if (hour < 10) {
-    hour = `0${hour}`;
-  }
-  let minutes = date.getMinutes();
-  if (minutes < 10) {
-    minutes = `0${minutes}`;
-  }
+  let hour = date.getHours().toString().padStart(2,'0');
+
+  let minutes = date.getMinutes().toString().padStart(2,'0');
+
 
   let newDateTime = `${year}-${month}-${day}T${hour}:${minutes}:00.000${TIMEOFFSET}`;
 
@@ -48,7 +44,7 @@ const dateTimeForCalendar = () => {
  console.log(dateTimeForCalendar())
 
 
- const insertEvent = async (event)=> {
+ const insertEvent = async (event:any)=> {
   try {
     let response = await calendar.events.insert({
       auth: auth,
@@ -67,11 +63,8 @@ const dateTimeForCalendar = () => {
     return 0;
   }
 };
- module.exports = {
-   addEvent:addEvent
- }
 
-  function addEvent(){
+ export  function addEvent(){
 
    let dateTime = dateTimeForCalendar();
 

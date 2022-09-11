@@ -32,7 +32,7 @@ app.listen(process.env["PORT"] || 3002, () => console.log("Server started"));
 UserController.sendSMS = async (code: string, phone: string) => {
   await sendSms(phone,code);
 }
-EventsController.addEvent = () => addEvent();
+EventsController.addEvent =async () => addEvent();
 
 // const accountSid = process.env['accountSid'];
 // const authToken = process.env['authToken'];
