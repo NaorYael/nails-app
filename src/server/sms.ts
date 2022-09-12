@@ -4,7 +4,7 @@ import * as fetch from 'node-fetch';
 
 export async function sendSms(phone: string, message: string): Promise<any> {
 
-  const from = 'NailsYael';
+  const from = 'NoyNails';
   const apiKey = process.env["apiKey"];
   phone = phone.replace(/\D/g, '');
 
@@ -75,15 +75,15 @@ export async function sendSms(phone: string, message: string): Promise<any> {
   console.log({ apiResponse });
   return apiResponse;
 }
-
-@Entity('SmsHistory', { allowApiCrud: false, allowApiRead: false })
-export class SmsHistory extends IdEntity {
-  @Fields.date()
-  createDate = new Date();
-  @Fields.string({})
-  message = '';
-  @Fields.object({ allowApiUpdate: false })
-  apiResponse: any;
-  @Fields.string()
-  phone = '';
-}
+//
+// @Entity('SmsHistory', { allowApiCrud: false, allowApiRead: false })
+// export class SmsHistory extends IdEntity {
+//   @Fields.date()
+//   createDate = new Date();
+//   @Fields.string({})
+//   message = '';
+//   @Fields.object({ allowApiUpdate: false })
+//   apiResponse: any;
+//   @Fields.string()
+//   phone = '';
+// }

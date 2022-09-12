@@ -3,7 +3,7 @@ import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {LayoutModule} from '@angular/cdk/layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-import { AppRoutingModule } from './app-routing.module';
+import {AppRoutingModule} from './app-routing.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {AppComponent} from './app.component';
 import {MatToolbarModule} from '@angular/material/toolbar'
@@ -26,18 +26,20 @@ import {MatChipsModule} from '@angular/material/chips';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {Remult} from 'remult';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-import { ConfirmComponent } from './otp/confirm/confirm.component';
-import { LoginComponent } from './otp/login/login.component';
-import { HomeComponent } from './pages/home/home.component'
+import {ConfirmComponent} from './otp/confirm/confirm.component';
+import {LoginComponent} from './otp/login/login.component';
+import {HomeComponent} from './pages/home/home.component'
 import {NgxMatIntlTelInputComponent} from 'ngx-mat-intl-tel-input'
 import {CodeInputModule} from 'angular-code-input';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component'
+import {HeaderComponent} from './components/header/header.component';
+import {FooterComponent} from './components/footer/footer.component'
 import {NotFoundComponent} from "./pages/not-found.component";
 import {PaymentComponent} from "./components/payment/payment.component";
 import {UsernameComponent} from "./components/username/username.component";
-import {JwtModule} from '@auth0/angular-jwt'
-import {AuthService} from './otp/auth.service'
+import {ProfileComponent} from './pages/profile/profile.component'
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { SpinnerComponent } from './components/spinner/spinner.component'
 
 @NgModule({
   declarations: [
@@ -51,6 +53,8 @@ import {AuthService} from './otp/auth.service'
     PaymentComponent,
     NotFoundComponent,
     UsernameComponent,
+    ProfileComponent,
+    SpinnerComponent,
   ],
   imports: [
     NoopAnimationsModule,
@@ -78,6 +82,8 @@ import {AuthService} from './otp/auth.service'
     MatChipsModule,
     HttpClientModule,
     MatSnackBarModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
     NgxMatIntlTelInputComponent,
     CodeInputModule
   ],

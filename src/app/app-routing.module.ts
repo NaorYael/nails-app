@@ -5,12 +5,14 @@ import {LoginComponent} from './otp/login/login.component'
 import {HomeComponent} from './pages/home/home.component'
 import {AuthGuard} from './otp/auth.guard'
 import {NotFoundComponent} from "./pages/not-found.component";
+import {ProfileComponent} from './pages/profile/profile.component'
 
 const routes: Routes = [
   {path: '', component: HomeComponent, canActivate: [AuthGuard]},
   // {path: '', component: HomeComponent},
   {path: 'login', component: LoginComponent},
   {path: 'confirm', component: ConfirmComponent},
+  {path: 'profile', component: ProfileComponent},
   {path: '**', redirectTo: '', component: NotFoundComponent}
 
 ];

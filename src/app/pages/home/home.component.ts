@@ -52,10 +52,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   completed: boolean = false;
 
   isEventSelected: boolean = false;
+  hideHourLabel: boolean = false;
   showEventTimes: boolean = false;
   state = '';
-
-  selectedValue = '';
 
   eventToDisplay!: Event;
 
@@ -87,13 +86,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   async handleNextStep() {
     this.stepper.linear = false;
     if (this.stepper.selectedIndex === 1) {
+      this.hideHourLabel = true;
       this.stepper.selectedIndex = 2;
     } else if (this.stepper.selectedIndex === 2) {
       this.done();
       this.onReset();
     } else {
       this.stepper.selectedIndex = 1;
-      this.isEventSelected = false;
     }
     setTimeout(() => {
       this.stepper.linear = true;
@@ -189,6 +188,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.extractAvailableWorkHours();
     this.isEventSelected = true;
     this.dateToString = this.parseDateToStr(this.selectedDate);
+    await this.handleNextStep();
   }
 
   async onSubmit() {
@@ -219,27 +219,22 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   }
 
-
   private parseDateToStr(date: Date): string {
     const momObj = moment(date);
     return momObj.format('DD/MM/YYYY');
   }
 
-  openModal() {
-    let dialogRef: MatDialogRef<PopupComponent>;
-    dialogRef = this.dialog.open(PopupComponent);
-    dialogRef.componentInstance.event = this.event;
-    return dialogRef.afterClosed();
-  }
 
-  onReset() {
+
+  async onReset() {
     this.appointmentArr = [];
-    this.selectedValue = '';
     this.picker.select(undefined!);
     this.extractAvailableWorkHours();
     this.showEventTimes = false;
     this.isEventSelected = false
     this.dateToString = '';
+    this.hideHourLabel = false;
+    this.stepper.selectedIndex = 0;
   }
 
   private handleError(msg: string) {
@@ -250,6 +245,18 @@ export class HomeComponent implements OnInit, OnDestroy {
       direction: "rtl"
     });
   }
+
+  onLoadImage() {
+    this.imageLoad = true;
+  }
+
+  imageSource = '../../../assets/logo.jpeg';
+  imageLoad = false;
+  message = 'טעינה...'
+
+  color = 'primary';
+  mode = 'indeterminate';
+  value = 50;
 
   ngOnDestroy(): void {
     this.subscriptionArr.forEach(x => x.unsubscribe())
