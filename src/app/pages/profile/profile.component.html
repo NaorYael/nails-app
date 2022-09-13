@@ -19,24 +19,24 @@
     <div fxLayout="row" style="justify-content: space-between" fxFlex="50" fxLayoutGap="5px">
       <div style="display: flex; align-items: center;padding-bottom: 20px;">
         <mat-icon style="margin-inline-end: 5px">phone</mat-icon>
-        <div class="" style="font-size: medium">{{user?.phone}}0545-788787</div>
+        <div class="" style="font-size: medium">{{user?.phone}}</div>
       </div>
     </div>
 
     <div fxLayout="row" fxFlex style="justify-content: space-between">
       <div style="display: flex; align-items: center;padding-bottom: 20px;">
         <mat-icon style="margin-inline-end: 5px">person</mat-icon>
-        <div class="" style="font-size: medium">{{user?.username}} נאור</div>
+        <div class="" style="font-size: medium">{{user?.username}}</div>
       </div>
     </div>
   </mat-card-content>
   <hr>
   <mat-card-actions fxLayout="row">
-    <div fxLayout="row" fxLayoutAlign="start center" fxFlex="50" fxLayoutGap="5px">
-      <button (click)="openModal()" style="border-radius: 10px; font-size: medium" color="primary" mat-raised-button>עריכה</button>
-    </div>
+<!--    <div fxLayout="row" fxLayoutAlign="start center" fxFlex="50" fxLayoutGap="5px">-->
+<!--      <button (click)="openModal()" style="border-radius: 10px; font-size: medium" color="primary" mat-raised-button>עריכה</button>-->
+<!--    </div>-->
 
-    <div fxLayout="row" fxFlex fxLayoutAlign="end center">
+    <div fxLayout="row" fxFlex fxLayoutAlign="center center">
       <button [routerLink]="['/']" style="border-radius: 10px; font-size: large" mat-button color="primary" >חזרה</button>
     </div>
 

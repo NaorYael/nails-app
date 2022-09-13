@@ -19,8 +19,8 @@ export class PopupComponent implements OnInit{
   }
   ngOnInit(): void {
      this.fb.group({
-      username: [this.user.username === null ? '' : this.user.username, Validators.required],
-      phone: [this.user.phone === null ? '' : this.user.phone, Validators.required]
+      username: [this.user.username, ],
+      phone: [this.user.phone, ]
     });
   }
 

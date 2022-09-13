@@ -29,7 +29,6 @@ export class CardComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
   onClick(event: Event) {
       this.onSelected.emit(event);
       this.eventService.setEvent(event);

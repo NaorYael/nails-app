@@ -1,16 +1,20 @@
-<ng-container *ngIf="!(authService.isLoggedIn | async)">
+<ng-container *ngIf="(authService.isLoggedIn | async)">
   <mat-horizontal-stepper [linear]="true" #stepper dir="rtl">
     <mat-step label="למה?" dir="rtl">
-      <mat-card class="card">
+      <mat-card class="card" *ngIf="!imageLoad">
         <mat-card-header>
-          <div mat-card-avatar class="card__avatar-image"></div>
-          <mat-card-title dir="rtl">Noy Yael Beauty</mat-card-title>
+         <div class="card__wrap-image">
+           <img src="../../../assets/logo.png" class="card__wrap-image__image">
+         </div>
+<!--          <mat-card-title dir="rtl">Noy Yael Beauty</mat-card-title>-->
           <mat-card-subtitle>
-            <div dir="rtl" fxLayoutAlign="center">
-              יש לבחור את סוג השירות
-            </div>
+
           </mat-card-subtitle>
+
         </mat-card-header>
+        <div class="title" dir="rtl" fxLayoutAlign="center">
+          יש לבחור את סוג השירות
+        </div>
         <mat-card-actions>
           <app-card (onSelected)="handleSelectedEvent($event)"></app-card>
         </mat-card-actions>
@@ -18,14 +22,13 @@
     </mat-step>
 
     <mat-step label="מתי?" dir="rtl">
-      <!--    <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">-->
       <ng-template #message>יש לבחור סוג שירות</ng-template>
       <ng-container *ngIf="isEventSelected; else message">
         <div style="display: flex; box-sizing: border-box">
           <mat-form-field (click)="picker.open()">
             <mat-label style="color: #4D4D4D;font-weight: bold;">בחר תאריך</mat-label>
             <input matInput [matDatepickerFilter]="myFilter"
-                   [matDatepicker]="picker" #input
+                   [matDatepicker]="picker"
                    [min]="minDate"
                    (dateInput)="onSelectDate($event)">
             <mat-datepicker-toggle matSuffix [for]="picker"
@@ -47,7 +50,6 @@
           </mat-card>
         </div>
       </div>
-      <!--      </div>-->
     </mat-step>
     <mat-step dir="rtl" [completed]="completed" [state]="state">
       <ng-template matStepLabel>קבענו</ng-template>
@@ -61,7 +63,7 @@
             </div>
 
             <div *ngIf="imageLoad">
-              <div class="item" fxLayoutAlign="center" style="    flex-direction: row-reverse;">
+              <div class="item" fxLayoutAlign="center" style="flex-direction: row-reverse;">
                 <button class="main" mat-raised-button style="border-radius: 15px;" fxLayout="center">הפגישה הבאה שלי
                   <mat-icon>info</mat-icon>
                 </button>
@@ -79,12 +81,12 @@
                 <div fxLayout="row" style="justify-content: space-between" fxFlex="50" fxLayoutGap="5px">
                   <div class="item"
                        style="display: flex; align-items: center;padding-bottom: 20px;flex-direction: row-reverse;">
-                    <div class="item" style="font-size: medium">{{selectedDate.getTime() | date:"HH:mm"}}</div>
+                    <div class="item" style="font-size: 15px">{{selectedDate.getTime() | date:"HH:mm"}}</div>
                     <mat-icon>access_time</mat-icon>
                   </div>
                   <div class="item"
                        style="display: flex; align-items: center;padding-bottom: 20px; flex-direction: row-reverse;">
-                    <div class="item" style="font-size: medium">{{dateToString}}</div>
+                    <div class="item" style="font-size: 15px">{{dateToString}}</div>
                     <mat-icon>date_range</mat-icon>
                   </div>
                 </div>
@@ -92,23 +94,23 @@
                 <div fxLayout="row" fxFlex style="justify-content: space-between">
                   <div class="item"
                        style="display: flex; align-items: center;padding-bottom: 20px; flex-direction: row-reverse;">
-                    <div class="item" style="font-size: medium">{{eventToDisplay.title}}</div>
+                    <div class="item" style="font-size: 15px">{{eventToDisplay.title}}</div>
                     <mat-icon>create</mat-icon>
                   </div>
-                  <div style="font-size: medium;flex-direction: row-reverse;">{{eventToDisplay.price}}<span
+                  <div style="font-size: 15px;flex-direction: row-reverse;">{{eventToDisplay.price}}<span
                     style="font-size: x-large;margin-inline-end: 3px;">₪</span></div>
                 </div>
               </mat-card-content>
               <hr>
               <mat-card-actions fxLayout="row" class="flex-direction: row-reverse;">
                 <div fxLayout="row" fxLayoutAlign="start center" fxFlex="50" fxLayoutGap="5px">
-                  <button style="border-radius: 10px; font-size: medium" color="warn" (click)="onReset()" mat-button>
+                  <button style="border-radius: 10px; font-size: 15px" color="warn" (click)="onReset()" mat-button>
                     שינוי
                   </button>
                 </div>
 
                 <div fxLayout="row" fxFlex fxLayoutAlign="end center">
-                  <button style="border-radius: 10px; font-size: large" mat-button color="primary">
+                  <button style="border-radius: 10px; font-size: 15px" mat-button color="primary">
                     הוספה ליומן שלי
                   </button>
                 </div>

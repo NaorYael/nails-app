@@ -49,12 +49,26 @@
     }
   }
 
-  &__avatar-image {
-    background-image: url('../../../assets/logo.jpeg');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+  &__wrap-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &__image {
+      border-radius: 50%;
+      height: 6.5rem;
+      width: 13.5rem;
+      position: relative;
+      object-fit: contain;
+      top: -35px;
+    }
   }
+.title {
+  position: relative;
+  top: -25px;
+  font-size: medium;
+  color: c.$nail-app--primary;
+}
+
 
 }
 
@@ -104,7 +118,7 @@ mat-datepicker-toggle {
 [dir=rtl] .mat-form-field {
   //text-align: right;
   width: 100%;
-  font-size: large;
+  font-size: medium;
 }
 
 footer {
