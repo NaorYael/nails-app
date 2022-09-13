@@ -31,6 +31,10 @@ export class AuthService {
       this.loggedIn.next(true);
       this.router.navigate(['/']);
     }
+    const userDetails = sessionStorage.getItem('userDetails');
+    if (userDetails) {
+      this.user.next(JSON.parse(userDetails));
+    }
   }
 
   static fromStorage(): string {
@@ -79,7 +83,7 @@ export class AuthService {
     let userRepo = this.remult.repo(User);
     await userRepo.save(this.user.value);
     this.setAuthToken(null);
-    localStorage.removeItem('userDetails');
+    sessionStorage.clear();
   }
 
   private updateUsernameIfNotExists() {
@@ -91,6 +95,6 @@ export class AuthService {
 
   private setUser() {
     this.userController.user = this.user.value;
-    localStorage.setItem('userDetails', JSON.stringify(this.user.value));
+    sessionStorage.setItem('userDetails', JSON.stringify(this.user.value));
   }
 }

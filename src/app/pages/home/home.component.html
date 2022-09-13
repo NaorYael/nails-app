@@ -1,11 +1,11 @@
 <ng-container *ngIf="(authService.isLoggedIn | async)">
   <mat-horizontal-stepper [linear]="true" #stepper dir="rtl">
-    <mat-step label="למה?" dir="rtl">
+    <mat-step label="מה" dir="rtl">
       <mat-card class="card" *ngIf="!imageLoad">
         <mat-card-header>
-         <div class="card__wrap-image">
-           <img src="../../../assets/logo.png" class="card__wrap-image__image">
-         </div>
+<!--         <div class="card__wrap-image">-->
+<!--           <img src="../../../assets/logo.png" class="card__wrap-image__image">-->
+<!--         </div>-->
 <!--          <mat-card-title dir="rtl">Noy Yael Beauty</mat-card-title>-->
           <mat-card-subtitle>
 
@@ -21,7 +21,7 @@
       </mat-card>
     </mat-step>
 
-    <mat-step label="מתי?" dir="rtl">
+    <mat-step label="מתי" dir="rtl">
       <ng-template #message>יש לבחור סוג שירות</ng-template>
       <ng-container *ngIf="isEventSelected; else message">
         <div style="display: flex; box-sizing: border-box">
@@ -51,6 +51,7 @@
         </div>
       </div>
     </mat-step>
+
     <mat-step dir="rtl" [completed]="completed" [state]="state">
       <ng-template matStepLabel>קבענו</ng-template>
       <div fxLayoutAlign="center">
@@ -127,7 +128,7 @@
   <footer>
     <div class="wrap-action" fxLayout="row" fxLayoutAlign="center center">
       <button class="action" color="primary" [disabled]="!isEventSelected"
-              (click)="stepper.selectedIndex === 1 ?  onSubmit() : handleNextStep()" mat-raised-button>
+              (click)="stepper.selectedIndex === 2 ?  onSubmit() : handleNextStep()" mat-raised-button>
         {{stepper.selectedIndex === 2 ? 'קביעת פגישה' : 'הבא'}}
       </button>
     </div>

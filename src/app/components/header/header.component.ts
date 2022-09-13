@@ -1,21 +1,18 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {AuthService} from "../../otp/auth.service";
 import {User} from "../../../shared/User";
+import {BehaviorSubject, distinctUntilChanged} from "rxjs";
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
 
-  user!: User;
+  user: BehaviorSubject<User> = this.authService.user;
 
-  constructor(public authService: AuthService,) {
-  }
-
-  ngOnInit() {
-    this.user = JSON.parse(localStorage.getItem('userDetails')!);
+  constructor(public authService: AuthService) {
   }
 
   logout() {

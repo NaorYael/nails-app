@@ -5,7 +5,7 @@ import {Event} from './Event';
 @Controller('eventsController')
 export class EventsController extends ControllerBase {
 
-  static addEvent: (event:any) => Promise<void>;
+  static addEvent: (event:any) => Promise<any>;
 
   @Fields.object()
   event = new Event();
@@ -20,6 +20,6 @@ export class EventsController extends ControllerBase {
 
   @BackendMethod({ allowed: true})
   async createEventOnGoggleCalendar(e: any) {
-    await EventsController.addEvent(e);
+   return await EventsController.addEvent(e);
   }
 }

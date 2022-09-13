@@ -4,9 +4,11 @@
   </button>
   <mat-menu #menu="matMenu">
     <button *ngIf="(authService.isLoggedIn | async)" mat-menu-item [routerLink]="['/profile']">פרופיל<span><mat-icon>person</mat-icon></span></button>
-    <button *ngIf="(authService.isLoggedIn | async)"(click)="logout()" mat-menu-item>התנתק<span><mat-icon>logout</mat-icon></span></button>
+    <button *ngIf="(authService.isLoggedIn | async)" (click)="logout()" mat-menu-item>התנתק<span><mat-icon>logout</mat-icon></span></button>
   </mat-menu>
-  <span *ngIf="(authService.isLoggedIn | async) && (user?.username)">שלום {{user?.username}}</span>
+  <span *ngIf="user | async as userHtml">
+  <span *ngIf="(authService.isLoggedIn | async)">שלום {{userHtml.username}}</span>
+  </span>
   <span class="example-spacer"></span>
-  <img src="../assets/logo.png" alt="" class="img">
+  <img src="../assets/NYB-logo-white.png" alt="" class="img">
 </mat-toolbar>

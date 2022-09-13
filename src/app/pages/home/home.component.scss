@@ -49,19 +49,19 @@
     }
   }
 
-  &__wrap-image {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    &__image {
-      border-radius: 50%;
-      height: 6.5rem;
-      width: 13.5rem;
-      position: relative;
-      object-fit: contain;
-      top: -35px;
-    }
-  }
+  //&__wrap-image {
+  //  display: flex;
+  //  justify-content: center;
+  //  align-items: center;
+  //  &__image {
+  //    border-radius: 50%;
+  //    height: 6.5rem;
+  //    width: 13.5rem;
+  //    position: relative;
+  //    object-fit: contain;
+  //    top: -35px;
+  //  }
+  //}
 .title {
   position: relative;
   top: -25px;

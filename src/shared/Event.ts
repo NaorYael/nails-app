@@ -36,6 +36,9 @@ export class Event extends EntityBase {
   @Fields.string()
   phone? = '';
 
+  @Fields.string()
+  calendarId? = '';
+
   @Fields.number()
   price? = 0;
 

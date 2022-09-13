@@ -34,7 +34,7 @@ UserController.sendSMS = async (code: string, phone: string) => {
   await sendSms(phone, code);
 }
 EventsController.addEvent = async (e: any) => {
-  addEvent(e);
+  return addEvent(e);
 }
 
 

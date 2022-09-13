@@ -23,7 +23,7 @@ export class ProfileComponent implements OnInit {
   constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.user = JSON.parse(localStorage.getItem('userDetails')!);
+    this.user = JSON.parse(sessionStorage.getItem('userDetails')!);
   }
 
   onLoadImage() {

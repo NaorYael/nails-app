@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import * as moment from 'moment';
 import {Moment} from 'moment';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog'
+import {MatDialog} from '@angular/material/dialog'
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper'
 import {MatStepper} from '@angular/material/stepper'
@@ -11,13 +11,10 @@ import {Event} from '../../../shared/Event';
 import {Remult} from 'remult'
 import {MatSnackBar} from '@angular/material/snack-bar'
 import {EventsController} from '../../../shared/EventsController'
-import {PopupComponent} from '../../components/popup/popup.component'
 import {Subscription} from 'rxjs'
 import {EventService} from '../../services/event.service'
 import {Router} from '@angular/router'
 import {AuthService} from "../../otp/auth.service";
-import {UserController} from "../../../shared/UserController";
-import {User} from "../../../shared/User";
 
 export interface WorkHours {
   blanks: Array<TimeRange>;
@@ -61,6 +58,14 @@ export class HomeComponent implements OnInit, OnDestroy {
   subscriptionArr: Subscription[] = [];
   index!: number
 
+  imageSource = '../../../assets/logo.jpeg';
+  imageLoad = false;
+  message = 'טעינה...'
+
+  color = 'primary';
+  mode = 'indeterminate';
+  value = 50;
+
   done() {
     this.completed = true;
     this.completed = true;
@@ -88,9 +93,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.stepper.selectedIndex === 1) {
       this.hideHourLabel = true;
       this.stepper.selectedIndex = 2;
-    } else if (this.stepper.selectedIndex === 2) {
-      this.done();
-      this.onReset();
     } else {
       this.stepper.selectedIndex = 1;
     }
@@ -193,15 +195,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   async onSubmit() {
     try {
+      const userDetails = sessionStorage.getItem('userDetails');
       this.eventController.event = await this.event;
-      await this.eventController.createEvent();
-
-      const userDetails = localStorage.getItem('userDetails');
       const user = JSON.parse(userDetails!);
-
       const selectedDateEnd = moment(this.selectedDate).add(2, 'hours');
-
-      await this.eventController.createEventOnGoggleCalendar({
+      const result = await this.eventController.createEventOnGoggleCalendar({
         ...this.eventToDisplay,
         'username': user?.username,
         'phone': user?.phone.replace('+972', '0'),
@@ -209,13 +207,16 @@ export class HomeComponent implements OnInit, OnDestroy {
         'endDate': selectedDateEnd
       });
 
-      await this.handleNextStep();
-
+      this.eventController.event = {...this.eventController.event,
+        phone: user.phone, username: user.username, calendarId: result} as Event;
+      await this.eventController.createEvent();
+      console.log(this.eventController.event);
     } catch (e: any) {
       console.error(e);
       this.handleError(e.message);
-      this.onReset();
+      await this.onReset();
     }
+
 
   }
 
@@ -223,7 +224,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     const momObj = moment(date);
     return momObj.format('DD/MM/YYYY');
   }
-
 
 
   async onReset() {
@@ -251,13 +251,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.imageLoad = true;
   }
 
-  imageSource = '../../../assets/logo.jpeg';
-  imageLoad = false;
-  message = 'טעינה...'
-
-  color = 'primary';
-  mode = 'indeterminate';
-  value = 50;
 
   ngOnDestroy(): void {
     this.subscriptionArr.forEach(x => x.unsubscribe())

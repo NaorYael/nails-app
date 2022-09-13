@@ -48,14 +48,15 @@ const insertEvent = async (event: any) => {
       calendarId: CALENDAR_ID,
       resource: event
     });
+    console.log({response});
     if (response[`status`] === 200) {
-      return 1
+      return response.data.id
     } else {
-      return 0;
+      return '';
     }
   } catch (e) {
     console.log(`Error at insertEvent --> ${e}`);
-    return 0;
+    return '';
   }
 };
 
@@ -74,12 +75,14 @@ export function addEvent(e: any) {
     }
   };
 
-  insertEvent(event)
+  return insertEvent(event)
     .then((res) => {
       console.log(res);
+      return res;
     }).catch((err) => {
-    console.log(err);
-  })
+      console.log(err);
+      return err;
+    })
 }
 
 //
