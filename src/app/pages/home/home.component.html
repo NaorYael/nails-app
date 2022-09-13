@@ -26,7 +26,7 @@
       <ng-container *ngIf="isEventSelected; else message">
         <div style="display: flex; box-sizing: border-box">
           <mat-form-field (click)="picker.open()">
-            <mat-label style="color: #4D4D4D;font-weight: bold;">בחר תאריך</mat-label>
+            <mat-label style="color: #4D4D4D;">בחר תאריך</mat-label>
             <input matInput [matDatepickerFilter]="myFilter"
                    [matDatepicker]="picker"
                    [min]="minDate"
@@ -42,7 +42,7 @@
 
       <br>
       <div *ngIf="showEventTimes">
-        <mat-label *ngIf="isEventSelected && !hideHourLabel" style="color: #4D4D4D;font-weight: bold;">בחר שעה</mat-label>
+        <mat-label *ngIf="isEventSelected && !hideHourLabel" style="color: #4D4D4D;font-weight: bold;">באיזה שעה?</mat-label>
         <div class="time" *ngFor="let event of eventsTimeArr" fxLayoutAlign="center">
 
           <mat-card *ngIf="appointmentArr.length === 0" (click)="onSelectTime(event)">
@@ -94,7 +94,7 @@
                 <div fxLayout="row" fxFlex style="justify-content: space-between">
                   <div class="item"
                        style="display: flex; align-items: center;padding-bottom: 20px; flex-direction: row-reverse;">
-                    <div class="item" style="font-size: 15px">{{eventToDisplay.title}}</div>
+                    <div class="item" style="font-size: 15px">{{eventToDisplay.title}} - {{eventToDisplay.subtitle}}</div>
                     <mat-icon>create</mat-icon>
                   </div>
                   <div style="font-size: 15px;flex-direction: row-reverse;">{{eventToDisplay.price}}<span
@@ -110,7 +110,7 @@
                 </div>
 
                 <div fxLayout="row" fxFlex fxLayoutAlign="end center">
-                  <button style="border-radius: 10px; font-size: 15px" mat-button color="primary">
+                  <button (click)="onCalendarAdd()" style="border-radius: 10px; font-size: 15px" mat-button color="primary">
                     הוספה ליומן שלי
                   </button>
                 </div>

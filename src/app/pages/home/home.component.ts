@@ -235,6 +235,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.dateToString = '';
     this.hideHourLabel = false;
     this.stepper.selectedIndex = 0;
+    window.location.reload();
   }
 
   private handleError(msg: string) {
@@ -260,5 +261,14 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptionArr.forEach(x => x.unsubscribe())
+  }
+
+  onCalendarAdd() {
+    this.snake.open('עדיין עובדים על זה...', "סגור", {
+      duration: 3000,
+      horizontalPosition: "center",
+      verticalPosition: "bottom",
+      direction: "rtl"
+    });
   }
 }

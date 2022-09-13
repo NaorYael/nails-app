@@ -1,8 +1,8 @@
 @use '../../../assets/global' as c;
 
 .time mat-card {
-  margin: 7px;
-  width: 15%;
+  margin: 5px;
+  width: 75%;
   border-radius: 15px;
   background-color: c.$nail-app--secondary!important;
   color: white;
@@ -21,27 +21,27 @@
   }
 
   .mat-card-subtitle {
-    font-size: medium;
+    font-size: 15px;
   }
 
   mat-card {
     height: 85%;
     align-items: center;
     position: absolute;
-
-    .list {
-      background-image: url('../../../assets/logo.jpeg');
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-    }
+    //
+    //.list {
+    //  background-image: url('../../../assets/logo.jpeg');
+    //  background-position: center;
+    //  background-repeat: no-repeat;
+    //  background-size: cover;
+    //}
 
     .mat-card-header {
       display: grid;
     }
 
     .mat-card-header .mat-card-title {
-      font-size: medium;
+      font-size: 15px;
     }
 
     .mat-card-subtitle {
@@ -65,7 +65,7 @@
 .title {
   position: relative;
   top: -25px;
-  font-size: medium;
+  font-size: 15px;
   color: c.$nail-app--primary;
 }
 
@@ -118,7 +118,7 @@ mat-datepicker-toggle {
 [dir=rtl] .mat-form-field {
   //text-align: right;
   width: 100%;
-  font-size: medium;
+  font-size: 15px;
 }
 
 footer {
@@ -141,7 +141,7 @@ footer {
 }
 
 //p, span, h4 {
-//  font-size: medium;
+//  font-size: 15px;
 //}
 
 //mat-icon, span {
