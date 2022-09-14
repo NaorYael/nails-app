@@ -15,7 +15,7 @@ export class ConfirmComponent implements OnInit {
   code: number = 0;
   userController = new UserController(this.remult);
 
-  constructor(private authService: AuthService,
+  constructor(public authService: AuthService,
               private snake: MatSnackBar,
               private remult: Remult) {
   }
@@ -31,12 +31,17 @@ export class ConfirmComponent implements OnInit {
     // const userRepo = this.remult.repo(User);
     // let user = await userRepo.findId(this.authService.user.value.phone!);
       this.authService.user.next({...this.authService.user.value, password: String(this.code)} as User);
-      await this.authService.login();
+
+     try {
+       await this.authService.login();
+     } catch (e) {
+       this.loginFailedMsg();
+     }
 
   }
 
   private loginFailedMsg() {
-    this.snake.open('קוד לא תקין', "סגור", {
+    this.snake.open('קוד לא תקין, נסה שוב', "סגור", {
       duration: 5000,
       horizontalPosition: "center",
       verticalPosition: "bottom",

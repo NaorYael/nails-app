@@ -1,3 +1,5 @@
+@use '../../../assets/global' as c;
+
 .signin-content {
   padding: 150px 1rem;
 }
@@ -33,6 +35,16 @@ input:not(.country-search){
 }
 .mat-raised-button{
   width: 100%;
+}
+
+a {
+  color: c.$nail-app--secondary;
+  margin-right: 5px;
+  border-bottom: 1px solid c.$nail-app--secondary;
+}
+
+mat-card-footer.mat-card-footer {
+  margin: 0;
 }
 //code-input {
 //  --item-spacing: 10px;

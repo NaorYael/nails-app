@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {AuthService} from "../../otp/auth.service";
 import {User} from "../../../shared/User";
-import {BehaviorSubject, distinctUntilChanged} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-header',
