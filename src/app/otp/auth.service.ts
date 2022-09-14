@@ -53,7 +53,7 @@ export class AuthService {
   }
 
   async login() {
-    if ( (!await this.user.value.username) && !this.isLoggedIn) {
+    if ( (!await this.user.value.username)) {
       this.updateUsernameIfNotExists();
       this.setUser();
       const token = await this.userController.signIn();
