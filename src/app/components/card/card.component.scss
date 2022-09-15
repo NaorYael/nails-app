@@ -3,7 +3,8 @@
 mat-card {
   border-radius: 5px;
   .active {
-    border: 2px solid c.$nail-app--secondary;
+    border: 1px solid c.$nail-app--secondary;
+    outline: 1px solid c.$nail-app--secondary;
     border-radius: 7px;
   }
   div {

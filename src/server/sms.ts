@@ -49,7 +49,6 @@ export async function sendSms(phone: string, message: string): Promise<any> {
         });
 
         let res = await r.text();
-        console.log(res);
         let orig = res;
         let t = '<sendSmsToRecipientsResult>';
         let i = res.indexOf(t);

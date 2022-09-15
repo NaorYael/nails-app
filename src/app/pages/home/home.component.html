@@ -124,10 +124,10 @@
     </mat-step>
 
   </mat-horizontal-stepper>
-
   <footer>
+<!--    <pre>{{loading | json}}</pre>-->
     <div class="wrap-action" fxLayout="row" fxLayoutAlign="center center">
-      <button class="action" color="primary" [disabled]="!isEventSelected"
+      <button [disabled]="!isEventSelected" color="primary"
               (click)="stepper.selectedIndex === 2 ?  onSubmit() : handleNextStep()" mat-raised-button>
         {{stepper.selectedIndex === 2 ? 'קביעת פגישה' : 'הבא'}}
       </button>

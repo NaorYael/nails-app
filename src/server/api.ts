@@ -11,10 +11,15 @@ export const api = remultExpress({
       return createPostgresConnection({ configuration: "heroku" });
     return undefined;
   },
+
   entities: [Event, User],
   controllers: [EventsController, UserController],
   initApi: async remult => {
-    // const userRepo = remult.repo(User);
-    //   await userRepo.delete('+972545870318')
+    const eventRepo = remult.repo(Event);
+ //   console.log( await eventRepo.find());
+    // await userRepo.delete('+972545870318')
+
+    // const x = await EventsController.watchEvents();
+    // console.log({x});
   }
 });

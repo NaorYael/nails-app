@@ -25,7 +25,6 @@ import {CardComponent} from './components/card/card.component';
 import {MatChipsModule} from '@angular/material/chips';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {Remult} from 'remult';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {ConfirmComponent} from './otp/confirm/confirm.component';
 import {LoginComponent} from './otp/login/login.component';
 import {HomeComponent} from './pages/home/home.component'
@@ -39,7 +38,11 @@ import {UsernameComponent} from "./components/username/username.component";
 import {ProfileComponent} from './pages/profile/profile.component'
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-import { SpinnerComponent } from './components/spinner/spinner.component'
+import {SpinnerComponent} from './components/spinner/spinner.component'
+import {AuthService} from "./otp/auth.service";
+import {JwtModule} from "@auth0/angular-jwt";
+import {HotToastModule} from '@ngneat/hot-toast';
+import {NgxLoadingModule} from "ngx-loading";
 
 @NgModule({
   declarations: [
@@ -81,11 +84,17 @@ import { SpinnerComponent } from './components/spinner/spinner.component'
     PopupModule,
     MatChipsModule,
     HttpClientModule,
-    MatSnackBarModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
     NgxMatIntlTelInputComponent,
-    CodeInputModule
+    CodeInputModule,
+    NgxLoadingModule.forRoot({}),
+    HotToastModule.forRoot(),
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => AuthService.fromStorage()
+      }
+    })
   ],
   bootstrap: [AppComponent],
   providers: [

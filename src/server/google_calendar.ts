@@ -1,18 +1,67 @@
 const {google} = require('googleapis');
 require('dotenv').config();
 
+const localtunnel = require('localtunnel');
+const { v4: uuidv4 } = require('uuid');
+
 const CREDENTIALS = JSON.parse(process.env['CREDENTIALS']!);
 const CALENDAR_ID = process.env['CALENDAR_ID']!;
-
 const SCOPES = 'https://www.googleapis.com/auth/calendar';
-const calendar = google.calendar({version: "v3"});
-
 const auth = new google.auth.JWT(
   CREDENTIALS.client_email,
   null,
   CREDENTIALS.private_key,
   SCOPES
 );
+const calendar = google.calendar({ version: 'v3' });
+const serverPort = 8080;
+
+const watchResponse = async () => {
+  const tunnel = await localtunnel({
+    port: serverPort
+  });
+
+  await calendar.events.watch({
+    auth: auth,
+    calendarId: CALENDAR_ID,
+    resource: {
+      id: uuidv4(),
+      type: 'web_hook',
+      // TODO tunnel.url
+      address: `${tunnel.url}/webhook`, // Expose localhost using a secure tunnel
+      token: localtunnel.token,
+    },
+  });
+}
+
+export async function watch() {
+  // Authorization details for google API are explained in previous steps.
+  const calendar = google.calendar({version: 'v3'});
+  // Get the events that changed during the webhook timestamp by using timeMin property.
+  const event = await calendar.events.list({
+    auth: auth,
+    calendarId: CALENDAR_ID,
+    timeMin: new Date().toISOString(),
+    maxResults: 10,
+    singleEvents: true,
+    orderBy: 'startTime',
+  });
+  // log in the console the total events that changed since the webhook was called.
+  console.log(event.data.items);
+
+
+  watchResponse()
+    .then(r => {
+      console.log(r);
+      return r;
+    }).catch(e => {
+    console.log(e);
+    return e;
+  });
+}
+
+
+
 //
 // const TIMEOFFSET = '+03:00'
 //
@@ -48,7 +97,6 @@ const insertEvent = async (event: any) => {
       calendarId: CALENDAR_ID,
       resource: event
     });
-    console.log({response});
     if (response[`status`] === 200) {
       return response.data.id
     } else {
@@ -63,8 +111,8 @@ const insertEvent = async (event: any) => {
 export function addEvent(e: any) {
 
   let event = {
-    'summary': e.username + ' | ' + e.title + ' - ' + e.subtitle,
-    'description': e.phone + ' | ' + e.price + '₪',
+    'summary': e.title + ' - ' + e.subtitle,
+    'description': e.phone + ' | ' + e.username + ' - ' + +e.price + '₪',
     'start': {
       'dateTime': e.startDate,
       'timeZone': 'Asia/Jerusalem'
@@ -85,37 +133,42 @@ export function addEvent(e: any) {
     })
 }
 
-//
-// const getEvents = async (dateTimeStart, dateTimeEnd) => {
-//     try {
-//       let response = await calendar.events.list({
-//         auth: auth,
-//         calendarId: CALENDAR_ID,
-//         timeMin: dateTimeStart,
-//         timeMax: dateTimeEnd,
-//         timeZone: 'Asia/Jerusalem'
-//       });
-//       console.log(response['data']['items'])
-//       return response['data']['items'];
-//
-//     }catch (e) {
-//       console.log(`Error at getEvents --> ${e}`);
-//
-//       return 0;
-//   }
-// }
-// let start = '2021-09-08T09:30:00.000Z';
-// let end = '2023-09-08T10:30:00.000Z';
-//
-//   getEvents(start, end)
-//     .then((res) => {
-//     console.log(res);
-//   }).catch((err) => {
-//     console.log(err);
-//   });
+
+export function getEvents() {
+
+  let startDate = new Date();
+  const endDate = new Date();
+  endDate.setFullYear(endDate.getFullYear() + 1);
+
+  const getEvents = async (startDate: Date, endDate: Date) => {
+    try {
+      let response = await calendar.events.list({
+        auth: auth,
+        calendarId: CALENDAR_ID,
+        timeMin: startDate,
+        timeMax: endDate,
+        timeZone: 'Asia/Jerusalem'
+      });
+      return response['data']['items'];
+
+    } catch (e) {
+      console.log(`Error at getEvents --> ${e}`);
+      return e;
+    }
+  }
+
+  return getEvents(startDate, endDate)
+    .then((res) => {
+      console.log(res);
+      return res;
+    }).catch((err) => {
+      console.log(err);
+      return err
+    });
+}
 
 
-// const deleteEvent = async (eventId) => {
+// const deleteEvent = async (eventId: string) => {
 //   try {
 //     let response = await calendar.events.delete({
 //       auth: auth,
@@ -130,6 +183,7 @@ export function addEvent(e: any) {
 //
 //   } catch (e) {
 //     console.log(`Error at deleteEvent -->  ${e}`)
+//     return e;
 //   }
 // }
 //

@@ -3,11 +3,9 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../auth.service'
 import {Router} from '@angular/router'
 import {UserController} from "../../../shared/UserController";
-import {EventsController} from "../../../shared/EventsController";
 import {Remult} from "remult";
 import {User} from "../../../shared/User";
-import {MatSnackBar} from "@angular/material/snack-bar";
-
+import {HotToastService} from "@ngneat/hot-toast";
 
 
 @Component({
@@ -29,7 +27,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private remult: Remult,
-    private snake: MatSnackBar,
+    private toast: HotToastService,
     private authService: AuthService
   ) {
   }
@@ -81,7 +79,7 @@ export class LoginComponent implements OnInit {
     );
   }
 
- async onSubmit() {
+  async onSubmit() {
     if (this.form.valid) {
       this.authService.user.next({...this.authService.user.value, ...this.form.value})
       await this.authService.login();
@@ -90,11 +88,9 @@ export class LoginComponent implements OnInit {
   }
 
   private handleError(msg: string) {
-    this.snake.open(msg, "סגור", {
+    this.toast.error(msg, {
       duration: 5000,
-      horizontalPosition: "center",
-      verticalPosition: "bottom",
-      direction: "rtl"
+      position: "top-center"
     });
   }
 }

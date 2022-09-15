@@ -4,7 +4,7 @@
   margin: 5px;
   width: 75%;
   border-radius: 15px;
-  background-color: c.$nail-app--secondary!important;
+  background-color: c.$nail-app--secondary !important;
   color: white;
   cursor: pointer;
   height: 100%;
@@ -62,12 +62,12 @@
   //    top: -35px;
   //  }
   //}
-.title {
-  position: relative;
-  top: -25px;
-  font-size: 15px;
-  color: c.$nail-app--primary;
-}
+  .title {
+    position: relative;
+    top: -25px;
+    font-size: 15px;
+    color: c.$nail-app--primary;
+  }
 
 
 }
@@ -132,7 +132,7 @@ footer {
   .wrap-action {
     position: relative;
     top: 15px;
-
+    text-align: center;
     button {
       width: 90%;
     }

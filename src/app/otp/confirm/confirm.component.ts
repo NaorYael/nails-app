@@ -4,6 +4,7 @@ import {Remult} from "remult";
 import {User} from "../../../shared/User";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {UserController} from '../../../shared/UserController'
+import {HotToastService} from "@ngneat/hot-toast";
 
 @Component({
   selector: 'app-confirm',
@@ -16,7 +17,7 @@ export class ConfirmComponent implements OnInit {
   userController = new UserController(this.remult);
 
   constructor(public authService: AuthService,
-              private snake: MatSnackBar,
+              private toast: HotToastService,
               private remult: Remult) {
   }
 
@@ -41,11 +42,8 @@ export class ConfirmComponent implements OnInit {
   }
 
   private loginFailedMsg() {
-    this.snake.open('קוד לא תקין, נסה שוב', "סגור", {
-      duration: 5000,
-      horizontalPosition: "center",
-      verticalPosition: "bottom",
-      direction: "rtl"
+    this.toast.error('קוד לא תקין, נסה שוב', {
+      duration: 5000
     });
   }
 }

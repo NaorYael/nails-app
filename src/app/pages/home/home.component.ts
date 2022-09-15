@@ -9,12 +9,12 @@ import {DateAdapter} from '@angular/material/core'
 import {MatDatepicker} from '@angular/material/datepicker'
 import {Event} from '../../../shared/Event';
 import {Remult} from 'remult'
-import {MatSnackBar} from '@angular/material/snack-bar'
 import {EventsController} from '../../../shared/EventsController'
 import {Subscription} from 'rxjs'
 import {EventService} from '../../services/event.service'
 import {Router} from '@angular/router'
 import {AuthService} from "../../otp/auth.service";
+import {HotToastService} from "@ngneat/hot-toast";
 
 export interface WorkHours {
   blanks: Array<TimeRange>;
@@ -37,7 +37,7 @@ export interface TimeRange {
 export class HomeComponent implements OnInit, OnDestroy {
 
   dateToString = '';
-  event!: Event;
+  event = this.remult.repo(Event).create();
   selectedDate = new Date();
   eventController = new EventsController(this.remult);
 
@@ -65,6 +65,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   color = 'primary';
   mode = 'indeterminate';
   value = 50;
+
+  loading = true;
 
   done() {
     this.completed = true;
@@ -108,7 +110,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(private dialog: MatDialog,
               private dateAdapter: DateAdapter<any>,
-              private snake: MatSnackBar,
+              private toast: HotToastService,
               public remult: Remult,
               private router: Router,
               private eventService: EventService,
@@ -121,6 +123,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   errMsg = '';
 
   async ngOnInit() {
+    await this.getEventsFromGoogleCalender();
     this.minDate = new Date();
 
     this.dateAdapter.setLocale('he');
@@ -185,7 +188,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   async onSelectTime(event: number) {
     this.selectedDate.setHours(new Date(event).getHours(), 0, 0, 0);
-    this.event = {id: this.selectedDate.getTime()} as Event;
+    this.event.id = this.selectedDate.getTime();
     this.appointmentArr.push(this.event);
     this.extractAvailableWorkHours();
     this.isEventSelected = true;
@@ -195,29 +198,53 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   async onSubmit() {
     try {
-      const userDetails = sessionStorage.getItem('userDetails');
-      this.eventController.event = await this.event;
-      const user = JSON.parse(userDetails!);
-      const selectedDateEnd = moment(this.selectedDate).add(2, 'hours');
-      const result = await this.eventController.createEventOnGoggleCalendar({
-        ...this.eventToDisplay,
-        'username': user?.username,
-        'phone': user?.phone.replace('+972', '0'),
-        'startDate': this.selectedDate,
-        'endDate': selectedDateEnd
-      });
+     // this.loading = true;
+      const user = this.getUserFromSessionStorage();
 
-      this.eventController.event = {...this.eventController.event,
-        phone: user.phone, username: user.username, calendarId: result} as Event;
-      await this.eventController.createEvent();
-      console.log(this.eventController.event);
+      const selectedDateEnd = this.formatEndDate();
+
+      const calendarId = await this.createEventOnGoggleCalendar(user, selectedDateEnd);
+
+      await this.updateEvent(user, calendarId);
+
+      //this.loading = false;
     } catch (e: any) {
       console.error(e);
       this.handleError(e.message);
-      await this.onReset();
+      //this.loading = false;
+      // await this.onReset();
     }
 
 
+  }
+
+  private formatEndDate() {
+    return moment(this.selectedDate).add(2, 'hours');
+  }
+
+  private getUserFromSessionStorage() {
+    const userDetails = sessionStorage.getItem('userDetails');
+    return JSON.parse(userDetails!);
+  }
+
+  private async createEventOnGoggleCalendar(user: any, selectedDateEnd: moment.Moment) {
+    return await this.eventController.createEventOnGoggleCalendar({
+      ...this.eventToDisplay,
+      'username': user?.username,
+      'phone': user?.phone.replace('+972', '0'),
+      'startDate': this.selectedDate,
+      'endDate': selectedDateEnd
+    });
+  }
+
+  private async updateEvent(user: { phone: string; username: string; }, result: any) {
+    this.event.assign({
+      phone: user.phone,
+      username: user.username,
+      calendarId: result
+    })
+
+    await this.event.save();
   }
 
   private parseDateToStr(date: Date): string {
@@ -239,13 +266,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private handleError(msg: string) {
-    this.snake.open(msg, "סגור", {
+    this.toast.error(msg, {
       duration: 5000,
-      horizontalPosition: "center",
-      verticalPosition: "bottom",
-      direction: "rtl"
+      position: "top-center"
     });
   }
+
 
   onLoadImage() {
     this.imageLoad = true;
@@ -257,11 +283,25 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onCalendarAdd() {
-    this.snake.open('עדיין עובדים על זה...', "סגור", {
+    this.toast.info('עדיין עובדים על זה :)', {
       duration: 3000,
-      horizontalPosition: "center",
-      verticalPosition: "bottom",
-      direction: "rtl"
+      // style: {
+      //   border: '1px solid #713200',
+      //   padding: '16px',
+      //   color: '#713200',
+      // },
     });
+  }
+
+  async getEventsFromGoogleCalender() {
+    // const eventsFromDB = await this.remult.repo(Event).find();
+    // console.log(eventsFromDB);
+    // try {
+    //   const events = await this.eventController.getEventsFromGoggleCalendar();
+    //   console.log(events);
+    // } catch (e) {
+    //   console.log(e)
+    //   // }
+    // }
   }
 }

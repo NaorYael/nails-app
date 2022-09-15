@@ -9,9 +9,10 @@ import * as path from 'path';
 import {expressjwt} from 'express-jwt'
 import {sendSms} from "./sms";
 import {EventsController} from "../shared/EventsController";
-import {addEvent} from "./google_calendar";
+import {addEvent, getEvents, watch} from "./google_calendar";
+import {google} from "googleapis";
 
-config();
+config(); //loads the configuration from the .env file
 
 const app = express();
 app.use(expressjwt({
@@ -23,7 +24,6 @@ app.use(sslRedirect());
 app.use(helmet({contentSecurityPolicy: false}));
 app.use(compression());
 app.use(api);
-
 app.use(express.static(path.join(__dirname, '../nails-app')));
 app.get('/*', function (req, res) {
   res.sendFile(path.join(__dirname, '../nails-app', 'index.html'));
@@ -36,8 +36,28 @@ UserController.sendSMS = async (code: string, phone: string) => {
 EventsController.addEvent = async (e: any) => {
   return addEvent(e);
 }
+EventsController.getEvents = async () => {
+  return getEvents();
+}
 
+EventsController.watchEvents = async () => {
+  app.post('/webhook', async (request, reply) => {
+    const resourceId = request.headers['x-goog-resource-id'];
+    const channelToken = request.headers['x-goog-channel-token'];
+    const channelId = request.headers['x-goog-channel-id'];
+    const resourceState = request.headers['x-goog-resource-state'];
 
+    // // Use the channel token to validate the webhook
+    // if (channelToken !== webhookToken) {
+    //   return reply.status(403).send('Invalid webhook token');
+    // }
 
+    if (resourceState === 'sync') {
+      return reply.status(200).send();
+    }
 
+    return reply.status(200).send('Webhook received');
+  });
+  return watch();
+}
 

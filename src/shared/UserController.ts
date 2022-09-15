@@ -1,4 +1,4 @@
-import {BackendMethod, Controller, ControllerBase, Fields} from "remult";
+import {BackendMethod, Controller, ControllerBase, Fields, UserInfo} from "remult";
 import {User} from "./User";
 
 @Controller('userController')
@@ -36,7 +36,13 @@ export class UserController extends ControllerBase {
 
     if (!userFromDB || userFromDB.password !== this.user.password)
       throw new Error("Invalid user, try 'Steve' or 'Jane'");
-    return (await import('jsonwebtoken')).sign(this.user, process.env['JWT_SECRET'] || "my secret");
+    const user:UserInfo = {
+      id:userFromDB.phone!,
+      name:userFromDB.username!,
+      roles:[]
+
+    };
+    return (await import('jsonwebtoken')).sign(user, process.env['JWT_SECRET'] || "my secret");
   }
 
   private generateOtpCode() {
