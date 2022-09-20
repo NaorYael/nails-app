@@ -33,13 +33,18 @@
       <div class="minutes-gap-example">
         <input placeholder="שעת התחלה" formControlName="start"
                [ngxTimepicker]="defaultGap" readonly>
-        <ngx-material-timepicker #defaultGap></ngx-material-timepicker>
+        <ngx-material-timepicker #defaultGap [confirmBtnTmpl]="confirmBtn" [cancelBtnTmpl]="cancelBtn"></ngx-material-timepicker>
       </div>
-
+        <ng-template #cancelBtn>
+          <button mat-raised-button style="margin-right: 140px;">סגור</button>
+        </ng-template>
+        <ng-template #confirmBtn>
+          <button  mat-raised-button style="color: white; background-color: #4D4D4D">אישור</button>
+        </ng-template>
       <div class="minutes-gap-example">
         <input placeholder="שעת סיום" formControlName="end"
                [ngxTimepicker]="with5Gap" readonly>
-        <ngx-material-timepicker #with5Gap [minutesGap]="5"></ngx-material-timepicker>
+        <ngx-material-timepicker #with5Gap [minutesGap]="5" [confirmBtnTmpl]="confirmBtn" [cancelBtnTmpl]="cancelBtn"></ngx-material-timepicker>
       </div>
 
       </form>

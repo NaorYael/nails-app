@@ -16,6 +16,8 @@ export class HoursBreakComponent implements OnInit {
   minDate = new Date();
   imageLoad = false;
   imageSource = '../../../assets/logo.jpeg';
+  confirmBtn: any
+  cancelBtn: any
 
   constructor(private fb: FormBuilder,
               private toast: HotToastService,

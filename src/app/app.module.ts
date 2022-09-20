@@ -94,7 +94,7 @@ import {HoursBreakComponent} from './pages/hours-break/hours-break.component'
     MatProgressBarModule,
     MatProgressSpinnerModule,
     NgxMatIntlTelInputComponent,
-    NgxMaterialTimepickerModule,
+    NgxMaterialTimepickerModule.setLocale('he'),
     MatDialogModule,
     CodeInputModule,
     NgxLoadingModule.forRoot({}),
