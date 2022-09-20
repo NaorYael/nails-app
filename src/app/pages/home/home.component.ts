@@ -70,10 +70,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   done() {
     this.completed = true;
-    this.completed = true;
     this.state = 'done';
-    console.log(this.firstFormGroup.valid);
-    console.log(this.secondFormGroup.valid);
+    // console.log(this.firstFormGroup.valid);
+    // console.log(this.secondFormGroup.valid);
   }
 
   @ViewChild('stepper')

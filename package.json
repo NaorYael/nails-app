@@ -39,6 +39,7 @@
     "moment": "^2.29.4",
     "ngx-loading": "^2.0.1",
     "ngx-mat-intl-tel-input": "^5.0.0",
+    "ngx-material-timepicker": "^5.5.3",
     "node-fetch": "^2.6.1",
     "pg": "^8.8.0",
     "remult": "^0.15.4",

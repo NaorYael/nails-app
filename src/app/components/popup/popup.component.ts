@@ -32,7 +32,7 @@ export class PopupComponent implements OnInit {
   }
 
   isAdmin() {
-    return this.remult.isAllowed(Roles.admin);
+    // return this.remult.isAllowed(Roles.admin);
   }
 
   ngOnInit(): void {
@@ -43,9 +43,9 @@ export class PopupComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.isAdmin()) {
-      console.log('admin');
-    }
+    // if (this.isAdmin()) {
+    //   console.log('admin');
+    // }
     console.log(this.form.value)
     this.dialogRef.close();
   }

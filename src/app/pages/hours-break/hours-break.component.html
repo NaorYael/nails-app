@@ -1,0 +1,60 @@
+<mat-card [ngClass]="{'mat-elevation-z0':!imageLoad}" class="example-card">
+  <img mat-card-image [src]="imageSource" (load)="onLoadImage()">
+
+  <div *ngIf="!imageLoad">
+    <app-spinner></app-spinner>
+  </div>
+
+  <div *ngIf="imageLoad">
+    <mat-card-header>
+      <mat-card-title>
+      </mat-card-title>
+      <mat-card-subtitle>
+        <br>
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content fxLayout="column">
+      <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
+      <div fxLayout="row" fxLayoutAlign="center center">
+
+        <mat-form-field (click)="picker.open()">
+          <input matInput [matDatepicker]="picker" placeholder="בחר תאריך"
+                 [min]="minDate" formControlName="date"
+                 (dateInput)="onSelectDate($event)">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker [touchUi]="true" #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-error *ngIf="!date.valid && date.touched">
+        שדה זה הינו חובה
+      </mat-error>
+      </div>
+
+      <div class="minutes-gap-example">
+        <input placeholder="שעת התחלה" formControlName="start"
+               [ngxTimepicker]="defaultGap" readonly>
+        <ngx-material-timepicker #defaultGap></ngx-material-timepicker>
+      </div>
+
+      <div class="minutes-gap-example">
+        <input placeholder="שעת סיום" formControlName="end"
+               [ngxTimepicker]="with5Gap" readonly>
+        <ngx-material-timepicker #with5Gap [minutesGap]="5"></ngx-material-timepicker>
+      </div>
+
+      </form>
+    </mat-card-content>
+    <hr>
+    <mat-card-actions fxLayout="row">
+      <div fxLayout="row" fxLayoutAlign="start center" fxFlex="50" fxLayoutGap="5px">
+        <button [routerLink]="['/']" style="border-radius: 10px; font-size: large" mat-button color="primary">חזרה</button>
+      </div>
+
+      <div fxLayout="row" fxFlex fxLayoutAlign="center center">
+        <button (click)="onSubmit(formGroup.value)" [disabled]="formGroup.invalid" style="border-radius: 10px; font-size: medium" color="primary" mat-raised-button>עדכן זמנים</button>
+      </div>
+
+    </mat-card-actions>
+  </div>
+
+</mat-card>

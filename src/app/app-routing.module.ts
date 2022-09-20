@@ -6,6 +6,7 @@ import {HomeComponent} from './pages/home/home.component'
 import {AuthGuard} from './otp/auth.guard'
 import {NotFoundComponent} from "./pages/not-found.component";
 import {ProfileComponent} from './pages/profile/profile.component'
+import {HoursBreakComponent} from './pages/hours-break/hours-break.component'
 
 const routes: Routes = [
   {path: '', component: HomeComponent, canActivate: [AuthGuard]},
@@ -13,6 +14,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'confirm', component: ConfirmComponent},
   {path: 'profile', component: ProfileComponent},
+  {path: 'hours-break', component: HoursBreakComponent},
   {path: '**', redirectTo: '', component: NotFoundComponent}
 
 ];

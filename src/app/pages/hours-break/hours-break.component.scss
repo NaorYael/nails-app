@@ -1,0 +1,42 @@
+@use '../../../assets/global' as c;
+
+:host {
+  display: block;
+  padding: 30px;
+}
+
+.hide {
+  outline: none
+}
+
+mat-card.mat-card {
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+mat-icon {
+  margin-inline-start: 5px;
+}
+
+span, button, mat-icon {
+  color: c.$nail-app--primary;
+}
+
+button.main {
+  border: 1px solid c.$nail-app--primary;;
+}
+
+div {
+  letter-spacing: -0.5px;
+}
+
+.minutes-gap-example {
+  text-align: center;
+  input {
+    padding: 5px;
+    margin: 5px;
+  }
+}
+mat-form-field {
+  width: 50%;
+}
