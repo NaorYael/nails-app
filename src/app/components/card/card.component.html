@@ -1,42 +1,38 @@
-<div fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-around center" fxLayoutGap="10px">
-  <div *ngFor="let member of members; let i = index" >
-    <mat-chip-list style="display: none"></mat-chip-list>
-    <div fxLayout="row" fxFlex="grow" fxLayoutAlign="center strech" (click)="onClick(member)">
-      <div
-        style="align-items: unset"
-        fxFlex="0 1 1280px"
-        fxFlex.lt-lg="0 1 100%"
-        fxLayoutGap="24px"
-        fxLayoutGap.lt-md="0px"
-      >
-        <section [class.active]="member === activeEvent"  (click)="activeEvent = member" fxFlex.lt-md="0 1 100%" fxFlex="1 0 calc(100% - 300px)">
-          <mat-card style="border: 1px solid gray;box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2); border-radius: 5px;width: 100%;">
-            <div fxLayout="row" fxFlex="100" >
-              <img
-                src="{{member.url}}"
-                width="100"
-                height="100"
-              />
-              <div fxLayout="column" class="wrap" dir="rtl">
-                <mat-card-title>{{member.title}}</mat-card-title>
-                <mat-card-subtitle>{{member.subtitle}}</mat-card-subtitle>
+<div *ngIf="!imageLoad">
+  <app-spinner></app-spinner>
+</div>
 
-                <div class="horizontal-list" fxLayout="row" fxLayoutAlign="start">
-                  <mat-chip class="item" style="margin-right: 55px;">
-                    ₪{{member.price}}
-                  </mat-chip>
-                  <mat-chip class="item">
-                    {{member.time}}<mat-icon>access_time</mat-icon>
-                  </mat-chip>
-                </div>
-              </div>
-            </div>
-          </mat-card>
-        </section>
+<div *ngFor="let member of members; let i = index">
+  <mat-chip-list style="display: none"></mat-chip-list>
+  <div class="card" (click)="onClick(member)">
+    <mat-card [class.active]="member === activeEvent" (click)="activeEvent = member"
+              [ngClass]="{'mat-elevation-z0':!imageLoad}"
+              [ngStyle]="imageLoad ? {'border': '1px solid gray', 'box-shadow': '2px 2px 2px 1px rgba(0, 0, 0, 0.2)' ,'border-radius': '5px','width': '105%'}  : {'display': 'none'}"
+              >
+
+      <div fxLayout="row" fxFlex="100">
+        <img
+          src="{{member.url}}"
+          width="100"
+          height="100"
+          [src]="member.url" (load)="onLoadImage()"
+          [ngStyle]="imageLoad ? {'display': 'flex'} : {'display': 'none'}"
+        />
+        <div fxLayout="column" dir="rtl" *ngIf="imageLoad" >
+          <mat-card-title>{{member.title}}</mat-card-title>
+          <mat-card-subtitle>{{member.subtitle}}</mat-card-subtitle>
+
+          <div class="horizontal-list" fxLayout="row" fxLayoutAlign="start">
+            <mat-chip>
+              ₪{{member.price}}
+            </mat-chip>
+            <mat-chip>
+              {{member.time}}
+              <mat-icon>access_time</mat-icon>
+            </mat-chip>
+          </div>
+        </div>
       </div>
-    </div >
+    </mat-card>
   </div>
 </div>
-<br>
-<br>
-<br>

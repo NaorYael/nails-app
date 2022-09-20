@@ -13,6 +13,7 @@ export class CardComponent implements OnInit {
   @Output() onSelected = new EventEmitter<any>();
 
   isSelected = false;
+  imageLoad = false;
   activeEvent!: {};
 
   members: any[] = [
@@ -24,11 +25,15 @@ export class CardComponent implements OnInit {
 
   items = Array.from({ length: 100000 }).map((_, i) => `Item #${i}`);
 
+
   constructor(private eventService: EventService) { }
 
   ngOnInit(): void {
   }
 
+  onLoadImage() {
+    this.imageLoad = true;
+  }
   onClick(event: Event) {
       this.onSelected.emit(event);
       this.eventService.setEvent(event);

@@ -1,137 +1,126 @@
-<ng-container *ngIf="(authService.isLoggedIn | async)">
-  <mat-horizontal-stepper [linear]="true" #stepper dir="rtl">
-    <mat-step label="מה" dir="rtl">
-      <mat-card class="card" *ngIf="!imageLoad">
-        <mat-card-header>
-<!--         <div class="card__wrap-image">-->
-<!--           <img src="../../../assets/logo.png" class="card__wrap-image__image">-->
-<!--         </div>-->
-<!--          <mat-card-title dir="rtl">Noy Yael Beauty</mat-card-title>-->
-          <mat-card-subtitle>
+<div class="app">
+  <ng-container *ngIf="(authService.isLoggedIn | async)">
+    <mat-horizontal-stepper [linear]="true" #stepper dir="rtl">
+      <mat-step label="מה" dir="rtl">
+        <mat-card class="card" *ngIf="!imageLoad">
+          <mat-card-actions>
+            <app-card (onSelected)="handleSelectedEvent($event)"></app-card>
+          </mat-card-actions>
+        </mat-card>
+      </mat-step>
 
-          </mat-card-subtitle>
+      <mat-step label="מתי" dir="rtl">
+        <ng-template #message>יש לבחור סוג שירות</ng-template>
+        <ng-container *ngIf="isEventSelected; else message">
+          <div style="display: flex; box-sizing: border-box">
+            <mat-form-field (click)="picker.open()">
+              <mat-label style="color: #4D4D4D;">בחר תאריך</mat-label>
+              <input matInput [matDatepickerFilter]="myFilter"
+                     [matDatepicker]="picker"
+                     [min]="minDate"
+                     (dateInput)="onSelectDate($event)">
+              <mat-datepicker-toggle matSuffix [for]="picker"
+                                     [disabled]="dateToString !== ''"></mat-datepicker-toggle>
+              <mat-datepicker [touchUi]="true"
+                              [disabled]="dateToString !== ''"
+                              #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </ng-container>
 
-        </mat-card-header>
-        <div class="title" dir="rtl" fxLayoutAlign="center">
-          יש לבחור את סוג השירות
+        <br>
+        <div *ngIf="showEventTimes">
+          <mat-label *ngIf="isEventSelected && !hideHourLabel" style="color: #4D4D4D;font-weight: bold;">באיזה שעה?</mat-label>
+          <div class="time" *ngFor="let event of eventsTimeArr" fxLayoutAlign="center">
+
+            <mat-card *ngIf="appointmentArr.length === 0" (click)="onSelectTime(event)">
+              <div class="time__digits" fxLayoutAlign="center">{{event | date:"HH:mm"}}</div>
+            </mat-card>
+          </div>
         </div>
-        <mat-card-actions>
-          <app-card (onSelected)="handleSelectedEvent($event)"></app-card>
-        </mat-card-actions>
-      </mat-card>
-    </mat-step>
+      </mat-step>
 
-    <mat-step label="מתי" dir="rtl">
-      <ng-template #message>יש לבחור סוג שירות</ng-template>
-      <ng-container *ngIf="isEventSelected; else message">
-        <div style="display: flex; box-sizing: border-box">
-          <mat-form-field (click)="picker.open()">
-            <mat-label style="color: #4D4D4D;">בחר תאריך</mat-label>
-            <input matInput [matDatepickerFilter]="myFilter"
-                   [matDatepicker]="picker"
-                   [min]="minDate"
-                   (dateInput)="onSelectDate($event)">
-            <mat-datepicker-toggle matSuffix [for]="picker"
-                                   [disabled]="dateToString !== ''"></mat-datepicker-toggle>
-            <mat-datepicker [touchUi]="true"
-                            [disabled]="dateToString !== ''"
-                            #picker></mat-datepicker>
-          </mat-form-field>
-        </div>
-      </ng-container>
+      <mat-step dir="rtl" [completed]="completed" [state]="state">
+        <ng-template matStepLabel>קבענו</ng-template>
+        <div fxLayoutAlign="center">
+          <div *ngIf="appointmentArr.length > 0" fxLayout="row" fxLayoutAlign="center center">
+            <mat-card [ngClass]="{'mat-elevation-z0':!imageLoad}" class="example-card">
+              <img mat-card-image [src]="imageSource" (load)="onLoadImage()">
 
-      <br>
-      <div *ngIf="showEventTimes">
-        <mat-label *ngIf="isEventSelected && !hideHourLabel" style="color: #4D4D4D;font-weight: bold;">באיזה שעה?</mat-label>
-        <div class="time" *ngFor="let event of eventsTimeArr" fxLayoutAlign="center">
-
-          <mat-card *ngIf="appointmentArr.length === 0" (click)="onSelectTime(event)">
-            <div class="time__digits" fxLayoutAlign="center">{{event | date:"HH:mm"}}</div>
-          </mat-card>
-        </div>
-      </div>
-    </mat-step>
-
-    <mat-step dir="rtl" [completed]="completed" [state]="state">
-      <ng-template matStepLabel>קבענו</ng-template>
-      <div fxLayoutAlign="center">
-        <div *ngIf="appointmentArr.length > 0">
-          <mat-card [ngClass]="{'mat-elevation-z0':!imageLoad}" class="example-card">
-            <img mat-card-image [src]="imageSource" (load)="onLoadImage()">
-
-            <div *ngIf="!imageLoad">
-              <app-spinner></app-spinner>
-            </div>
-
-            <div *ngIf="imageLoad">
-              <div class="item" fxLayoutAlign="center" style="flex-direction: row-reverse;">
-                <button class="main" mat-raised-button style="border-radius: 15px;" fxLayout="center">הפגישה הבאה שלי
-                  <mat-icon>info</mat-icon>
-                </button>
+              <div *ngIf="!imageLoad">
+                <app-spinner></app-spinner>
               </div>
-              <mat-card-header>
-                <mat-card-title>
-                </mat-card-title>
-                <mat-card-subtitle>
-                  <br>
-                </mat-card-subtitle>
-              </mat-card-header>
 
-              <mat-card-content fxLayout="column">
-
-                <div fxLayout="row" style="justify-content: space-between" fxFlex="50" fxLayoutGap="5px">
-                  <div class="item"
-                       style="display: flex; align-items: center;padding-bottom: 20px;flex-direction: row-reverse;">
-                    <div class="item" style="font-size: 15px">{{selectedDate.getTime() | date:"HH:mm"}}</div>
-                    <mat-icon>access_time</mat-icon>
-                  </div>
-                  <div class="item"
-                       style="display: flex; align-items: center;padding-bottom: 20px; flex-direction: row-reverse;">
-                    <div class="item" style="font-size: 15px">{{dateToString}}</div>
-                    <mat-icon>date_range</mat-icon>
-                  </div>
-                </div>
-
-                <div fxLayout="row" fxFlex style="justify-content: space-between">
-                  <div class="item"
-                       style="display: flex; align-items: center;padding-bottom: 20px; flex-direction: row-reverse;">
-                    <div class="item" style="font-size: 15px">{{eventToDisplay.title}} - {{eventToDisplay.subtitle}}</div>
-                    <mat-icon>create</mat-icon>
-                  </div>
-                  <div style="font-size: 15px;flex-direction: row-reverse;">{{eventToDisplay.price}}<span
-                    style="font-size: x-large;margin-inline-end: 3px;">₪</span></div>
-                </div>
-              </mat-card-content>
-              <hr>
-              <mat-card-actions fxLayout="row" class="flex-direction: row-reverse;">
-                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="50" fxLayoutGap="5px">
-                  <button style="border-radius: 10px; font-size: 15px" color="warn" (click)="onReset()" mat-button>
-                    שינוי
+              <div *ngIf="imageLoad">
+                <div class="item" fxLayoutAlign="center" style="flex-direction: row-reverse;">
+                  <button class="main" mat-raised-button style="border-radius: 15px;" fxLayout="center">הפגישה הבאה שלי
+                    <mat-icon>info</mat-icon>
                   </button>
                 </div>
+                <mat-card-header>
+                  <mat-card-title>
+                  </mat-card-title>
+                  <mat-card-subtitle>
+                    <br>
+                  </mat-card-subtitle>
+                </mat-card-header>
 
-                <div fxLayout="row" fxFlex fxLayoutAlign="end center">
-                  <button (click)="onCalendarAdd()" style="border-radius: 10px; font-size: 15px" mat-button color="primary">
-                    הוספה ליומן שלי
-                  </button>
-                </div>
-              </mat-card-actions>
-            </div>
+                <mat-card-content fxLayout="column">
 
-          </mat-card>
+                  <div fxLayout="row" style="justify-content: space-between" fxFlex="50">
+                    <div class="item"
+                         style="display: flex; align-items: center;padding-bottom: 10px;flex-direction: row-reverse;">
+                      <div class="item" style="font-size: 15px">{{selectedDate.getTime() | date:"HH:mm"}}</div>
+                      <mat-icon>access_time</mat-icon>
+                    </div>
+                    <div class="item"
+                         style="display: flex; align-items: center;padding-bottom: 20px; flex-direction: row-reverse;">
+                      <div class="item" style="font-size: 15px">{{dateToString}}</div>
+                      <mat-icon>date_range</mat-icon>
+                    </div>
+                  </div>
+
+                  <div fxLayout="row" fxFlex style="justify-content: space-between">
+                    <div class="item"
+                         style="display: flex; align-items: center;padding-bottom: 20px; flex-direction: row-reverse;">
+                      <div class="item" style="font-size: 15px">{{eventToDisplay.title}} - {{eventToDisplay.subtitle}}</div>
+                      <mat-icon>create</mat-icon>
+                    </div>
+                    <div style="font-size: 15px;flex-direction: row-reverse;">{{eventToDisplay.price}}<span
+                      style="font-size: x-large;margin-inline-end: 3px;">₪</span></div>
+                  </div>
+                </mat-card-content>
+                <hr>
+                <mat-card-actions fxLayout="row" class="flex-direction: row-reverse;">
+                  <div fxLayout="row" fxLayoutAlign="start center" fxFlex="50" fxLayoutGap="5px">
+                    <button style="border-radius: 10px; font-size: 15px" color="warn" (click)="onReset()" mat-button>
+                      שינוי
+                    </button>
+                  </div>
+
+                  <div fxLayout="row" fxFlex fxLayoutAlign="end center">
+                    <button (click)="onCalendarAdd()" style="border-radius: 10px; font-size: 15px" mat-button color="primary">
+                      הוספה ליומן שלי
+                    </button>
+                  </div>
+                </mat-card-actions>
+              </div>
+
+            </mat-card>
+          </div>
         </div>
-      </div>
-    </mat-step>
+      </mat-step>
 
-  </mat-horizontal-stepper>
-  <footer>
-<!--    <pre>{{loading | json}}</pre>-->
-    <div class="wrap-action" fxLayout="row" fxLayoutAlign="center center">
-      <button [disabled]="!isEventSelected" color="primary"
-              (click)="stepper.selectedIndex === 2 ?  onSubmit() : handleNextStep()" mat-raised-button>
-        {{stepper.selectedIndex === 2 ? 'קביעת פגישה' : 'הבא'}}
-      </button>
+    </mat-horizontal-stepper>
+    <div fxLayout="row" fxLayoutAlign="center center">
+    <footer>
+        <button [disabled]="!isEventSelected" color="primary"
+                (click)="stepper.selectedIndex === 2 ?  onSubmit() : handleNextStep()" mat-raised-button>
+          {{stepper.selectedIndex === 2 ? 'קביעת פגישה' : 'הבא'}}
+        </button>
+    </footer>
+
     </div>
-  </footer>
+  </ng-container>
 
-</ng-container>
+</div>

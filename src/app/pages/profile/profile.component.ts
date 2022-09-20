@@ -33,7 +33,7 @@ export class ProfileComponent implements OnInit {
   openModal() {
     let dialogRef: MatDialogRef<PopupComponent>;
     dialogRef = this.dialog.open(PopupComponent);
-    dialogRef.componentInstance.user = this.user;
+    // dialogRef.componentInstance.user = this.user;
     return dialogRef.afterClosed();
   }
 }

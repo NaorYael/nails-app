@@ -1,10 +1,37 @@
-import {Component, OnInit} from '@angular/core';
-
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {MediaChange, MediaObserver} from '@angular/flex-layout';
+import {Observable, Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
+
+  constructor(private media: MediaObserver) {
+    this.media$ = this.media.asObservable();
+  }
+
+  isMobileMode = false;
+  media$!: Observable<MediaChange[]>;
+  private mediaSubscription!: Subscription;
+
+  ngOnInit(): void {
+    this.mediaSubscription = this.media$.subscribe(item => {
+      this.handleMobileMode(item)
+    })
+  }
+
+  private handleMobileMode(item: MediaChange[]) {
+    if (item[0]['mqAlias'] !== 'xs') {
+      this.isMobileMode = false;
+    } else if (item[0]['mqAlias'] === 'xs') {
+      this.isMobileMode = true;
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.mediaSubscription.unsubscribe();
+  }
 }

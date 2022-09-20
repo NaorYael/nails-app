@@ -18,7 +18,6 @@ import {MatGridListModule} from '@angular/material/grid-list'
 import {MatCardModule} from '@angular/material/card'
 import {MatNativeDateModule} from '@angular/material/core'
 import {MatButtonModule} from '@angular/material/button';
-import {PopupModule} from './components/popup/popup.module'
 import {MatStepperModule} from "@angular/material/stepper";
 import {MatMenuModule} from '@angular/material/menu';
 import {CardComponent} from './components/card/card.component';
@@ -43,6 +42,9 @@ import {AuthService} from "./otp/auth.service";
 import {JwtModule} from "@auth0/angular-jwt";
 import {HotToastModule} from '@ngneat/hot-toast';
 import {NgxLoadingModule} from "ngx-loading";
+import {TimePickerComponent} from './components/timepicker/timepicker.component'
+import {PopupComponent} from './components/popup/popup.component'
+import {MatDialogModule} from '@angular/material/dialog'
 
 @NgModule({
   declarations: [
@@ -58,6 +60,9 @@ import {NgxLoadingModule} from "ngx-loading";
     UsernameComponent,
     ProfileComponent,
     SpinnerComponent,
+    TimePickerComponent,
+    PopupComponent
+
   ],
   imports: [
     NoopAnimationsModule,
@@ -81,12 +86,12 @@ import {NgxLoadingModule} from "ngx-loading";
     MatStepperModule,
     MatSelectModule,
     MatMenuModule,
-    PopupModule,
     MatChipsModule,
     HttpClientModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
     NgxMatIntlTelInputComponent,
+    MatDialogModule,
     CodeInputModule,
     NgxLoadingModule.forRoot({}),
     HotToastModule.forRoot(),
@@ -101,6 +106,9 @@ import {NgxLoadingModule} from "ngx-loading";
     {provide: Remult, useClass: Remult, deps: [HttpClient]}
   ],
 
+  exports: [
+    TimePickerComponent
+  ]
 })
 export class AppModule {
 }

@@ -32,7 +32,9 @@ export class EventsController extends ControllerBase {
       if (!googleEvents.find((e: any) => e.id === eventElement.calendarId)) //not in google events
           await eventElement.delete();
     }
-
   }
-
+  @BackendMethod({ allowed: Roles.admin })
+  async setWorkHours(hours: string) {
+    console.log(hours)
+  }
 }

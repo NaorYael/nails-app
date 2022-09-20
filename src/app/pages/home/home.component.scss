@@ -2,9 +2,9 @@
 
 .time mat-card {
   margin: 5px;
-  width: 75%;
+  width: 25%;
   border-radius: 15px;
-  background-color: c.$nail-app--secondary !important;
+  background-color: c.$nail-app--primary !important;
   color: white;
   cursor: pointer;
   height: 100%;
@@ -25,9 +25,9 @@
   }
 
   mat-card {
-    height: 85%;
-    align-items: center;
-    position: absolute;
+    //height: 85%;
+    //align-items: center;
+    //position: absolute;
     //
     //.list {
     //  background-image: url('../../../assets/logo.jpeg');
@@ -63,23 +63,23 @@
   //  }
   //}
   .title {
-    position: relative;
-    top: -25px;
-    font-size: 15px;
-    color: c.$nail-app--primary;
+    //position: relative;
+    //top: -25px;
+    //font-size: 15px;
+    //color: c.$nail-app--primary;
   }
 
 
 }
 
-button.mat-focus-indicator.mat-stepper-next.action.mat-raised-button.mat-button-base.mat-primary._mat-animation-noopable {
-  width: 100% !important;
-}
+//button.mat-focus-indicator.mat-stepper-next.action.mat-raised-button.mat-button-base.mat-primary._mat-animation-noopable {
+//  width: 100% !important;
+//}
 
 button.mat-focus-indicator.mat-raised-button.mat-button-base.mat-secondary._mat-animation-noopable.ng-star-inserted {
-  height: fit-content;
-  margin-right: 28px;
-  top: 7px;
+  //height: fit-content;
+  //margin-right: 28px;
+  //top: 7px;
 }
 
 ::ng-deep .mat-step-header .mat-step-icon-state-done {
@@ -123,21 +123,29 @@ mat-datepicker-toggle {
 
 footer {
   background-color: white;
+  text-align: center;
   height: 10%;
-  position: fixed;
+  position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
 
-  .wrap-action {
-    position: relative;
-    top: 15px;
-    text-align: center;
     button {
+      position: relative;
+      top: 15px;
       width: 90%;
-    }
   }
 
+}
+
+@media only screen and (max-width: 600px) {
+
+  footer button {
+        width: 90%;
+    }
+  footer {
+    position: fixed;
+  }
 }
 
 //p, span, h4 {
@@ -179,5 +187,11 @@ footer {
 //  }
 //  .col-25 {
 //    margin-bottom: 20px;
+//  }
+//}
+//@media (max-width:320px)  {
+//
+//  footer {
+//    width: 20%;margin-bottom: 20px;
 //  }
 //}

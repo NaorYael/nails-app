@@ -39,20 +39,19 @@ $nailsApp-theme: mat.define-light-theme((
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-//.bg {
-//  background-image: url('./assets/background.jpg');
-//  background-color: rgba(255,255,255,0.8);
-//  background-blend-mode: lighten;
-//
-//  background-repeat: no-repeat;
-//  background-position: center;
-//  background-attachment: fixed;
-//  -moz-background-size: cover;
-//  -o-background-size: cover;
-//  background-size: cover;
-//  height:100%;
-//  width:100%;
-//}
+.bg {
+  background-image: url('./assets/background.jpg');
+  background-color: rgba(255,255,255,0.8);
+  background-blend-mode: lighten;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height:100%;
+  width:100%;
+}
 
 .mat-calendar-body-selected {
   background-color: c.$nail-app--primary;

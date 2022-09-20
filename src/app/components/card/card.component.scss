@@ -1,58 +1,84 @@
 @use '../../../assets/global' as c;
-
+.card {
+  margin-bottom: 18px;
+  width: 95%;
+  margin-right: -5px;
+}
 mat-card {
-  border-radius: 5px;
+  //margin: 5px 5px 20px;
+  .mat-card-title {
+    font-size: 19px;
+  }
+  .mat-card-subtitle {
+    font-size: 15px;
+  }
+  mat-chip {
+    margin: 3px;
+    padding: 15px;
+  }
   .active {
-    border: 1px solid c.$nail-app--secondary;
-    outline: 1px solid c.$nail-app--secondary;
-    border-radius: 7px;
+        border: 2px solid c.$nail-app--secondary;
+        outline: 2px solid c.$nail-app--secondary;
+        border-radius: 7px;
+      }
+  img {
+    margin-inline-end: 20px;
   }
-  div {
-    align-items: unset!important;
-  }
+}
 
-  .wrap {
-    min-width: 0;
-    .mat-card-title, .mat-card-subtitle {
-      margin-inline-start: 50px;
-    }
-    .mat-card-title{
-      font-size: medium;
-    }
-    .mat-card-subtitle{
-      font-size: small;
-    }
-  }
-
-  .horizontal-list {
-    overflow-x: hidden;
-    white-space: nowrap;
-    place-content: stretch flex-end!important;
-    -webkit-overflow-scrolling: touch;
-
-    .mat-icon {
-      font-size: larger;
-      height: 17px;
-    }
-  }
-
-  .item {
-    display: inline-flex;
-    margin-right: 8px;
-  }
-
-  .chip-img {
-    padding-right: 6px;
-  }
-
+.time__digits {
+  font-size: larger;
 }
 
 
-@media (orientation: portrait) {
-  .mat-datepicker-content-touch .mat-datepicker-content-container {
-    width: 90vw!important;
-  }
-}
-.mat-calendar-table-header th {
-  font-size: large!important;
-}
+//  border-radius: 5px;
+//  .active {
+//    border: 1px solid c.$nail-app--secondary;
+//    outline: 1px solid c.$nail-app--secondary;
+//    border-radius: 7px;
+//  }
+//  div {
+//    align-items: unset!important;
+//  }
+//
+//  .wrap {
+//    min-width: 0;
+//    .mat-card-title, .mat-card-subtitle {
+//      margin-inline-start: 50px;
+//    }
+//    .mat-card-title{
+//      font-size: medium;
+//    }
+//    .mat-card-subtitle{
+//      font-size: small;
+//    }
+//  }
+//
+//  .horizontal-list {
+//    overflow-x: hidden;
+//    white-space: nowrap;
+//    place-content: stretch flex-end!important;
+//    -webkit-overflow-scrolling: touch;
+//
+//    .mat-icon {
+//      font-size: larger;
+//      height: 17px;
+//    }
+//  }
+//
+//  .item {
+//    display: inline-flex;
+//    margin-right: 8px;
+//  }
+//
+//  .chip-img {
+//    padding-right: 6px;
+//  }
+//
+//}
+//
+//
+
+//.mat-calendar-table-header th {
+//  font-size: large!important;
+//}
