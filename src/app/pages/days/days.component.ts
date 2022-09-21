@@ -8,11 +8,11 @@ import {Rule} from '../../../shared/Rule'
 import {Remult} from 'remult'
 
 @Component({
-  selector: 'app-hours-break',
-  templateUrl: './hours-break.component.html',
-  styleUrls: ['./hours-break.component.scss']
+  selector: 'app-days',
+  templateUrl: './days.component.html',
+  styleUrls: ['./days.component.scss']
 })
-export class HoursBreakComponent implements OnInit {
+export class DaysComponent implements OnInit {
 
   formGroup: FormGroup = this.fb.group({
     'start': [null, Validators.required],

@@ -3,7 +3,7 @@
     <mat-icon>more_vert</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
-    <button *ngIf="(authService.isLoggedIn | async)" mat-menu-item [routerLink]="['/hours-break']">מנהל<span><mat-icon>manage_accounts</mat-icon></span></button>
+    <button *ngIf="(authService.isLoggedIn | async)" mat-menu-item [routerLink]="['/days']">מנהל<span><mat-icon>manage_accounts</mat-icon></span></button>
     <button *ngIf="(authService.isLoggedIn | async)" mat-menu-item [routerLink]="['/profile']">פרופיל<span><mat-icon>person</mat-icon></span></button>
     <button *ngIf="(authService.isLoggedIn | async)" (click)="logout()" mat-menu-item>התנתק<span><mat-icon>logout</mat-icon></span></button>
   </mat-menu>

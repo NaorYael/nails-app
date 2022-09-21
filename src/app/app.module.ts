@@ -45,9 +45,9 @@ import {NgxLoadingModule} from "ngx-loading";
 import {TimePickerComponent} from './components/timepicker/timepicker.component'
 import {PopupComponent} from './components/popup/popup.component'
 import {MatDialogModule} from '@angular/material/dialog'
-import {HoursBreakComponent} from './pages/hours-break/hours-break.component'
 import {MatTimepickerModule} from 'mat-timepicker';
 import { DaysPipe } from './pages/home/days.pipe'
+import {DaysComponent} from './pages/days/days.component'
 
 @NgModule({
   declarations: [
@@ -65,7 +65,7 @@ import { DaysPipe } from './pages/home/days.pipe'
     SpinnerComponent,
     TimePickerComponent,
     PopupComponent,
-    HoursBreakComponent,
+    DaysComponent,
     DaysPipe
 
   ],
