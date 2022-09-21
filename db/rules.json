@@ -1,0 +1,44 @@
+[
+  {
+    "dayInTheWeek": 0,
+    "startTime": 9,
+    "endTime": 17,
+    "cateTime": 2
+  },
+  {
+    "dayInTheWeek": 1,
+    "startTime": 9,
+    "endTime": 17,
+    "cateTime": 2
+  },
+  {
+    "dayInTheWeek": 2,
+    "startTime": 9,
+    "endTime": 15,
+    "cateTime": 2
+  },
+  {
+    "dayInTheWeek": 3,
+    "startTime": 9,
+    "endTime": 17,
+    "cateTime": 2
+  },
+  {
+    "dayInTheWeek": 4,
+    "startTime": 9,
+    "endTime": 15,
+    "cateTime": 2
+  },
+  {
+    "dayInTheWeek": 5,
+    "startTime": 8,
+    "endTime": 12,
+    "cateTime": 2
+  },
+  {
+    "dayInTheWeek": 6,
+    "startTime": 0,
+    "endTime": 0,
+    "cateTime": 2
+  }
+]

@@ -10,11 +10,11 @@ import {MatDatepicker} from '@angular/material/datepicker'
 import {Event} from '../../../shared/Event';
 import {Remult} from 'remult'
 import {EventsController} from '../../../shared/EventsController'
-import {Subscription} from 'rxjs'
-import {EventService} from '../../services/event.service'
+import {WorkHourService} from '../../services/work-hour.service'
 import {Router} from '@angular/router'
 import {AuthService} from "../../otp/auth.service";
 import {HotToastService} from "@ngneat/hot-toast";
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 export interface WorkHours {
   blanks: Array<TimeRange>;
@@ -26,6 +26,7 @@ export interface TimeRange {
   endTime: Date;
 }
 
+@UntilDestroy()
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -34,7 +35,7 @@ export interface TimeRange {
     provide: STEPPER_GLOBAL_OPTIONS, useValue: {displayDefaultIndicatorType: false}
   }]
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit {
 
   dateToString = '';
   event = this.remult.repo(Event).create();
@@ -54,8 +55,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   state = '';
 
   eventToDisplay!: Event;
-
-  subscriptionArr: Subscription[] = [];
   index!: number
 
   imageSource = '../../../assets/logo.jpeg';
@@ -111,8 +110,9 @@ export class HomeComponent implements OnInit, OnDestroy {
               private dateAdapter: DateAdapter<any>,
               private toast: HotToastService,
               public remult: Remult,
+              private workHourService: WorkHourService,
               private router: Router,
-              private eventService: EventService,
+              private eventService: WorkHourService,
               public authService: AuthService,
               private fb: FormBuilder) {
   }
@@ -162,6 +162,14 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private setInitWorkHoursAndBreak() {
+    this.workHourService.selectedWorkHour$.pipe(
+      untilDestroyed(this))
+      .subscribe( value => {
+      const breakTimes = [];
+      breakTimes.push(value)
+      console.log(breakTimes)
+    });
+
     const startTime = new Date();
     const endTime = new Date();
     this.setHourOnDate(startTime, 9);
@@ -276,10 +284,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.imageLoad = true;
   }
 
-
-  ngOnDestroy(): void {
-    this.subscriptionArr.forEach(x => x.unsubscribe())
-  }
 
   onCalendarAdd() {
     this.toast.info('עדיין עובדים על זה :)', {

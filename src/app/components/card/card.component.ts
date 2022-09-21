@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {Event} from '../../../shared/Event'
-import {EventService} from '../../services/event.service'
+import {WorkHourService} from '../../services/work-hour.service'
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
@@ -26,7 +26,7 @@ export class CardComponent implements OnInit {
   items = Array.from({ length: 100000 }).map((_, i) => `Item #${i}`);
 
 
-  constructor(private eventService: EventService) { }
+  constructor() { }
 
   ngOnInit(): void {
   }
@@ -36,6 +36,5 @@ export class CardComponent implements OnInit {
   }
   onClick(event: Event) {
       this.onSelected.emit(event);
-      this.eventService.setEvent(event);
   }
 }

@@ -40,6 +40,7 @@ EventsController.getEvents = async () => {
   return getEvents();
 }
 
+//TODO delete
 EventsController.watchEvents = async () => {
   app.post('/webhook', async (request, reply) => {
     const resourceId = request.headers['x-goog-resource-id'];

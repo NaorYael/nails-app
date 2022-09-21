@@ -6,57 +6,69 @@
   </div>
 
   <div *ngIf="imageLoad">
-    <mat-card-header>
-      <mat-card-title>
+    <mat-card-header fxLayout="row" fxLayoutAlign="center center">
+      <mat-card-title fxLayoutAlign="center center">
+        הגדרת שעות עבודה שבועיות
       </mat-card-title>
       <mat-card-subtitle>
-        <br>
+        בחר יום וטווח שעות שבהן תרצה לעבוד
       </mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content fxLayout="column">
-      <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
-      <div fxLayout="row" fxLayoutAlign="center center">
+      <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form" dir="rtl">
+        <mat-card class="mat-elevation-z0" dir="rtl">
+          <div class="item" id="{{i.dayInTheWeek }}" *ngFor="let i of rules" (click)="onClick(i)">
+          <mat-card-title><span><b style="font-size: large">{{i.dayInTheWeek! | days}}</b><mat-icon title="לחץ על מנת לקבוע שעות">info</mat-icon></span></mat-card-title>
+          <mat-card-subtitle></mat-card-subtitle>
+          <mat-card-content>
+            <span><b>שעת התחלה:</b>{{i.startTime ?? 'טרם נקבע'}}:00</span>
+            <span><b>שעת סיום:</b>{{i.endTime ?? 'טרם נקבע'}}:00</span>
+          </mat-card-content>
+          </div>
+        </mat-card>
 
-        <mat-form-field (click)="picker.open()">
-          <input matInput [matDatepicker]="picker" placeholder="בחר תאריך"
-                 [min]="minDate" formControlName="date"
-                 (dateInput)="onSelectDate($event)">
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker [touchUi]="true" #picker></mat-datepicker>
-        </mat-form-field>
-        <mat-error *ngIf="!date.valid && date.touched">
-        שדה זה הינו חובה
-      </mat-error>
-      </div>
 
-      <div class="minutes-gap-example">
-        <input placeholder="שעת התחלה" formControlName="start"
-               [ngxTimepicker]="defaultGap" readonly>
-        <ngx-material-timepicker #defaultGap [confirmBtnTmpl]="confirmBtn" [cancelBtnTmpl]="cancelBtn"></ngx-material-timepicker>
-      </div>
-        <ng-template #cancelBtn>
-          <button mat-raised-button style="margin-right: 140px;">סגור</button>
-        </ng-template>
-        <ng-template #confirmBtn>
-          <button  mat-raised-button style="color: white; background-color: #4D4D4D">אישור</button>
-        </ng-template>
-      <div class="minutes-gap-example">
-        <input placeholder="שעת סיום" formControlName="end"
-               [ngxTimepicker]="with5Gap" readonly>
-        <ngx-material-timepicker #with5Gap [minutesGap]="5" [confirmBtnTmpl]="confirmBtn" [cancelBtnTmpl]="cancelBtn"></ngx-material-timepicker>
+      <div class="" *ngIf="selectedRules.length > 0">
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <mat-form-field appearance="fill">
+            <mat-label>בחר שעת התחלה</mat-label>
+            <input matTimepicker #t1="matTimepicker" okLabel="אישור" cancelLabel="חזרה"
+                   formControlName="start" mode="24h">
+            <mat-icon matSuffix (click)="t1.showDialog()">access_time</mat-icon>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <mat-error *ngIf="start.touched && start.invalid">שעת התחלה אינה תקינה</mat-error>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <mat-form-field appearance="fill">
+            <mat-label>בחר שעת סיום</mat-label>
+            <input matTimepicker #t2="matTimepicker" okLabel="אישור" cancelLabel="חזרה"
+                   formControlName="end"
+                   mode="24h">
+            <mat-icon matSuffix (click)="t2.showDialog()">access_time</mat-icon>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <mat-error *ngIf="end.touched && end.invalid">שעת סיום אינה תקינה</mat-error>
+        </div>
       </div>
 
       </form>
     </mat-card-content>
     <hr>
     <mat-card-actions fxLayout="row">
-      <div fxLayout="row" fxLayoutAlign="start center" fxFlex="50" fxLayoutGap="5px">
-        <button [routerLink]="['/']" style="border-radius: 10px; font-size: large" mat-button color="primary">חזרה</button>
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <button [routerLink]="['/']" style="border-radius: 10px; font-size: large" mat-button color="primary">חזרה
+        </button>
       </div>
 
-      <div fxLayout="row" fxFlex fxLayoutAlign="center center">
-        <button (click)="onSubmit(formGroup.value)" [disabled]="formGroup.invalid" style="border-radius: 10px; font-size: medium" color="primary" mat-raised-button>עדכן זמנים</button>
+      <div fxLayout="row" fxFlex fxLayoutAlign="end center">
+        <button (click)="onSubmit(formGroup.value)" [disabled]="formGroup.invalid || selectedRules.length <= 0"
+                style="border-radius: 10px; font-size: medium" color="primary" mat-raised-button>עדכן
+        </button>
       </div>
 
     </mat-card-actions>

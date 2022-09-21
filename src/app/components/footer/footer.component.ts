@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
-import {EventService} from '../../services/event.service'
+import {WorkHourService} from '../../services/work-hour.service'
 import {Subscription} from 'rxjs'
 
 @Component({
@@ -14,7 +14,7 @@ export class FooterComponent implements OnInit, OnDestroy {
   // isEventSelected = false;
   // subscriptionArr: Subscription[] = [];
 
-  constructor(private eventService: EventService) {
+  constructor(private eventService: WorkHourService) {
   }
 
   ngOnInit(): void {

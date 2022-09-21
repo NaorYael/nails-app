@@ -45,8 +45,9 @@ import {NgxLoadingModule} from "ngx-loading";
 import {TimePickerComponent} from './components/timepicker/timepicker.component'
 import {PopupComponent} from './components/popup/popup.component'
 import {MatDialogModule} from '@angular/material/dialog'
-import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker'
 import {HoursBreakComponent} from './pages/hours-break/hours-break.component'
+import {MatTimepickerModule} from 'mat-timepicker';
+import { DaysPipe } from './pages/home/days.pipe'
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import {HoursBreakComponent} from './pages/hours-break/hours-break.component'
     SpinnerComponent,
     TimePickerComponent,
     PopupComponent,
-    HoursBreakComponent
+    HoursBreakComponent,
+    DaysPipe
 
   ],
   imports: [
@@ -94,7 +96,7 @@ import {HoursBreakComponent} from './pages/hours-break/hours-break.component'
     MatProgressBarModule,
     MatProgressSpinnerModule,
     NgxMatIntlTelInputComponent,
-    NgxMaterialTimepickerModule.setLocale('he'),
+    MatTimepickerModule,
     MatDialogModule,
     CodeInputModule,
     NgxLoadingModule.forRoot({}),
