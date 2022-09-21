@@ -25,8 +25,11 @@ export const api = remultExpress({
       }
       await ruleRepo.insert(rules);
     }
- //   console.log( await eventRepo.find());
-    // await userRepo.delete('+972545870318')
+    const userRepo = await remult.repo(User).find();
+    console.log( userRepo);
+    for (let u of userRepo) {
+      console.log(u)
+    }
 
     // const x = await EventsController.watchEvents();
     // console.log({x});

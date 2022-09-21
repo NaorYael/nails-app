@@ -4,7 +4,6 @@ import {Event} from '../../../shared/Event'
 import {User} from '../../../shared/User'
 import {FormBuilder, FormGroup, Validators} from '@angular/forms'
 import {Remult} from 'remult'
-import {Roles} from '../../../shared/Roles'
 
 @Component({
   selector: 'app-popup',

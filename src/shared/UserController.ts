@@ -1,5 +1,6 @@
 import {BackendMethod, Controller, ControllerBase, Fields, UserInfo} from "remult";
 import {User} from "./User";
+import {Roles} from '../app/models/roles'
 
 @Controller('userController')
 export class UserController extends ControllerBase {
@@ -30,17 +31,34 @@ export class UserController extends ControllerBase {
 
   @BackendMethod({ allowed: true })
    async signIn() {
-
+    let result: UserInfo | undefined;
     const userRepo = this.remult.repo(User);
+    // let u = await userRepo.findFirst(this.user);
+    // if (!u) {
+    //   if (await userRepo.count() === 0) { //first ever user is the admin
+    //     u = await userRepo.insert({
+    //       username: this.user.username,
+    //       admin: true
+    //     })
+    //   }
+    // } else if (u) {
+    //   result = {
+    //     roles: [],
+    //     username: this.user.username,
+    //   };
+    //   if (u.admin) {
+    //     result!.roles!.push(Roles.admin);
+    //   }
+    // }
+
     const userFromDB = await userRepo.findId(this.user.phone!);
 
     if (!userFromDB || userFromDB.password !== this.user.password)
-      throw new Error("Invalid user, try 'Steve' or 'Jane'");
+      throw new Error("משתמש לא מזוהה");
     const user:UserInfo = {
       id:userFromDB.phone!,
       name:userFromDB.username!,
       roles:[]
-
     };
     return (await import('jsonwebtoken')).sign(user, process.env['JWT_SECRET'] || "my secret");
   }

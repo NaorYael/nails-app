@@ -31,6 +31,7 @@ export class UsernameComponent {
       this.user = {...this.user, ...this.form.value} as User;
       let userFromDB = this.remult.repo(User);
       this.authService.user.next(await userFromDB.save(this.user));
+      sessionStorage.setItem('userDetails',JSON.stringify(this.user))
       this.dialogRef.close();
     }
   }

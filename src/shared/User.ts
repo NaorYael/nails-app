@@ -17,4 +17,7 @@ export class User extends EntityBase {
   @Fields.date()
   lastLoginDate? = new Date();
 
+  @Fields.boolean()
+  admin? = false;
+
 }
