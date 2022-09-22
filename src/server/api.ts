@@ -25,11 +25,6 @@ export const api = remultExpress({
       }
       await ruleRepo.insert(rules);
     }
-    const userRepo = await remult.repo(User).find();
-    console.log( userRepo);
-    for (let u of userRepo) {
-      console.log(u)
-    }
 
     // const x = await EventsController.watchEvents();
     // console.log({x});

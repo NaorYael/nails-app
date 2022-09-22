@@ -1,14 +1,14 @@
 [
   {
     "dayInTheWeek": 0,
-    "startTime": 9,
-    "endTime": 17,
+    "startTime": 8,
+    "endTime": 13,
     "cateTime": 2
   },
   {
     "dayInTheWeek": 1,
-    "startTime": 9,
-    "endTime": 17,
+    "startTime": 8,
+    "endTime": 13,
     "cateTime": 2
   },
   {
@@ -25,8 +25,8 @@
   },
   {
     "dayInTheWeek": 4,
-    "startTime": 9,
-    "endTime": 15,
+    "startTime": 8,
+    "endTime": 13,
     "cateTime": 2
   },
   {

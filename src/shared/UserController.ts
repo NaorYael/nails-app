@@ -33,24 +33,6 @@ export class UserController extends ControllerBase {
    async signIn() {
     let result: UserInfo | undefined;
     const userRepo = this.remult.repo(User);
-    // let u = await userRepo.findFirst(this.user);
-    // if (!u) {
-    //   if (await userRepo.count() === 0) { //first ever user is the admin
-    //     u = await userRepo.insert({
-    //       username: this.user.username,
-    //       admin: true
-    //     })
-    //   }
-    // } else if (u) {
-    //   result = {
-    //     roles: [],
-    //     username: this.user.username,
-    //   };
-    //   if (u.admin) {
-    //     result!.roles!.push(Roles.admin);
-    //   }
-    // }
-
     const userFromDB = await userRepo.findId(this.user.phone!);
 
     if (!userFromDB || userFromDB.password !== this.user.password)
@@ -60,6 +42,9 @@ export class UserController extends ControllerBase {
       name:userFromDB.username!,
       roles:[]
     };
+    if (userFromDB.admin) {
+      user.roles.push(Roles.admin);
+    }
     return (await import('jsonwebtoken')).sign(user, process.env['JWT_SECRET'] || "my secret");
   }
 

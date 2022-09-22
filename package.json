@@ -36,7 +36,6 @@
     "heroku-ssl-redirect": "^0.1.1",
     "jsonwebtoken": "^8.5.1",
     "libphonenumber-js": "^1.10.13",
-    "localtunnel": "^2.0.2",
     "mat-timepicker": "^5.1.7",
     "moment": "^2.29.4",
     "ngx-loading": "^2.0.1",
@@ -46,7 +45,6 @@
     "remult": "^0.15.4",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
-    "twilio": "^3.81.0",
     "uuid": "^9.0.0",
     "xmlparser": "^0.1.0",
     "zone.js": "~0.11.4"

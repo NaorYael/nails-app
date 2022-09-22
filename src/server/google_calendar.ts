@@ -1,8 +1,7 @@
 const {google} = require('googleapis');
 require('dotenv').config();
 
-const localtunnel = require('localtunnel');
-const { v4: uuidv4 } = require('uuid');
+// const {v4: uuidv4} = require('uuid');
 
 const CREDENTIALS = JSON.parse(process.env['CREDENTIALS']!);
 const CALENDAR_ID = process.env['CALENDAR_ID']!;
@@ -13,53 +12,52 @@ const auth = new google.auth.JWT(
   CREDENTIALS.private_key,
   SCOPES
 );
-const calendar = google.calendar({ version: 'v3' });
+const calendar = google.calendar({version: 'v3'});
 const serverPort = 8080;
 
-const watchResponse = async () => {
-  const tunnel = await localtunnel({
-    port: serverPort
-  });
-
-  await calendar.events.watch({
-    auth: auth,
-    calendarId: CALENDAR_ID,
-    resource: {
-      id: uuidv4(),
-      type: 'web_hook',
-      // TODO tunnel.url
-      address: `${tunnel.url}/webhook`, // Expose localhost using a secure tunnel
-      token: localtunnel.token,
-    },
-  });
-}
-
-export async function watch() {
-  // Authorization details for google API are explained in previous steps.
-  const calendar = google.calendar({version: 'v3'});
-  // Get the events that changed during the webhook timestamp by using timeMin property.
-  const event = await calendar.events.list({
-    auth: auth,
-    calendarId: CALENDAR_ID,
-    timeMin: new Date().toISOString(),
-    maxResults: 10,
-    singleEvents: true,
-    orderBy: 'startTime',
-  });
-  // log in the console the total events that changed since the webhook was called.
-  console.log(event.data.items);
-
-
-  watchResponse()
-    .then(r => {
-      console.log(r);
-      return r;
-    }).catch(e => {
-    console.log(e);
-    return e;
-  });
-}
-
+// const watchResponse = async () => {
+//   const tunnel = await localtunnel({
+//     port: serverPort
+//   });
+//
+//   await calendar.events.watch({
+//     auth: auth,
+//     calendarId: CALENDAR_ID,
+//     resource: {
+//       id: uuidv4(),
+//       type: 'web_hook',
+//       // TODO tunnel.url
+//       address: `${tunnel.url}/webhook`, // Expose localhost using a secure tunnel
+//       token: localtunnel.token,
+//     },
+//   });
+// }
+//
+// export async function watch() {
+//   // Authorization details for google API are explained in previous steps.
+//   const calendar = google.calendar({version: 'v3'});
+//   // Get the events that changed during the webhook timestamp by using timeMin property.
+//   const event = await calendar.events.list({
+//     auth: auth,
+//     calendarId: CALENDAR_ID,
+//     timeMin: new Date().toISOString(),
+//     maxResults: 10,
+//     singleEvents: true,
+//     orderBy: 'startTime',
+//   });
+//   // log in the console the total events that changed since the webhook was called.
+//   console.log(event.data.items);
+//
+//
+//   watchResponse()
+//     .then(r => {
+//       console.log(r);
+//       return r;
+//     }).catch(e => {
+//     console.log(e);
+//     return e;
+//   });
+// }
 
 
 //
