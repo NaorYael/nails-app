@@ -9,7 +9,7 @@ import * as path from 'path';
 import {expressjwt} from 'express-jwt'
 import {sendSms} from "./sms";
 import {EventsController} from "../shared/EventsController";
-import {addEvent, getEvents, watch} from "./google_calendar";
+import {addEvent, getEvents} from "./google_calendar";
 import {google} from "googleapis";
 
 config(); //loads the configuration from the .env file
@@ -40,25 +40,25 @@ EventsController.getEvents = async () => {
   return getEvents();
 }
 
-//TODO delete
-EventsController.watchEvents = async () => {
-  app.post('/webhook', async (request, reply) => {
-    const resourceId = request.headers['x-goog-resource-id'];
-    const channelToken = request.headers['x-goog-channel-token'];
-    const channelId = request.headers['x-goog-channel-id'];
-    const resourceState = request.headers['x-goog-resource-state'];
-
-    // // Use the channel token to validate the webhook
-    // if (channelToken !== webhookToken) {
-    //   return reply.status(403).send('Invalid webhook token');
-    // }
-
-    if (resourceState === 'sync') {
-      return reply.status(200).send();
-    }
-
-    return reply.status(200).send('Webhook received');
-  });
-  return watch();
-}
+// //TODO delete
+// EventsController.watchEvents = async () => {
+//   app.post('/webhook', async (request, reply) => {
+//     const resourceId = request.headers['x-goog-resource-id'];
+//     const channelToken = request.headers['x-goog-channel-token'];
+//     const channelId = request.headers['x-goog-channel-id'];
+//     const resourceState = request.headers['x-goog-resource-state'];
+//
+//     // // Use the channel token to validate the webhook
+//     // if (channelToken !== webhookToken) {
+//     //   return reply.status(403).send('Invalid webhook token');
+//     // }
+//
+//     if (resourceState === 'sync') {
+//       return reply.status(200).send();
+//     }
+//
+//     return reply.status(200).send('Webhook received');
+//   });
+//   return watch();
+// }
 
