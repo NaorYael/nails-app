@@ -30,9 +30,6 @@ export class PopupComponent implements OnInit {
               private fb: FormBuilder) {
   }
 
-  isAdmin() {
-    // return this.remult.isAllowed(Roles.admin);
-  }
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -42,9 +39,6 @@ export class PopupComponent implements OnInit {
   }
 
   onSubmit() {
-    // if (this.isAdmin()) {
-    //   console.log('admin');
-    // }
     console.log(this.form.value)
     this.dialogRef.close();
   }

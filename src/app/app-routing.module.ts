@@ -7,14 +7,14 @@ import {AuthGuard} from './otp/auth.guard'
 import {NotFoundComponent} from "./pages/not-found.component";
 import {ProfileComponent} from './pages/profile/profile.component'
 import {DaysComponent} from './pages/days/days.component'
+import {AdminGuard} from "./otp/admin.guard";
 
 const routes: Routes = [
   {path: '', component: HomeComponent, canActivate: [AuthGuard]},
-  // {path: '', component: HomeComponent},
   {path: 'login', component: LoginComponent},
   {path: 'confirm', component: ConfirmComponent},
-  {path: 'profile', component: ProfileComponent},
-  {path: 'days', component: DaysComponent},
+  {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
+  {path: 'days', component: DaysComponent, canActivate: [AdminGuard, AuthGuard]},
   {path: '**', redirectTo: '', component: NotFoundComponent}
 
 ];
