@@ -4,7 +4,7 @@ import {Remult} from "remult";
 import {Roles} from "../models/roles";
 
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class AdminGuard implements CanActivate {
 
 
