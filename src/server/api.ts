@@ -26,8 +26,8 @@ export const api = remultExpress({
       await ruleRepo.insert(rules);
     }
 
-    const eventsController = new EventsController(remult);
-    const x = await eventsController.syncEvents();
-    console.log(x)
+    // const eventsController = new EventsController(remult);
+    // const x = await eventsController.syncEvents();
+    // console.log(x)
   }
 });

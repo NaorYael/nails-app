@@ -1,13 +1,12 @@
 import {BackendMethod, Controller, ControllerBase} from "remult";
-import {Roles} from '../app/models/roles';
 import {Event} from './Event';
+import {GoggleEvent} from "../app/models/google-event";
 
 @Controller('eventsController')
 export class EventsController extends ControllerBase {
 
   static addEvent: (event: any) => Promise<any>;
   static getEvents: () => Promise<any>;
-  static syncEvents: () => Promise<any>;
 
   @BackendMethod({allowed: true})
   async createEventOnGoggleCalendar(e: any) {
@@ -19,13 +18,8 @@ export class EventsController extends ControllerBase {
     return await EventsController.getEvents();
   }
 
-  // @BackendMethod({ allowed: true})
-  // async watchEvents() {
-  //  return await EventsController.watchEvents();
-  // }
-
   @BackendMethod({allowed: true})
-   async syncEvents() {
+  async syncEvents() {
     const googleEvents: GoggleEvent[] = await this.getEventsFromGoggleCalendar();
     const myEvents: Event[] = await this.remult.repo(Event).find();
     const nowMinusOneDay = new Date();
@@ -49,57 +43,5 @@ export class EventsController extends ControllerBase {
       }
     }
   }
-
-  @BackendMethod({allowed: Roles.admin})
-  async setWorkHours(hours: string) {
-    console.log(hours)
-  }
 }
-
-
-interface Creator {
-  email: string;
-}
-
-interface Organizer {
-  email: string;
-  displayName: string;
-  self: boolean;
-}
-
-interface Start {
-  dateTime: Date;
-  timeZone: string;
-}
-
-interface End {
-  dateTime: Date;
-  timeZone: string;
-}
-
-interface Reminders {
-  useDefault: boolean;
-}
-
-interface GoggleEvent {
-  kind: string;
-  etag: string;
-  id: string;
-  status: string;
-  htmlLink: string;
-  created: Date;
-  updated: Date;
-  summary: string;
-  description: string;
-  creator: Creator;
-  organizer: Organizer;
-  start: Start;
-  end: End;
-  iCalUID: string;
-  sequence: number;
-  reminders: Reminders;
-  eventType: string;
-}
-
-
 

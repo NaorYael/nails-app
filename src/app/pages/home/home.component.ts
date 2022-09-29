@@ -142,7 +142,7 @@ export class HomeComponent implements OnInit {
       .subscribe(value => {
         const breakTimes = [];
         breakTimes.push(value)
-        console.log(breakTimes)
+        // console.log(breakTimes)
       });
 
     const startTime = new Date();
