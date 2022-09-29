@@ -131,7 +131,6 @@ export function addEvent(e: any) {
     })
 }
 
-
 export function getEvents() {
 
   let startDate = new Date();
@@ -157,7 +156,7 @@ export function getEvents() {
 
   return getEvents(startDate, endDate)
     .then((res) => {
-      console.log(res);
+      // console.log(res);
       return res;
     }).catch((err) => {
       console.log(err);

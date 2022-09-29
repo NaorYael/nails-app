@@ -77,7 +77,7 @@ export class HomeComponent implements OnInit {
 
 
   async ngOnInit() {
-    await this.getEventsFromGoogleCalender();
+    // await this.getEventsFromGoogleCalender();
     this.minDate = new Date();
 
     this.dateAdapter.setLocale('he');
@@ -136,13 +136,14 @@ export class HomeComponent implements OnInit {
   }
 
   private setInitWorkHoursAndBreak() {
-    // this.workHourService.selectedWorkHour$
-    //   .pipe(untilDestroyed(this))
-    //   .subscribe(value => {
-    //     const breakTimes = [];
-    //     breakTimes.push(value)
-    //     console.log(breakTimes)
-    //   });
+    // TODO connect day, startTime, endTime + display to the user when event not available
+    this.workHourService.selectedWorkHour$
+      .pipe(untilDestroyed(this))
+      .subscribe(value => {
+        const breakTimes = [];
+        breakTimes.push(value)
+        console.log(breakTimes)
+      });
 
     const startTime = new Date();
     const endTime = new Date();
@@ -249,13 +250,13 @@ export class HomeComponent implements OnInit {
       .subscribe(res => console.log(res))
     };
 
-  async getEventsFromGoogleCalender() {
-    // const eventsFromDB = await this.remult.repo(Event).find();
-    // console.log(eventsFromDB);
-    //   const events = await this.eventController.getEventsFromGoggleCalendar();
-    //   console.log(events);
-
-  }
+  // async getEventsFromGoogleCalender() {
+  //   const eventsFromDB = await this.remult.repo(Event).find();
+  //   // console.log(eventsFromDB);
+  //     const events = await this.eventController.getEventsFromGoggleCalendar();
+  //     // console.log(events);
+  //
+  // }
 
 
   done() {
