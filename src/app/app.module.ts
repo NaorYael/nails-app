@@ -1,27 +1,12 @@
 import {NgModule} from '@angular/core';
-import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {LayoutModule} from '@angular/cdk/layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import {AppRoutingModule} from './app-routing.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {AppComponent} from './app.component';
-import {MatToolbarModule} from '@angular/material/toolbar'
-import {MatSelectModule} from '@angular/material/select'
-import {MatIconModule} from '@angular/material/icon'
-import {MatListModule} from '@angular/material/list'
-import {MatSidenavModule} from '@angular/material/sidenav'
-import {MatInputModule} from '@angular/material/input'
-import {MatRadioModule} from '@angular/material/radio'
-import {MatDatepickerModule} from '@angular/material/datepicker'
-import {MatGridListModule} from '@angular/material/grid-list'
-import {MatCardModule} from '@angular/material/card'
-import {MatNativeDateModule} from '@angular/material/core'
-import {MatButtonModule} from '@angular/material/button';
-import {MatStepperModule} from "@angular/material/stepper";
-import {MatMenuModule} from '@angular/material/menu';
 import {CardComponent} from './components/card/card.component';
-import {MatChipsModule} from '@angular/material/chips';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {Remult} from 'remult';
 import {ConfirmComponent} from './otp/confirm/confirm.component';
@@ -35,20 +20,16 @@ import {NotFoundComponent} from "./pages/not-found.component";
 import {PaymentComponent} from "./components/payment/payment.component";
 import {UsernameComponent} from "./components/username/username.component";
 import {ProfileComponent} from './pages/profile/profile.component'
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
-import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {SpinnerComponent} from './components/spinner/spinner.component'
 import {AuthService} from "./otp/auth.service";
 import {JwtModule} from "@auth0/angular-jwt";
-import {HotToastModule} from '@ngneat/hot-toast';
 import {NgxLoadingModule} from "ngx-loading";
-import {TimePickerComponent} from './components/timepicker/timepicker.component'
 import {PopupComponent} from './components/popup/popup.component'
-import {MatDialogModule} from '@angular/material/dialog'
-import {MatTimepickerModule} from 'mat-timepicker';
 import {DaysPipe} from './pages/home/days.pipe'
 import {DaysComponent} from './pages/days/days.component'
-import {DialogComponent} from './components/dialog/dialog.component';
+import {DialogComponent} from './common/dialog/dialog.component';
+import {MaterialModule} from "./common/material.module";
+import {BrowserModule} from "@angular/platform-browser";
 
 @NgModule({
   declarations: [
@@ -64,7 +45,6 @@ import {DialogComponent} from './components/dialog/dialog.component';
     UsernameComponent,
     ProfileComponent,
     SpinnerComponent,
-    TimePickerComponent,
     PopupComponent,
     DaysComponent,
     DaysPipe,
@@ -72,37 +52,19 @@ import {DialogComponent} from './components/dialog/dialog.component';
 
   ],
   imports: [
-    NoopAnimationsModule,
+    // NoopAnimationsModule,
+    BrowserAnimationsModule,
     LayoutModule,
+    BrowserModule,
     AppRoutingModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule,
-    MatSelectModule,
-    MatRadioModule,
-    MatGridListModule,
-    MatInputModule,
     ReactiveFormsModule,
     FormsModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatCardModule,
     FlexLayoutModule,
-    MatStepperModule,
-    MatSelectModule,
-    MatMenuModule,
-    MatChipsModule,
     HttpClientModule,
-    MatProgressBarModule,
-    MatProgressSpinnerModule,
     NgxMatIntlTelInputComponent,
-    MatTimepickerModule,
-    MatDialogModule,
     CodeInputModule,
+    MaterialModule,
     NgxLoadingModule.forRoot({}),
-    HotToastModule.forRoot(),
     JwtModule.forRoot({
       config: {
         tokenGetter: () => AuthService.fromStorage()
@@ -113,10 +75,6 @@ import {DialogComponent} from './components/dialog/dialog.component';
   providers: [
     {provide: Remult, useClass: Remult, deps: [HttpClient]}
   ],
-
-  exports: [
-    TimePickerComponent
-  ]
 })
 export class AppModule {
 }

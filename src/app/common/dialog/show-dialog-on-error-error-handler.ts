@@ -22,7 +22,7 @@ export class ShowDialogOnErrorErrorHandler extends ErrorHandler {
     this.lastErrorTime = new Date().valueOf();
     this.zone.run(() => {
       this.errMsg = extractError(error);
-      this.dialogService.alert('שגיאה', this.errMsg)
+      this.dialogService.alert('שגיאה', this.errMsg, 'error')
         .pipe(untilDestroyed(this))
         .subscribe(res => console.log(res))
     });

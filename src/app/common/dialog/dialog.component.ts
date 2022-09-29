@@ -9,6 +9,7 @@ export class DialogComponent{
 
   public title = '';
   public message = '';
+  public icon = '';
 
   constructor(public dialogRef: MatDialogRef<DialogComponent>) {
   }

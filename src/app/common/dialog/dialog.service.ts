@@ -10,7 +10,7 @@ export class DialogService {
   constructor(private dialog: MatDialog) {
   }
 
-  public alert(title: string, message: string): Observable<boolean> {
+  public alert(title: string, message: string, icon: string): Observable<boolean> {
 
     let dialogRef: MatDialogRef<DialogComponent>;
 
@@ -18,6 +18,7 @@ export class DialogService {
 
     dialogRef.componentInstance.title = title;
     dialogRef.componentInstance.message = message;
+    dialogRef.componentInstance.icon = icon;
 
     return dialogRef.afterClosed();
   }

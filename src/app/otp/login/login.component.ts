@@ -5,7 +5,7 @@ import {Router} from '@angular/router'
 import {UserController} from "../../../shared/UserController";
 import {Remult} from "remult";
 import {User} from "../../../shared/User";
-import {HotToastService} from "@ngneat/hot-toast";
+import {DialogService} from "../../common/dialog/dialog.service";
 
 
 @Component({
@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private remult: Remult,
-    private toast: HotToastService,
+    private dialogService: DialogService,
     private authService: AuthService
   ) {
   }
@@ -47,26 +47,20 @@ export class LoginComponent implements OnInit {
     }
     // const phone = this.phoneNumber.replace('+972', '0');
 
-    try {
-      this.userController.user = await this.user;
-      await this.userController.loginOtp().then(() => {
-        // UserController.sendSMS('1234','טסט');
-        // sendSms('0545870318', 'טסט');
-        // if (response.status === 'queued') {
-        this.user = this.userController.user;
-        this.authService.user.next(this.user);
-        this.router.navigate(['/confirm']);
-        // }
-        // this.handleError(JSON.stringify('error code : ' + response.code))
-      });
+    this.userController.user = await this.user;
+    await this.userController.loginOtp().then(() => {
+      // UserController.sendSMS('1234','טסט');
+      // sendSms('0545870318', 'טסט');
+      // if (response.status === 'queued') {
+      this.user = this.userController.user;
+      this.authService.user.next(this.user);
+      this.router.navigate(['/confirm']);
+      // }
+      // this.handleError(JSON.stringify('error code : ' + response.code))
+    });
 
-
-    } catch (e: any) {
-      this.errMsg = e;
-      console.error(e.message);
-      this.handleError(JSON.stringify(e))
-    }
   }
+
 
   get phoneValue() {
     return this.form.controls['phone']
@@ -87,10 +81,4 @@ export class LoginComponent implements OnInit {
     this.formSubmitAttempt = true;
   }
 
-  private handleError(msg: string) {
-    this.toast.error(msg, {
-      duration: 5000,
-      position: "top-center"
-    });
-  }
 }

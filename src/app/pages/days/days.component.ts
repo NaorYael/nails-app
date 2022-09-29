@@ -5,7 +5,7 @@ import * as moment from 'moment'
 import {WorkHourService} from '../../services/work-hour.service'
 import {Rule} from '../../../shared/Rule'
 import {Remult} from 'remult'
-import {DialogService} from "../../components/dialog/dialog.service";
+import {DialogService} from "../../common/dialog/dialog.service";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 
 @UntilDestroy()
@@ -108,7 +108,7 @@ export class DaysComponent implements OnInit {
     this.formGroup.reset();
     await this.router.navigate(['']);
 
-    this.dialogService.alert('בוצע בהצלחה', 'עדכון השעות השבועיות בוצע בהצלחה')
+    this.dialogService.alert('בוצע בהצלחה', 'עדכון השעות השבועיות בוצע בהצלחה', 'done')
       .pipe(untilDestroyed(this))
       .subscribe(res => console.log(res))
   }

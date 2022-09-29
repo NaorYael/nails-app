@@ -12,11 +12,8 @@ import {EventsController} from '../../../shared/EventsController'
 import {WorkHourService} from '../../services/work-hour.service'
 import {AuthService} from "../../otp/auth.service";
 import {UntilDestroy, untilDestroyed} from '@ngneat/until-destroy';
-import {DialogService} from "../../components/dialog/dialog.service";
+import {DialogService} from "../../common/dialog/dialog.service";
 import {WorkHours} from "../../models/work-hours";
-
-
-
 
 @UntilDestroy()
 @Component({
@@ -139,13 +136,13 @@ export class HomeComponent implements OnInit {
   }
 
   private setInitWorkHoursAndBreak() {
-    this.workHourService.selectedWorkHour$
-      .pipe(untilDestroyed(this))
-      .subscribe(value => {
-        const breakTimes = [];
-        breakTimes.push(value)
-        console.log(breakTimes)
-      });
+    // this.workHourService.selectedWorkHour$
+    //   .pipe(untilDestroyed(this))
+    //   .subscribe(value => {
+    //     const breakTimes = [];
+    //     breakTimes.push(value)
+    //     console.log(breakTimes)
+    //   });
 
     const startTime = new Date();
     const endTime = new Date();
@@ -247,7 +244,7 @@ export class HomeComponent implements OnInit {
   }
 
   onCalendarAdd() {
-    this.dialogService.alert('דף לא זמין', 'עדיין עובדים על זה :)')
+    this.dialogService.alert('דף לא זמין', 'עדיין עובדים על זה :)','info')
       .pipe(untilDestroyed(this))
       .subscribe(res => console.log(res))
     };
