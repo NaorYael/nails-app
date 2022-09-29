@@ -46,8 +46,9 @@ import {TimePickerComponent} from './components/timepicker/timepicker.component'
 import {PopupComponent} from './components/popup/popup.component'
 import {MatDialogModule} from '@angular/material/dialog'
 import {MatTimepickerModule} from 'mat-timepicker';
-import { DaysPipe } from './pages/home/days.pipe'
+import {DaysPipe} from './pages/home/days.pipe'
 import {DaysComponent} from './pages/days/days.component'
+import {DialogComponent} from './components/dialog/dialog.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import {DaysComponent} from './pages/days/days.component'
     TimePickerComponent,
     PopupComponent,
     DaysComponent,
-    DaysPipe
+    DaysPipe,
+    DialogComponent
 
   ],
   imports: [

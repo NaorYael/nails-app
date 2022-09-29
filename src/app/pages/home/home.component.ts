@@ -1,8 +1,7 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import * as moment from 'moment';
 import {Moment} from 'moment';
 import {MatDialog} from '@angular/material/dialog'
-import {FormBuilder, FormGroup} from "@angular/forms";
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper'
 import {MatStepper} from '@angular/material/stepper'
 import {DateAdapter} from '@angular/material/core'
@@ -11,20 +10,13 @@ import {Event} from '../../../shared/Event';
 import {Remult} from 'remult'
 import {EventsController} from '../../../shared/EventsController'
 import {WorkHourService} from '../../services/work-hour.service'
-import {Router} from '@angular/router'
 import {AuthService} from "../../otp/auth.service";
-import {HotToastService} from "@ngneat/hot-toast";
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import {UntilDestroy, untilDestroyed} from '@ngneat/until-destroy';
+import {DialogService} from "../../components/dialog/dialog.service";
+import {WorkHours} from "../../models/work-hours";
 
-export interface WorkHours {
-  blanks: Array<TimeRange>;
-  hours: TimeRange;
-}
 
-export interface TimeRange {
-  startTime: Date;
-  endTime: Date;
-}
+
 
 @UntilDestroy()
 @Component({
@@ -67,12 +59,7 @@ export class HomeComponent implements OnInit {
 
   loading = true;
 
-  done() {
-    this.completed = true;
-    this.state = 'done';
-    // console.log(this.firstFormGroup.valid);
-    // console.log(this.secondFormGroup.valid);
-  }
+  errMsg = '';
 
   @ViewChild('stepper')
   stepper!: MatStepper;
@@ -81,6 +68,26 @@ export class HomeComponent implements OnInit {
   picker!: MatDatepicker<Moment>;
 
   minDate = new Date();
+
+
+  constructor(private dialog: MatDialog,
+              private dateAdapter: DateAdapter<any>,
+              private dialogService: DialogService,
+              public remult: Remult,
+              private workHourService: WorkHourService,
+              public authService: AuthService) {
+  }
+
+
+  async ngOnInit() {
+    await this.getEventsFromGoogleCalender();
+    this.minDate = new Date();
+
+    this.dateAdapter.setLocale('he');
+
+    this.setInitWorkHoursAndBreak();
+    this.extractAvailableWorkHours();
+  }
 
   myFilter = (d: Date | null): boolean => {
     const day = (d || new Date()).getDay();
@@ -99,36 +106,6 @@ export class HomeComponent implements OnInit {
     setTimeout(() => {
       this.stepper.linear = true;
     });
-  }
-
-  handleSelectedEvent(event: any) {
-    this.isEventSelected = true;
-    this.eventToDisplay = event;
-  }
-
-  constructor(private dialog: MatDialog,
-              private dateAdapter: DateAdapter<any>,
-              private toast: HotToastService,
-              public remult: Remult,
-              private workHourService: WorkHourService,
-              private router: Router,
-              private eventService: WorkHourService,
-              public authService: AuthService,
-              private fb: FormBuilder) {
-  }
-
-  firstFormGroup: FormGroup = this.fb.group({firstCtrl: ['']});
-  secondFormGroup: FormGroup = this.fb.group({secondCtrl: ['']});
-  errMsg = '';
-
-  async ngOnInit() {
-    await this.getEventsFromGoogleCalender();
-    this.minDate = new Date();
-
-    this.dateAdapter.setLocale('he');
-
-    this.setInitWorkHoursAndBreak();
-    this.extractAvailableWorkHours();
   }
 
   private extractAvailableWorkHours() {
@@ -162,13 +139,13 @@ export class HomeComponent implements OnInit {
   }
 
   private setInitWorkHoursAndBreak() {
-    this.workHourService.selectedWorkHour$.pipe(
-      untilDestroyed(this))
-      .subscribe( value => {
-      const breakTimes = [];
-      breakTimes.push(value)
-      console.log(breakTimes)
-    });
+    this.workHourService.selectedWorkHour$
+      .pipe(untilDestroyed(this))
+      .subscribe(value => {
+        const breakTimes = [];
+        breakTimes.push(value)
+        console.log(breakTimes)
+      });
 
     const startTime = new Date();
     const endTime = new Date();
@@ -203,25 +180,23 @@ export class HomeComponent implements OnInit {
     await this.handleNextStep();
   }
 
+  handleSelectedEvent(event: any) {
+    this.isEventSelected = true;
+    this.eventToDisplay = event;
+  }
+
   async onSubmit() {
-    try {
-     // this.loading = true;
-      const user = this.getUserFromSessionStorage();
 
-      const selectedDateEnd = this.formatEndDate();
+    // this.loading = true;
+    const user = this.getUserFromSessionStorage();
 
-      const calendarId = await this.createEventOnGoggleCalendar(user, selectedDateEnd);
+    const selectedDateEnd = this.formatEndDate();
 
-      await this.updateEvent(user, calendarId);
+    const calendarId = await this.createEventOnGoggleCalendar(user, selectedDateEnd);
 
-      //this.loading = false;
-    } catch (e: any) {
-      console.error(e);
-      this.handleError(e.message);
-      //this.loading = false;
-      // await this.onReset();
-    }
+    await this.updateEvent(user, calendarId);
 
+    //this.loading = false;
 
   }
 
@@ -259,7 +234,6 @@ export class HomeComponent implements OnInit {
     return momObj.format('DD/MM/YYYY');
   }
 
-
   async onReset() {
     this.appointmentArr = [];
     this.picker.select(undefined!);
@@ -272,39 +246,25 @@ export class HomeComponent implements OnInit {
     window.location.reload();
   }
 
-  private handleError(msg: string) {
-    this.toast.error(msg, {
-      duration: 5000,
-      position: "top-center"
-    });
-  }
-
-
-  onLoadImage() {
-    this.imageLoad = true;
-  }
-
-
   onCalendarAdd() {
-    this.toast.info('עדיין עובדים על זה :)', {
-      duration: 3000,
-      // style: {
-      //   border: '1px solid #713200',
-      //   padding: '16px',
-      //   color: '#713200',
-      // },
-    });
-  }
+    this.dialogService.alert('דף לא זמין', 'עדיין עובדים על זה :)')
+      .pipe(untilDestroyed(this))
+      .subscribe(res => console.log(res))
+    };
 
   async getEventsFromGoogleCalender() {
     // const eventsFromDB = await this.remult.repo(Event).find();
     // console.log(eventsFromDB);
-    // try {
     //   const events = await this.eventController.getEventsFromGoggleCalendar();
     //   console.log(events);
-    // } catch (e) {
-    //   console.log(e)
-    //   // }
-    // }
+
+  }
+
+
+  done() {
+    this.completed = true;
+    this.state = 'done';
+    // console.log(this.firstFormGroup.valid);
+    // console.log(this.secondFormGroup.valid);
   }
 }

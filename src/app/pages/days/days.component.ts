@@ -1,12 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms'
 import {Router} from '@angular/router'
-import {HotToastService} from '@ngneat/hot-toast'
 import * as moment from 'moment'
 import {WorkHourService} from '../../services/work-hour.service'
 import {Rule} from '../../../shared/Rule'
 import {Remult} from 'remult'
+import {DialogService} from "../../components/dialog/dialog.service";
+import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 
+@UntilDestroy()
 @Component({
   selector: 'app-days',
   templateUrl: './days.component.html',
@@ -32,7 +34,7 @@ export class DaysComponent implements OnInit {
   selectedRules: Array<Rule> = [];
 
   constructor(private fb: FormBuilder,
-              private toast: HotToastService,
+              private dialogService: DialogService,
               private workHourService: WorkHourService,
               private remult: Remult,
               private router: Router) {
@@ -105,8 +107,12 @@ export class DaysComponent implements OnInit {
 
     this.formGroup.reset();
     await this.router.navigate(['']);
-    this.toast.success('העדכון ביומן בוצע בהצלחה');
+
+    this.dialogService.alert('בוצע בהצלחה', 'עדכון השעות השבועיות בוצע בהצלחה')
+      .pipe(untilDestroyed(this))
+      .subscribe(res => console.log(res))
   }
+
 
   private parseDateToHours(date: Date): string {
     const momObj = moment(date);
