@@ -1,0 +1,17 @@
+<div fxLayout="row-reverse">
+    <mat-card-header fxLayout="row" fxLayoutAlign="center center">
+      <mat-card-title fxLayout="row" fxLayoutAlign="end center">
+      <ng-content select="[title]"></ng-content>
+      </mat-card-title>
+      <mat-card-subtitle fxLayout="row" fxLayoutAlign="end center">
+        <ng-content select="[subTitle]"></ng-content>
+      </mat-card-subtitle>
+      <div >
+        <mat-icon fxLayout="row" fxLayoutAlign="start center" (click)="hide = !hide">{{hide? 'arrow_left' : 'arrow_drop_down'}}</mat-icon>
+      </div>
+    </mat-card-header>
+
+</div>
+<mat-card-content fxLayout="column" [ngClass]="hide ? 'hide' : ''">
+  <ng-content select="[content]"></ng-content>
+</mat-card-content>

@@ -6,58 +6,93 @@
   </div>
 
   <div *ngIf="imageLoad">
-    <mat-card-header fxLayout="row" fxLayoutAlign="center center">
-      <mat-card-title>
-        הגדרת שעות עבודה שבועיות
-      </mat-card-title>
-      <mat-card-subtitle>
-        בחר יום וטווח שעות שבהן תרצה לעבוד
-      </mat-card-subtitle>
-    </mat-card-header>
+    <div style="justify-content: center; align-items: center; display: flex; font-weight: bolder; margin: 15px">
+      הגדרת שעות עבודה
+    </div>
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form" dir="rtl">
 
-    <mat-card-content fxLayout="column">
-      <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form" dir="rtl">
-        <mat-card class="mat-elevation-z0" dir="rtl">
-          <div class="item" id="{{i.dayInTheWeek }}" *ngFor="let i of rules" (click)="onClick(i)">
-          <mat-card-title><span><b style="font-size: large">{{i.dayInTheWeek! | days}}</b><mat-icon title="לחץ על מנת לקבוע שעות">info</mat-icon></span></mat-card-title>
-          <mat-card-subtitle></mat-card-subtitle>
-          <mat-card-content>
-            <span><b>שעת התחלה:</b>{{i.startTime ?? 'טרם נקבע'}}:00</span>
-            <span><b>שעת סיום:</b>{{i.endTime ?? 'טרם נקבע'}}:00</span>
-          </mat-card-content>
+      <collapse-toggler>
+        <ng-container title>
+          קביעת אורך פגישה
+        </ng-container>
+        <ng-container subTitle>
+          {{careTimeLength.value}}:00
+        </ng-container>
+        <ng-container content>
+          <div fxLayout="row" fxLayoutAlign="center center">
+            <mat-form-field appearance="fill">
+              <mat-label>הכנס אורך בשעות</mat-label>
+              <input matInput formControlName="careTimeLength">
+            </mat-form-field>
           </div>
-        </mat-card>
+          <div fxLayout="row" fxLayoutAlign="center center">
+            <mat-error *ngIf="careTimeLength.touched && careTimeLength.invalid">אורך פגישה אינו תקין</mat-error>
+          </div>
+        </ng-container>
+      </collapse-toggler>
+      <collapse-toggler>
+        <ng-container title>
+          בחירת ימים
+        </ng-container>
+        <ng-container subTitle>
+          {{daysDisplay.length > 0 ? (MINUS_ONE! | days : daysDisplay) : 'ימים להגדרת שעות והפסקות'}}
+        </ng-container>
+        <ng-container content>
+          <mat-card class="mat-elevation-z0" dir="rtl">
+            <div class="item" id="{{i.dayInTheWeek }}" *ngFor="let i of workHoursManagement.workHours"
+                 (click)="onClick(i)">
+              <mat-card-title><span><b style="font-size: large">{{ i.dayInTheWeek! | days}}</b><mat-icon
+                title="לחץ על מנת לקבוע שעות">info</mat-icon></span></mat-card-title>
+              <mat-card-subtitle></mat-card-subtitle>
+              <mat-card-content>
+                <span><b>שעת התחלה:</b>{{i.timeRange.startTime ?? 'טרם נקבע'}}<span
+                  *ngIf="i.timeRange.endTime">:00</span></span>
+                <span><b>שעת סיום:</b>{{i.timeRange.endTime ?? 'טרם נקבע'}}<span
+                  *ngIf="i.timeRange.endTime">:00</span></span>
+              </mat-card-content>
+            </div>
+          </mat-card>
+        </ng-container>
+      </collapse-toggler>
+      <collapse-toggler *ngIf="selectedDays.length > 0">
+        <ng-container title>
+          בחירת שעות
+        </ng-container>
+        <ng-container subTitle>
+          {{start.value + ':00 - ' + end.value + ':00' }}
+        </ng-container>
+        <ng-container content>
+          <div>
+            <div fxLayout="row" fxLayoutAlign="center center">
+              <mat-form-field appearance="fill">
+                <mat-label>בחר שעת התחלה</mat-label>
+                <input matTimepicker #t1="matTimepicker" okLabel="אישור" cancelLabel="חזרה"
+                       formControlName="start" mode="24h">
+                <mat-icon matSuffix (click)="t1.showDialog()">access_time</mat-icon>
+              </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="center center">
+              <mat-error *ngIf="start.touched && start.invalid">שעת התחלה אינה תקינה</mat-error>
+            </div>
 
+            <div fxLayout="row" fxLayoutAlign="center center">
+              <mat-form-field appearance="fill">
+                <mat-label>בחר שעת סיום</mat-label>
+                <input matTimepicker #t2="matTimepicker" okLabel="אישור" cancelLabel="חזרה"
+                       formControlName="end"
+                       mode="24h">
+                <mat-icon matSuffix (click)="t2.showDialog()">access_time</mat-icon>
+              </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="center center">
+              <mat-error *ngIf="end.touched && end.invalid">שעת סיום אינה תקינה</mat-error>
+            </div>
+          </div>
 
-      <div class="" *ngIf="selectedRules.length > 0">
-        <div fxLayout="row" fxLayoutAlign="center center">
-          <mat-form-field appearance="fill">
-            <mat-label>בחר שעת התחלה</mat-label>
-            <input matTimepicker #t1="matTimepicker" okLabel="אישור" cancelLabel="חזרה"
-                   formControlName="start" mode="24h">
-            <mat-icon matSuffix (click)="t1.showDialog()">access_time</mat-icon>
-          </mat-form-field>
-        </div>
-        <div fxLayout="row" fxLayoutAlign="center center">
-          <mat-error *ngIf="start.touched && start.invalid">שעת התחלה אינה תקינה</mat-error>
-        </div>
+        </ng-container>
+      </collapse-toggler>
+    </form>
 
-        <div fxLayout="row" fxLayoutAlign="center center">
-          <mat-form-field appearance="fill">
-            <mat-label>בחר שעת סיום</mat-label>
-            <input matTimepicker #t2="matTimepicker" okLabel="אישור" cancelLabel="חזרה"
-                   formControlName="end"
-                   mode="24h">
-            <mat-icon matSuffix (click)="t2.showDialog()">access_time</mat-icon>
-          </mat-form-field>
-        </div>
-        <div fxLayout="row" fxLayoutAlign="center center">
-          <mat-error *ngIf="end.touched && end.invalid">שעת סיום אינה תקינה</mat-error>
-        </div>
-      </div>
-
-      </form>
-    </mat-card-content>
     <hr>
     <mat-card-actions fxLayout="row">
       <div fxLayout="row" fxLayoutAlign="start center">
@@ -66,7 +101,7 @@
       </div>
 
       <div fxLayout="row" fxFlex fxLayoutAlign="end center">
-        <button (click)="onSubmit(formGroup.value)" [disabled]="formGroup.invalid || selectedRules.length <= 0"
+        <button (click)="onSubmit(formGroup.value)" [disabled]="formGroup.invalid || selectedDays.length <= 0"
                 style="border-radius: 10px; font-size: medium" color="primary" mat-raised-button>עדכן
         </button>
       </div>

@@ -30,6 +30,7 @@ import {DaysComponent} from './pages/days/days.component'
 import {DialogComponent} from './common/dialog/dialog.component';
 import {MaterialModule} from "./common/material.module";
 import {BrowserModule} from "@angular/platform-browser";
+import { CollapseTogglerComponent } from './components/collapse-toggler/collapse-toggler.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import {BrowserModule} from "@angular/platform-browser";
     PopupComponent,
     DaysComponent,
     DaysPipe,
-    DialogComponent
+    DialogComponent,
+    CollapseTogglerComponent
 
   ],
   imports: [

@@ -3,10 +3,11 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms'
 import {Router} from '@angular/router'
 import * as moment from 'moment'
 import {WorkHourService} from '../../services/work-hour.service'
-import {Rule} from '../../../shared/Rule'
+import {DailyWorkHours} from '../../../shared/DailyWorkHours'
 import {Remult} from 'remult'
-import {DialogService} from "../../common/dialog/dialog.service";
-import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
+import {DialogService} from '../../common/dialog/dialog.service';
+import {UntilDestroy, untilDestroyed} from '@ngneat/until-destroy';
+import {WorkHoursManagement} from '../../../shared/WorkHoursManagement';
 
 @UntilDestroy()
 @Component({
@@ -16,10 +17,7 @@ import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 })
 export class DaysComponent implements OnInit {
 
-  formGroup: FormGroup = this.fb.group({
-    'start': [null, Validators.required],
-    'end': [null, Validators.required]
-  });
+  readonly MINUS_ONE: number = -1;
 
   selectedDate = new Date();
 
@@ -30,14 +28,27 @@ export class DaysComponent implements OnInit {
   confirmBtn: any
   cancelBtn: any
 
-  rules: Array<Rule> = [];
-  selectedRules: Array<Rule> = [];
+  workHoursManagement!: WorkHoursManagement;
+
+  selectedDays: Array<DailyWorkHours> = [];
+  daysDisplay: number[] = [];
+  formGroup: FormGroup = this.fb.group({
+    'careTimeLength': [this.workHoursManagement?.careTimeLength, Validators.required],
+    'start': [null, Validators.required],
+    'end': [null, Validators.required]
+  });
 
   constructor(private fb: FormBuilder,
               private dialogService: DialogService,
               private workHourService: WorkHourService,
               private remult: Remult,
-              private router: Router) {
+              private router: Router
+  ) {
+  }
+
+  async ngOnInit() {
+    const workHoursManRepo = this.remult.repo(WorkHoursManagement);
+    this.workHoursManagement = await workHoursManRepo.findFirst();
   }
 
   minDate() {
@@ -56,12 +67,72 @@ export class DaysComponent implements OnInit {
 
   }
 
-  async ngOnInit() {
-    const ruleRepo = this.remult.repo(Rule);
-    this.rules = await ruleRepo.find();
 
+  async onSubmit(form: any) {
+    if (form.invalid) {
+      return;
+    }
+    const {careTimeLength, start, end} = form;
+
+    this.workHoursManagement.careTimeLength = careTimeLength;
+
+    const startStr = this.parseDateToHours(start);
+    const endStr = this.parseDateToHours(end);
+
+    const startHour = startStr.split(':')[0];
+    const endHour = endStr.split(':')[0];
+
+    this.selectedDays.forEach(d => {
+      d.timeRange.startTime = Number(startHour);
+      d.timeRange.endTime = Number(endHour);
+
+      let dailyWorkHours = this.workHoursManagement.workHours;
+      const index = dailyWorkHours.findIndex(workHours => workHours.dayInTheWeek === d.dayInTheWeek);
+      if (index !== -1) {
+        dailyWorkHours[index] = {...dailyWorkHours[index], ...d} as DailyWorkHours;
+      } else {
+        throw new Error('שגיאה חמורה התרחשה, צור קשר עם מנהל');
+      }
+    })
+
+    await this.remult.repo(WorkHoursManagement).save(this.workHoursManagement);
+
+    this.formGroup.reset();
+
+    this.resetSelectedDays();
+
+    this.dialogService.alert('בוצע בהצלחה', 'עדכון השעות השבועיות בוצע בהצלחה', 'done')
+      .pipe(untilDestroyed(this))
+      .subscribe(res => console.log(res))
   }
 
+
+  onClick(i: DailyWorkHours) {
+    const active = document.getElementById(String(i.dayInTheWeek));
+    const index = this.selectedDays.findIndex(r => r.dayInTheWeek === i.dayInTheWeek);
+    if (index !== -1) {
+      if (active) {
+        active.style.outline = 'none';
+      }
+      this.selectedDays.splice(index, 1);
+    } else {
+      if (active) {
+        active.style.outline = '2px solid #407BE7';
+      }
+      this.selectedDays.push(i);
+    }
+    if (this.selectedDays.length > 0) {
+      this.daysDisplay = this.selectedDays.map(d => {
+        return d.dayInTheWeek
+      })
+    } else {
+      this.daysDisplay = [];
+    }
+  }
+
+  get careTimeLength() {
+    return this.formGroup.get('careTimeLength') as FormControl
+  }
 
   get start() {
     return this.formGroup.get('start') as FormControl
@@ -79,59 +150,13 @@ export class DaysComponent implements OnInit {
     this.selectedDate = event.value;
   }
 
-  async onSubmit(form: any) {
-    if (form.invalid) {
-      return;
-    }
-    const {start, end} = form;
-
-    const startStr = this.parseDateToHours(start);
-    const endStr = this.parseDateToHours(end);
-
-    const startHour = startStr.split(':')[0];
-    const endHour = endStr.split(':')[0];
-
-    this.selectedRules.forEach(r => {
-      r.startTime = Number(startHour);
-      r.endTime = Number(endHour);
-
-      const index = this.rules.findIndex(rule => rule.dayInTheWeek === r.dayInTheWeek);
-      if (index !== -1) {
-        this.rules[index] = {...this.rules[index], ...r} as Rule;
-      } else {
-        throw new Error('שגיאה חמורה התרחשה, צור קשר עם מנהל');
-      }
-    })
-
-    await this.remult.repo(Rule).save(this.selectedRules);
-
-    this.formGroup.reset();
-    await this.router.navigate(['']);
-
-    this.dialogService.alert('בוצע בהצלחה', 'עדכון השעות השבועיות בוצע בהצלחה', 'done')
-      .pipe(untilDestroyed(this))
-      .subscribe(res => console.log(res))
+  private resetSelectedDays(): void {
+    this.selectedDays = [];
   }
-
 
   private parseDateToHours(date: Date): string {
     const momObj = moment(date);
     return momObj.format('HH:mm:ss');
   }
 
-  onClick(i: Rule) {
-    const active = document.getElementById(String(i.dayInTheWeek));
-    const index = this.selectedRules.findIndex(r => r.dayInTheWeek === i.dayInTheWeek);
-    if (index !== -1) {
-      if (active) {
-        active.style.outline = 'none';
-      }
-      this.selectedRules.splice(index, 1);
-    } else {
-      if (active) {
-        active.style.outline = '2px solid #407BE7';
-      }
-      this.selectedRules.push(i)
-    }
-  }
 }
