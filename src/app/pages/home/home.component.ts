@@ -13,8 +13,7 @@ import {WorkHourService} from '../../services/work-hour.service'
 import {AuthService} from "../../otp/auth.service";
 import {UntilDestroy, untilDestroyed} from '@ngneat/until-destroy';
 import {DialogService} from "../../common/dialog/dialog.service";
-import {WorkHours} from "../../models/work-hours";
-import {sendSms} from "../../../server/sms";
+import {WorkHoursManagement} from "../../../shared/WorkHoursManagement";
 
 @UntilDestroy()
 @Component({
@@ -32,10 +31,10 @@ export class HomeComponent implements OnInit {
   selectedDate = new Date();
   eventController = new EventsController(this.remult);
 
-  eventsTimeArr: Array<number> = [];
-  startTime!: number;
-  endTime!: number;
-  workHours!: WorkHours;
+  // eventsTimeArr: Array<number> = [];
+  // startTime!: number;
+  // endTime!: number;
+  // workHours!: WorkHours;
   appointmentArr: Array<Event> = [];
   completed: boolean = false;
 
@@ -44,7 +43,7 @@ export class HomeComponent implements OnInit {
   showEventTimes: boolean = false;
   state = '';
 
-  eventToDisplay!: Event;
+  selectedEvent!: Event;
   index!: number
 
   imageSource = '../../../assets/logo.jpeg';
@@ -66,6 +65,9 @@ export class HomeComponent implements OnInit {
   picker!: MatDatepicker<Moment>;
 
   minDate = new Date();
+  private eventsPerMonth: Event[] = [];
+  private workHourManagement!: WorkHoursManagement;
+  availableAppointmentsForSelectedDate: Array<number> = [];
 
 
   constructor(private dialog: MatDialog,
@@ -83,12 +85,12 @@ export class HomeComponent implements OnInit {
 
     this.dateAdapter.setLocale('he');
 
-    this.setInitWorkHoursAndBreak();
-    this.extractAvailableWorkHours();
+    // this.setInitWorkHoursAndBreak();
 
+    this.eventsPerMonth = await this.eventController.getEventsByMonth(new Date().getMonth());
+    this.workHourManagement = this.workHourService.getWorkHour().value;
 
-    await this.eventController.getEventsByMonth(new Date().getMonth());
-
+    // this.extractAvailableWorkHours()s
   }
 
   myFilter = (d: Date | null): boolean => {
@@ -112,81 +114,80 @@ export class HomeComponent implements OnInit {
   }
 
   private extractAvailableWorkHours() {
-    this.eventsTimeArr = [];
-    this.startTime = this.workHours.hours.startTime.getHours();
-    this.endTime = this.workHours.hours.endTime.getHours();
+    this.workHourManagement.workHours.forEach(whm => {
 
-    for (let i = this.startTime; i < this.endTime; i += 2) {
-      this.workHours.blanks.forEach(y => {
-        if (i < y.startTime.getHours() || i > y.endTime.getHours()) {
-          if (this.appointmentArr.length > 0) {
 
-            this.appointmentArr.forEach(event => {
-              const date = new Date(this.selectedDate);
-              date.setHours(i);
-              if (event.id !== date.getTime()) {
-                this.addEvents(i);
-              }
-            })
-          } else {
-            this.addEvents(i);
+      const day = this.selectedDate.getDay();
+      if (day === whm.dayInTheWeek) {
+        const startDay = whm.timeRange.startTime;
+        const endDay = whm.timeRange.endTime;
+        const careTimeLength = this.workHourManagement.careTimeLength;
+
+        if (startDay && endDay && careTimeLength) {
+          const startDayDate = new Date(this.selectedDate);
+          startDayDate.setHours(startDay);
+          const endDayDate = new Date(this.selectedDate);
+          endDayDate.setHours(endDay);
+          const endDayMillis = endDayDate.getTime();
+          const startDayMills = startDayDate.getTime();
+          // const promoteToNextAppointment(i: number, careTimeLength: number) => {
+          //   return new Date(i).setHours(new Date(i).getHours() + careTimeLength);
+          // }
+          for (let i = startDayMills; i < endDayMillis; i = new Date(i).setHours(new Date(i).getHours() + careTimeLength)) {
+            const index = this.eventsPerMonth.findIndex(e => e.id === i);
+            if (index === -1) {
+              this.availableAppointmentsForSelectedDate.push(new Date(i).getHours())
+            }
           }
         }
-      })
-    }
+      }
+    });
+//    this.workHourManagement.workHours[0].timeRange.startTime;
+    this.showEventTimes = true;
   }
 
-  private addEvents(i: number) {
-    const date = new Date().setHours(i, 0, 0, 0)
-    this.eventsTimeArr.push(date);
-  }
+  // private addEvents(i: number) {
+  //   const date = new Date().setHours(i, 0, 0, 0)
+  //   this.eventsTimeArr.push(date);
+  // }
 
-  private setInitWorkHoursAndBreak() {
-    // TODO connect day, startTime, endTime + display to the user when event not available
-    // this.workHourService.selectedWorkHour$
-    //   .pipe(untilDestroyed(this))
-    //   .subscribe(value => {
-    //     const breakTimes = [];
-    //     breakTimes.push(value)
-    //     // console.log(breakTimes)
-    //   });
-
-    const startTime = new Date();
-    const endTime = new Date();
-    this.setHourOnDate(startTime, 9);
-    this.setHourOnDate(endTime, 19);
-
-    const breakStartTime = new Date();
-    const breakEndTime = new Date();
-    this.setHourOnDate(breakStartTime, 13);
-    this.setHourOnDate(breakEndTime, 16);
-
-    this.workHours = {hours: {startTime, endTime}, blanks: [{startTime: breakStartTime, endTime: breakEndTime}]}
-  }
+  // private setInitWorkHoursAndBreak() {
+  //   const startTime = new Date();
+  //   const endTime = new Date();
+  //   this.setHourOnDate(startTime, 9);
+  //   this.setHourOnDate(endTime, 19);
+  //
+  //   const breakStartTime = new Date();
+  //   const breakEndTime = new Date();
+  //   this.setHourOnDate(breakStartTime, 13);
+  //   this.setHourOnDate(breakEndTime, 16);
+  //
+  //   this.workHours = {hours: {startTime, endTime}, blanks: [{startTime: breakStartTime, endTime: breakEndTime}]}
+  // }
 
   private setHourOnDate(date: Date, hour: number) {
     date.setHours(hour, 0, 0, 0);
   }
 
   onSelectDate(event: any) {
+    this.availableAppointmentsForSelectedDate = [];
     this.selectedDate = event.value;
     this.extractAvailableWorkHours();
-    this.showEventTimes = true;
   }
 
-  async onSelectTime(event: number) {
+  async onSelectTime(hour: number) {
     this.isEventSelected = true;
-    this.selectedDate.setHours(new Date(event).getHours(), 0, 0, 0);
+    this.selectedDate.setHours(hour);
     this.event.id = this.selectedDate.getTime();
-    this.appointmentArr.push(this.event);
+    // this.appointmentArr.push(this.event);
     this.extractAvailableWorkHours();
     this.dateToString = this.parseDateToStr(this.selectedDate);
     await this.handleNextStep();
   }
 
-  handleSelectedEvent(event: any) {
+  handleSelectedEvent(event: Event) {
     this.isEventSelected = true;
-    this.eventToDisplay = event;
+    this.selectedEvent = event;
   }
 
   async onSubmit() {
@@ -225,7 +226,7 @@ export class HomeComponent implements OnInit {
 
   private async createEventOnGoggleCalendar(user: any, selectedDateEnd: moment.Moment) {
     return await this.eventController.createEventOnGoggleCalendar({
-      ...this.eventToDisplay,
+      ...this.selectedEvent,
       'username': user?.username,
       'phone': user?.phone.replace('+972', '0'),
       'startDate': this.selectedDate,
@@ -249,7 +250,7 @@ export class HomeComponent implements OnInit {
   }
 
   async onReset() {
-    this.appointmentArr = [];
+    // this.appointmentArr = [];
     this.picker.select(undefined!);
     this.extractAvailableWorkHours();
     this.showEventTimes = false;
@@ -261,10 +262,10 @@ export class HomeComponent implements OnInit {
   }
 
   onCalendarAdd() {
-    this.dialogService.alert('דף לא זמין', 'עדיין עובדים על זה :)','info')
+    this.dialogService.alert('דף לא זמין', 'עדיין עובדים על זה :)', 'info')
       .pipe(untilDestroyed(this))
       .subscribe(res => console.log(res))
-    };
+  };
 
   // async getEventsFromGoogleCalender() {
   //   const eventsFromDB = await this.remult.repo(Event).find();

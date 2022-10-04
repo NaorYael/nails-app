@@ -45,12 +45,18 @@
       {
         "dayInTheWeek": 5,
         "breaks": [],
-        "timeRange": {}
+        "timeRange": {
+          "startTime": 0,
+          "endTime": 0
+        }
       },
       {
         "dayInTheWeek": 6,
         "breaks": [],
-        "timeRange": {}
+        "timeRange": {
+          "startTime": 0,
+          "endTime": 0
+        }
       }
     ]
   }

@@ -9,9 +9,10 @@ import {ProfileComponent} from './pages/profile/profile.component'
 import {DaysComponent} from './pages/days/days.component'
 import {AdminGuard} from "./otp/admin.guard";
 import {ShowDialogOnErrorErrorHandler} from "./common/dialog/show-dialog-on-error-error-handler";
+import {HomeResolver} from "./pages/home/home.resolver";
 
 const routes: Routes = [
-  {path: '', component: HomeComponent, canActivate: [AuthGuard]},
+  {path: '', component: HomeComponent, canActivate: [AuthGuard], resolve: [HomeResolver]},
   {path: 'login', component: LoginComponent},
   {path: 'confirm', component: ConfirmComponent},
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},

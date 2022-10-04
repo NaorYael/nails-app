@@ -1,6 +1,6 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Output, ViewEncapsulation} from '@angular/core';
 import {Event} from '../../../shared/Event'
-import {WorkHourService} from '../../services/work-hour.service'
+
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
@@ -8,9 +8,9 @@ import {WorkHourService} from '../../services/work-hour.service'
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CardComponent implements OnInit {
+export class CardComponent {
 
-  @Output() onSelected = new EventEmitter<any>();
+  @Output() onSelected = new EventEmitter<Event>();
 
   isSelected = false;
   imageLoad = false;
@@ -29,12 +29,6 @@ export class CardComponent implements OnInit {
   ];
 
   items = Array.from({ length: 100000 }).map((_, i) => `Item #${i}`);
-
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
 
   onLoadImage() {
     this.imageLoad = true;

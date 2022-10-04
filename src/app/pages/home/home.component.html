@@ -30,10 +30,10 @@
         <br>
         <div *ngIf="showEventTimes">
           <mat-label *ngIf="isEventSelected && !hideHourLabel" style="color: #4D4D4D;font-weight: bold;">באיזה שעה?</mat-label>
-          <div class="time" *ngFor="let event of eventsTimeArr" fxLayoutAlign="center">
+          <div class="time" *ngFor="let hour of availableAppointmentsForSelectedDate" fxLayoutAlign="center">
 
-            <mat-card *ngIf="appointmentArr.length === 0" (click)="onSelectTime(event)">
-              <div class="time__digits" fxLayoutAlign="center">{{event | date:"HH:mm"}}</div>
+            <mat-card *ngIf="hour" (click)="onSelectTime(hour)">
+              <div class="time__digits" fxLayoutAlign="center">{{hour + ':00'}}</div>
             </mat-card>
           </div>
         </div>
@@ -42,15 +42,15 @@
       <mat-step dir="rtl" [completed]="completed" [state]="state">
         <ng-template matStepLabel>קבענו</ng-template>
         <div fxLayoutAlign="center">
-          <div *ngIf="appointmentArr.length > 0" fxLayout="row" fxLayoutAlign="center center">
+          <div *ngIf="selectedEvent" fxLayout="row" fxLayoutAlign="center center">
             <mat-card [ngClass]="{'mat-elevation-z0':!imageLoad}" class="example-card">
-              <img mat-card-image [src]="imageSource" (load)="imageLoad = true">
+              <img mat-card-image [src]="imageSource" (load)="imageLoad = false">
 
-              <div *ngIf="!imageLoad">
+              <div *ngIf="imageLoad">
                 <app-spinner></app-spinner>
               </div>
 
-              <div *ngIf="imageLoad">
+              <div *ngIf="!imageLoad">
                 <div class="item" fxLayoutAlign="center" style="flex-direction: row-reverse;">
                   <button class="main" mat-raised-button style="border-radius: 15px;" fxLayout="center">הפגישה הבאה שלי
                     <mat-icon>info</mat-icon>
@@ -82,10 +82,10 @@
                   <div fxLayout="row" fxFlex style="justify-content: space-between">
                     <div class="item"
                          style="display: flex; align-items: center;padding-bottom: 20px; flex-direction: row-reverse;">
-                      <div class="item" style="font-size: 15px">{{eventToDisplay.title}} - {{eventToDisplay.subtitle}}</div>
+                      <div class="item" style="font-size: 15px">{{selectedEvent.title}} - {{selectedEvent.subtitle}}</div>
                       <mat-icon>create</mat-icon>
                     </div>
-                    <div style="font-size: 15px;flex-direction: row-reverse;">{{eventToDisplay.price}}<span
+                    <div style="font-size: 15px;flex-direction: row-reverse;">{{selectedEvent.price}}<span
                       style="font-size: x-large;margin-inline-end: 3px;">₪</span></div>
                   </div>
                 </mat-card-content>
