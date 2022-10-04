@@ -1,0 +1,57 @@
+[
+  {
+    "careTimeLength": 2,
+    "workHours": [
+      {
+        "dayInTheWeek": 0,
+        "breaks": [],
+        "timeRange": {
+          "startTime": 8,
+          "endTime": 17
+        }
+      },
+      {
+        "dayInTheWeek": 1,
+        "breaks": [],
+        "timeRange": {
+          "startTime": 8,
+          "endTime": 17
+        }
+      },
+      {
+        "dayInTheWeek": 2,
+        "breaks": [],
+        "timeRange": {
+          "startTime": 8,
+          "endTime": 17
+        }
+      },
+      {
+        "dayInTheWeek": 3,
+        "breaks": [],
+        "timeRange": {
+          "startTime": 8,
+          "endTime": 17
+        }
+      },
+      {
+        "dayInTheWeek": 4,
+        "breaks": [],
+        "timeRange": {
+          "startTime": 8,
+          "endTime": 17
+        }
+      },
+      {
+        "dayInTheWeek": 5,
+        "breaks": [],
+        "timeRange": {}
+      },
+      {
+        "dayInTheWeek": 6,
+        "breaks": [],
+        "timeRange": {}
+      }
+    ]
+  }
+]

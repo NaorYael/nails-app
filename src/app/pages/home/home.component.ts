@@ -103,6 +103,7 @@ export class HomeComponent implements OnInit {
       this.stepper.selectedIndex = 2;
     } else {
       this.stepper.selectedIndex = 1;
+      this.isEventSelected = false;
     }
     setTimeout(() => {
       this.stepper.linear = true;
@@ -173,11 +174,11 @@ export class HomeComponent implements OnInit {
   }
 
   async onSelectTime(event: number) {
+    this.isEventSelected = true;
     this.selectedDate.setHours(new Date(event).getHours(), 0, 0, 0);
     this.event.id = this.selectedDate.getTime();
     this.appointmentArr.push(this.event);
     this.extractAvailableWorkHours();
-    this.isEventSelected = true;
     this.dateToString = this.parseDateToStr(this.selectedDate);
     await this.handleNextStep();
   }
@@ -188,6 +189,7 @@ export class HomeComponent implements OnInit {
   }
 
   async onSubmit() {
+
 
     // this.loading = true;
     const user = this.getUserFromSessionStorage();

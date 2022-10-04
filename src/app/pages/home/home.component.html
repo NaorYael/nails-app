@@ -10,8 +10,7 @@
       </mat-step>
 
       <mat-step label="מתי" dir="rtl">
-        <ng-template #message>יש לבחור סוג שירות</ng-template>
-        <ng-container *ngIf="isEventSelected; else message">
+        <ng-container >
           <div style="display: flex; box-sizing: border-box">
             <mat-form-field (click)="picker.open()">
               <mat-label style="color: #4D4D4D;">בחר תאריך</mat-label>
@@ -112,9 +111,10 @@
       </mat-step>
 
     </mat-horizontal-stepper>
+
     <div fxLayout="row" fxLayoutAlign="center center">
     <footer>
-        <button [disabled]="!isEventSelected" color="primary"
+        <button [disabled]="!isEventSelected && !event.id" color="primary"
                 (click)="stepper.selectedIndex === 2 ?  onSubmit() : handleNextStep()" mat-raised-button>
           {{stepper.selectedIndex === 2 ? 'קביעת פגישה' : 'הבא'}}
         </button>
@@ -124,3 +124,4 @@
   </ng-container>
 
 </div>
+
