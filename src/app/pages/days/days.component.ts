@@ -41,31 +41,33 @@ export class DaysComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private dialogService: DialogService,
               private workHourService: WorkHourService,
-              private remult: Remult,
-              private router: Router
+              private remult: Remult
   ) {
   }
 
   async ngOnInit() {
     const workHoursManRepo = this.remult.repo(WorkHoursManagement);
     this.workHoursManagement = await workHoursManRepo.findFirst();
+
+    this.careTimeLength.patchValue(this.workHoursManagement.careTimeLength);
   }
 
-  minDate() {
-    const event = new Date('August 19, 1975 23:15:30');
-    event.setHours(20);
-
-    console.log(event);
-// expected output: Tue Aug 19 1975 20:15:30 GMT+0200 (CEST)
-// (note: your timezone may vary)
-
-    event.setHours(20, 21, 22);
-
-    console.log(event);
-// expected output: Tue Aug 19 1975 20:21:22 GMT+0200 (CEST)
-    return event;
-
-  }
+//
+//   minDate() {
+//     const event = new Date('August 19, 1975 23:15:30');
+//     event.setHours(20);
+//
+//     console.log(event);
+// // expected output: Tue Aug 19 1975 20:15:30 GMT+0200 (CEST)
+// // (note: your timezone may vary)
+//
+//     event.setHours(20, 21, 22);
+//
+//     console.log(event);
+// // expected output: Tue Aug 19 1975 20:21:22 GMT+0200 (CEST)
+//     return event;
+//
+//   }
 
 
   async onSubmit(form: any) {

@@ -42,4 +42,6 @@ export class Event extends EntityBase {
   @Fields.number()
   price? = 0;
 
+  @Fields.date()
+  date: Date = new Date();
 }

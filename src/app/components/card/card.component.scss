@@ -10,7 +10,7 @@ mat-card {
     font-size: 19px;
   }
   .mat-card-subtitle {
-    font-size: 15px;
+    font-size: 13px;
   }
   mat-chip {
     margin: 5px;
@@ -22,6 +22,7 @@ mat-card {
       }
   img {
     margin-inline-end: 20px;
+    //border-radius: 50%;
   }
 }
 

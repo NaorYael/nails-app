@@ -1,22 +1,20 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from 'rxjs'
+import {WorkHoursManagement} from "../../shared/WorkHoursManagement";
 
-export interface WorkHour {
-  day: string;
-  start: number;
-  end: number;
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class WorkHourService {
 
-  private workHour$ = new BehaviorSubject<Array<WorkHour>>([]);
+  private workHour$ = new BehaviorSubject<WorkHoursManagement>({} as WorkHoursManagement);
 
-  selectedWorkHour$ = this.workHour$.asObservable();
+  getWorkHour() {
+    return this.workHour$;
+  }
 
-  setWorkHour(workHour: any) {
+  setWorkHour(workHour: WorkHoursManagement) {
     this.workHour$.next(workHour);
   }
 }

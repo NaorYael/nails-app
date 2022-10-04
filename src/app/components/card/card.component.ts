@@ -17,10 +17,15 @@ export class CardComponent implements OnInit {
   activeEvent!: {};
 
   members: any[] = [
-    {title: 'הלחמת ריסים', subtitle: 'בשיטה חדשנית', price: 350, time: 90, url: '../../../assets/eyelashes.png'},
-    {title: 'לק ג\'ל', subtitle: 'ידיים ומניקור', price: 100, time: 120, url: '../../../assets/nail-polish-png-46851.png'},
-    {title: 'לק ג\'ל', subtitle: 'ידיים תיקון מבנה אנטומי ומניקור', price: 120, time: 120, url: '../../../assets/nail-polish-png-46829.png'},
+    {title: 'לק ג\'ל', subtitle: 'ידיים ומניקור (ללא מבנה אנטומי)', price: 100, time: 120, url: '../../../assets/nail-2.jpg'},
+    {title: 'לק ג\'ל  מבנה אנטומי', subtitle: 'ידיים ומניקור', price: 120, time: 120, url: '../../../assets/nail-5.jpg'},
     {title: 'לק ג\'ל', subtitle: 'רגליים', price: 100, time: 120, url: '../../../assets/nail-polish-png-46837.png'},
+    // {title: 'הלחמת ריסים', subtitle: 'קלאסי', price: 300, time: 180, url: '../../../assets/eyelashes.png'},
+    // {title: 'הלחמת ריסים', subtitle: 'קלאסי (מילוי בלבד)', price: 200, time: 180, url: '../../../assets/eyelashes.png'},
+    // {title: 'הלחמת ריסים', subtitle: 'דו מימד', price: 350, time: 180, url: '../../../assets/eyelashes.png'},
+    // {title: 'הלחמת ריסים', subtitle: 'תלת מימד', price: 400, time: 180, url: '../../../assets/eyelashes.png'},
+    // {title: 'הלחמת ריסים', subtitle: 'ווליום', price: 450, time: 180, url: '../../../assets/eyelashes.png'},
+
   ];
 
   items = Array.from({ length: 100000 }).map((_, i) => `Item #${i}`);

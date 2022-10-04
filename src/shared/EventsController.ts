@@ -43,5 +43,40 @@ export class EventsController extends ControllerBase {
       }
     }
   }
+
+  @BackendMethod({allowed: true})
+  async getEventsByMonth(month: number): Promise<Event[]> {
+
+    const lastDateInTheMonth = new Date();
+    lastDateInTheMonth.setFullYear(lastDateInTheMonth.getFullYear(), month + 1, 0);
+
+
+    const firstDateInTheMonth = new Date();
+    if (new Date().getMonth() !== month) {
+      firstDateInTheMonth.setFullYear(firstDateInTheMonth.getFullYear(), month, 1);
+    }
+    console.log(firstDateInTheMonth);
+    console.log(lastDateInTheMonth);
+    const arr = [];
+
+    const eventRepository = this.remult.repo(Event);
+    // console.log(await eventRepository.find());
+    for await (const event of eventRepository.query({
+      where: {
+        id: { ">=": firstDateInTheMonth.getTime(), "<=": lastDateInTheMonth.getTime() }
+      }})) {
+      const x = await eventRepository.findId(event.id!);
+      // console.log({x});
+      console.log({event: await event});
+      arr.push(event);
+      return arr;
+    }
+    return [];
+  //   const myEvents: Event[] = await this.remult.repo(Event).query({
+  //     where: {
+  //       changeDate: { ">=": d }
+  //     }
+  // })
+  }
 }
 

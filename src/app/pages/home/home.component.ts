@@ -84,6 +84,10 @@ export class HomeComponent implements OnInit {
 
     this.setInitWorkHoursAndBreak();
     this.extractAvailableWorkHours();
+
+
+    await this.eventController.getEventsByMonth(new Date().getMonth());
+
   }
 
   myFilter = (d: Date | null): boolean => {
@@ -137,13 +141,13 @@ export class HomeComponent implements OnInit {
 
   private setInitWorkHoursAndBreak() {
     // TODO connect day, startTime, endTime + display to the user when event not available
-    this.workHourService.selectedWorkHour$
-      .pipe(untilDestroyed(this))
-      .subscribe(value => {
-        const breakTimes = [];
-        breakTimes.push(value)
-        // console.log(breakTimes)
-      });
+    // this.workHourService.selectedWorkHour$
+    //   .pipe(untilDestroyed(this))
+    //   .subscribe(value => {
+    //     const breakTimes = [];
+    //     breakTimes.push(value)
+    //     // console.log(breakTimes)
+    //   });
 
     const startTime = new Date();
     const endTime = new Date();

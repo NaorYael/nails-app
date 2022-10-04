@@ -16,7 +16,9 @@
           קביעת אורך פגישה
         </ng-container>
         <ng-container subTitle>
-          {{careTimeLength.value}}:00
+          <div style="display: flex">
+          <mat-icon style="font-size: medium;margin-inline-start: 5px;">timer</mat-icon>{{careTimeLength.value}}:00
+          </div>
         </ng-container>
         <ng-container content>
           <div fxLayout="row" fxLayoutAlign="center center">
@@ -35,20 +37,21 @@
           בחירת ימים
         </ng-container>
         <ng-container subTitle>
-          {{daysDisplay.length > 0 ? (MINUS_ONE! | days : daysDisplay) : 'ימים להגדרת שעות והפסקות'}}
+          <div style="display: flex">
+          <mat-icon style="font-size: medium;margin-inline-start: 5px;">date_range</mat-icon>{{daysDisplay.length > 0 ? (MINUS_ONE! | days : daysDisplay) : 'ימים להגדרת שעות והפסקות'}}
+          </div>
         </ng-container>
-        <ng-container content>
+        <ng-container content *ngIf="workHoursManagement?.workHours">
           <mat-card class="mat-elevation-z0" dir="rtl">
             <div class="item" id="{{i.dayInTheWeek }}" *ngFor="let i of workHoursManagement.workHours"
                  (click)="onClick(i)">
               <mat-card-title><span><b style="font-size: large">{{ i.dayInTheWeek! | days}}</b><mat-icon
-                title="לחץ על מנת לקבוע שעות">info</mat-icon></span></mat-card-title>
+                title="לחץ על מנת לקבוע שעות">info</mat-icon></span>
+              </mat-card-title>
               <mat-card-subtitle></mat-card-subtitle>
               <mat-card-content>
-                <span><b>שעת התחלה:</b>{{i.timeRange.startTime ?? 'טרם נקבע'}}<span
-                  *ngIf="i.timeRange.endTime">:00</span></span>
-                <span><b>שעת סיום:</b>{{i.timeRange.endTime ?? 'טרם נקבע'}}<span
-                  *ngIf="i.timeRange.endTime">:00</span></span>
+                <span><b>שעת התחלה:</b> {{i.timeRange.startTime ? i.timeRange.startTime + ':00' : 'טרם נקבע' }}</span>
+                <span><b>שעת סיום:</b>{{i.timeRange.endTime ? i.timeRange.endTime + ':00' : 'טרם נקבע'}}</span>
               </mat-card-content>
             </div>
           </mat-card>
@@ -59,7 +62,9 @@
           בחירת שעות
         </ng-container>
         <ng-container subTitle>
-          {{start.value + ':00 - ' + end.value + ':00' }}
+          <div style="display: flex">
+            <mat-icon style="font-size: medium;margin-inline-start: 5px;">access_time</mat-icon>{{((start.value  && end.value) ? ((end.value | date: 'H:mm' ) + ' - ' + (start.value | date: 'H:mm') + '  '): 'טרם נקבע') }}
+          </div>
         </ng-container>
         <ng-container content>
           <div>
