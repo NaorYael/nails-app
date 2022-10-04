@@ -14,6 +14,7 @@ import {AuthService} from "../../otp/auth.service";
 import {UntilDestroy, untilDestroyed} from '@ngneat/until-destroy';
 import {DialogService} from "../../common/dialog/dialog.service";
 import {WorkHours} from "../../models/work-hours";
+import {sendSms} from "../../../server/sms";
 
 @UntilDestroy()
 @Component({
@@ -190,6 +191,9 @@ export class HomeComponent implements OnInit {
 
   async onSubmit() {
 
+    if (!this.event.id) {
+      return;
+    }
 
     // this.loading = true;
     const user = this.getUserFromSessionStorage();
@@ -200,8 +204,14 @@ export class HomeComponent implements OnInit {
 
     await this.updateEvent(user, calendarId);
 
-    //this.loading = false;
+    // TODO implement sms logic
+    // const msg = 'פגישה נקבע בתאריך';
+    // await sendSms(user.phone, msg)
 
+    // this.loading = false;
+    this.dialogService.alert('פגישה נקבעה בהצלחה', 'פרטים נוספים נשלחו בהודעת sms', 'done')
+      .pipe(untilDestroyed(this))
+      .subscribe(res => console.log(res))
   }
 
   private formatEndDate() {
