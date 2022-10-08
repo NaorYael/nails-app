@@ -11,11 +11,11 @@ import {WorkHoursManagement} from '../../../shared/WorkHoursManagement';
 
 @UntilDestroy()
 @Component({
-  selector: 'app-days',
-  templateUrl: './days.component.html',
-  styleUrls: ['./days.component.scss']
+  selector: 'app-admin-dashboard',
+  templateUrl: './admin-dashboard.component.html',
+  styleUrls: ['./admin-dashboard.component.scss']
 })
-export class DaysComponent implements OnInit {
+export class AdminDashboardComponent implements OnInit {
 
   readonly MINUS_ONE: number = -1;
 

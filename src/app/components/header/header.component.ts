@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AuthService} from "../../otp/auth.service";
+import {AuthService} from "../../otp-auth/auth.service";
 import {User} from "../../../shared/User";
 import {BehaviorSubject} from "rxjs";
 import {Remult} from 'remult'

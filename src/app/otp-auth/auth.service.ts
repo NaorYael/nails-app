@@ -3,12 +3,11 @@ import {Router} from '@angular/router';
 import {BehaviorSubject} from 'rxjs';
 import {User} from "../../shared/User";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {UsernameComponent} from "../components/username/username.component";
+import {UsernameModalComponent} from "../components/username-modal/username-modal.component";
 import {Remult} from "remult";
 import {JwtHelperService} from '@auth0/angular-jwt'
 import {UserController} from '../../shared/UserController'
-
-const AUTH_TOKEN_KEY = "authToken";
+import {SessionStorageService} from "../services/session-storage.service";
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
@@ -23,6 +22,7 @@ export class AuthService {
   constructor(
     private router: Router,
     private remult: Remult,
+    private sessionStorage: SessionStorageService,
     private dialog: MatDialog
   ) {
     const token = AuthService.fromStorage();
@@ -31,24 +31,22 @@ export class AuthService {
       this.loggedIn.next(true);
       this.router.navigate(['/']);
     }
-    const userDetails = sessionStorage.getItem('userDetails');
-    if (userDetails) {
-      this.user.next(JSON.parse(userDetails));
-    }
+    const userDetails = this.sessionStorage.getUserDetails();
+      this.user.next(userDetails);
   }
 
   static fromStorage(): string {
-    return sessionStorage.getItem(AUTH_TOKEN_KEY)!;
+    return SessionStorageService.getToken();
   }
 
   // Passes the decoded user information to Remult and stores the token in the local sessionStorage.
   setAuthToken(token: string | null) {
     if (token) {
       this.remult.setUser(new JwtHelperService().decodeToken(token));
-      sessionStorage.setItem(AUTH_TOKEN_KEY, token);
+      this.sessionStorage.setToken(token);
     } else {
       this.remult.setUser(undefined!);
-      sessionStorage.removeItem(AUTH_TOKEN_KEY);
+      this.sessionStorage.clearToken();
     }
   }
 
@@ -83,18 +81,19 @@ export class AuthService {
     let userRepo = this.remult.repo(User);
     await userRepo.save(this.user.value);
     this.setAuthToken(null);
-    sessionStorage.clear();
+    this.sessionStorage.clearAll()
   }
 
   private updateUsernameIfNotExists() {
-    let dialogRef: MatDialogRef<UsernameComponent>;
-    dialogRef = this.dialog.open(UsernameComponent);
+    let dialogRef: MatDialogRef<UsernameModalComponent>;
+    dialogRef = this.dialog.open(UsernameModalComponent);
     dialogRef.componentInstance.user = this.user.value;
     dialogRef.afterClosed();
   }
 
   private setUser() {
     this.userController.user = this.user.value;
-    sessionStorage.setItem('userDetails', JSON.stringify(this.user.value));
+    this.sessionStorage.setUserDetails(this.user.value)
+
   }
 }

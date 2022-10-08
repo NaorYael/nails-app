@@ -13,11 +13,11 @@
       <div fxLayout="row" fxFlex="100">
         <img
           src="{{member.url}}"
+          alt="{{member.title}}"
           width="100"
           height="100"
           [src]="member.url" (load)="onLoadImage()"
-          [ngStyle]="imageLoad ? {'display': 'flex'} : {'display': 'none'}"
-        />
+          [ngStyle]="imageLoad ? {'display': 'flex'} : {'display': 'none'}"/>
         <div fxLayout="column" dir="rtl" *ngIf="imageLoad" >
           <mat-card-title>{{member.title}}</mat-card-title>
           <mat-card-subtitle>{{member.subtitle}}</mat-card-subtitle>

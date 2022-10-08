@@ -7,7 +7,7 @@ import {Remult} from "remult";
 @Injectable({
   providedIn: 'root'
 })
-export class HomeResolver implements Resolve<boolean> {
+export class AppointmentSchedulingResolver implements Resolve<boolean> {
   constructor(private workHourService: WorkHourService,
               private remult: Remult
   ) {

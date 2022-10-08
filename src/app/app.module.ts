@@ -9,24 +9,22 @@ import {AppComponent} from './app.component';
 import {CardComponent} from './components/card/card.component';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {Remult} from 'remult';
-import {ConfirmComponent} from './otp/confirm/confirm.component';
-import {LoginComponent} from './otp/login/login.component';
-import {HomeComponent} from './pages/home/home.component'
+import {ConfirmComponent} from './otp-auth/confirm/confirm.component';
+import {LoginComponent} from './otp-auth/login/login.component';
+import {AppointmentSchedulingComponent} from './pages/appointment-scheduling/appointment-scheduling.component'
 import {NgxMatIntlTelInputComponent} from 'ngx-mat-intl-tel-input'
 import {CodeInputModule} from 'angular-code-input';
 import {HeaderComponent} from './components/header/header.component';
 import {FooterComponent} from './components/footer/footer.component'
 import {NotFoundComponent} from "./pages/not-found.component";
-import {PaymentComponent} from "./components/payment/payment.component";
-import {UsernameComponent} from "./components/username/username.component";
+import {UsernameModalComponent} from "./components/username-modal/username-modal.component";
 import {ProfileComponent} from './pages/profile/profile.component'
 import {SpinnerComponent} from './components/spinner/spinner.component'
-import {AuthService} from "./otp/auth.service";
+import {AuthService} from "./otp-auth/auth.service";
 import {JwtModule} from "@auth0/angular-jwt";
 import {NgxLoadingModule} from "ngx-loading";
-import {PopupComponent} from './components/popup/popup.component'
-import {DaysPipe} from './pages/home/days.pipe'
-import {DaysComponent} from './pages/days/days.component'
+import {DaysPipe} from './pipes/days.pipe'
+import {AdminDashboardComponent} from './pages/admin-dashboard/admin-dashboard.component'
 import {DialogComponent} from './common/dialog/dialog.component';
 import {MaterialModule} from "./common/material.module";
 import {BrowserModule} from "@angular/platform-browser";
@@ -38,16 +36,14 @@ import { CollapseTogglerComponent } from './components/collapse-toggler/collapse
     CardComponent,
     ConfirmComponent,
     LoginComponent,
-    HomeComponent,
+    AppointmentSchedulingComponent,
     HeaderComponent,
     FooterComponent,
-    PaymentComponent,
     NotFoundComponent,
-    UsernameComponent,
+    UsernameModalComponent,
     ProfileComponent,
     SpinnerComponent,
-    PopupComponent,
-    DaysComponent,
+    AdminDashboardComponent,
     DaysPipe,
     DialogComponent,
     CollapseTogglerComponent

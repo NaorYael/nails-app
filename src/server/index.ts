@@ -10,7 +10,6 @@ import {expressjwt} from 'express-jwt'
 import {sendSms} from "./sms";
 import {EventsController} from "../shared/EventsController";
 import {addEvent, getEvents} from "./google_calendar";
-import {google} from "googleapis";
 
 config(); //loads the configuration from the .env file
 

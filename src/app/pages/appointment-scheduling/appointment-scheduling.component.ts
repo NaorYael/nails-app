@@ -10,21 +10,23 @@ import {Event} from '../../../shared/Event';
 import {Remult} from 'remult'
 import {EventsController} from '../../../shared/EventsController'
 import {WorkHourService} from '../../services/work-hour.service'
-import {AuthService} from "../../otp/auth.service";
+import {AuthService} from "../../otp-auth/auth.service";
 import {UntilDestroy, untilDestroyed} from '@ngneat/until-destroy';
 import {DialogService} from "../../common/dialog/dialog.service";
 import {WorkHoursManagement} from "../../../shared/WorkHoursManagement";
+import {SessionStorageService} from "../../services/session-storage.service";
+import {User} from "../../../shared/User";
 
 @UntilDestroy()
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+  selector: 'app-appointment-scheduling',
+  templateUrl: './appointment-scheduling.component.html',
+  styleUrls: ['./appointment-scheduling.component.scss'],
   providers: [{
     provide: STEPPER_GLOBAL_OPTIONS, useValue: {displayDefaultIndicatorType: false}
   }]
 })
-export class HomeComponent implements OnInit {
+export class AppointmentSchedulingComponent implements OnInit {
 
   dateToString = '';
   event = this.remult.repo(Event).create();
@@ -74,6 +76,7 @@ export class HomeComponent implements OnInit {
               private dateAdapter: DateAdapter<any>,
               private dialogService: DialogService,
               public remult: Remult,
+              private sessionStorage: SessionStorageService,
               private workHourService: WorkHourService,
               public authService: AuthService) {
   }
@@ -115,8 +118,6 @@ export class HomeComponent implements OnInit {
 
   private extractAvailableWorkHours() {
     this.workHourManagement.workHours.forEach(whm => {
-
-
       const day = this.selectedDate.getDay();
       if (day === whm.dayInTheWeek) {
         const startDay = whm.timeRange.startTime;
@@ -165,9 +166,9 @@ export class HomeComponent implements OnInit {
   //   this.workHours = {hours: {startTime, endTime}, blanks: [{startTime: breakStartTime, endTime: breakEndTime}]}
   // }
 
-  private setHourOnDate(date: Date, hour: number) {
-    date.setHours(hour, 0, 0, 0);
-  }
+  // private setHourOnDate(date: Date, hour: number) {
+  //   date.setHours(hour, 0, 0, 0);
+  // }
 
   onSelectDate(event: any) {
     this.availableAppointmentsForSelectedDate = [];
@@ -197,7 +198,7 @@ export class HomeComponent implements OnInit {
     }
 
     // this.loading = true;
-    const user = this.getUserFromSessionStorage();
+    const user = this.sessionStorage.getUserDetails();
 
     const selectedDateEnd = this.formatEndDate();
 
@@ -219,11 +220,6 @@ export class HomeComponent implements OnInit {
     return moment(this.selectedDate).add(2, 'hours');
   }
 
-  private getUserFromSessionStorage() {
-    const userDetails = sessionStorage.getItem('userDetails');
-    return JSON.parse(userDetails!);
-  }
-
   private async createEventOnGoggleCalendar(user: any, selectedDateEnd: moment.Moment) {
     return await this.eventController.createEventOnGoggleCalendar({
       ...this.selectedEvent,
@@ -234,11 +230,11 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  private async updateEvent(user: { phone: string; username: string; }, result: any) {
+  private async updateEvent(user: User, result: any) {
     this.event.assign({
       phone: user.phone,
       username: user.username,
-      calendarId: result
+      calendarId: result,
     })
 
     await this.event.save();
@@ -251,14 +247,15 @@ export class HomeComponent implements OnInit {
 
   async onReset() {
     // this.appointmentArr = [];
-    this.picker.select(undefined!);
-    this.extractAvailableWorkHours();
+    // this.availableAppointmentsForSelectedDate = [];
+    // this.extractAvailableWorkHours();
+    this.picker.select(undefined!)
     this.showEventTimes = false;
     this.isEventSelected = false
     this.dateToString = '';
     this.hideHourLabel = false;
     this.stepper.selectedIndex = 0;
-    window.location.reload();
+    // window.location.reload();
   }
 
   onCalendarAdd() {

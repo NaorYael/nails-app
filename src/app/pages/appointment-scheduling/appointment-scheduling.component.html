@@ -13,13 +13,15 @@
         <ng-container >
           <div style="display: flex; box-sizing: border-box">
             <mat-form-field (click)="picker.open()">
-              <mat-label style="color: #4D4D4D;">בחר תאריך</mat-label>
+              <mat-label>בחר תאריך</mat-label>
               <input matInput [matDatepickerFilter]="myFilter"
                      [matDatepicker]="picker"
                      [min]="minDate"
                      (dateInput)="onSelectDate($event)">
-              <mat-datepicker-toggle matSuffix [for]="picker"
-                                     [disabled]="dateToString !== ''"></mat-datepicker-toggle>
+              <mat-datepicker-toggle matSuffix
+                                     [for]="picker"
+                                     [disabled]="dateToString !== ''"
+              ></mat-datepicker-toggle>
               <mat-datepicker [touchUi]="true"
                               [disabled]="dateToString !== ''"
                               #picker></mat-datepicker>

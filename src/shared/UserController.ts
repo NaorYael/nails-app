@@ -20,27 +20,28 @@ export class UserController extends ControllerBase {
     if (userFromDB === undefined) {
       this.user.password = random;
       await userRepo.insert(this.user);
-      await UserController.sendSMS(random, this.user.phone!);
+      UserController.sendSMS(random, this.user.phone!);
     } else {
       userFromDB.password = random;
       this.user = await userRepo.save(userFromDB);
-      await UserController.sendSMS(random, userFromDB.phone!);
+      UserController.sendSMS(random, userFromDB.phone!);
     }
 
   }
 
-  @BackendMethod({ allowed: true })
-   async signIn() {
-    let result: UserInfo | undefined;
+  @BackendMethod({allowed: true})
+  async signIn() {
+
     const userRepo = this.remult.repo(User);
     const userFromDB = await userRepo.findId(this.user.phone!);
 
     if (!userFromDB || userFromDB.password !== this.user.password)
       throw new Error("משתמש לא מזוהה");
-    const user:UserInfo = {
-      id:userFromDB.phone!,
-      name:userFromDB.username!,
-      roles:[]
+
+    const user: UserInfo = {
+      id: userFromDB.phone!,
+      name: userFromDB.username!,
+      roles: []
     };
     if (userFromDB.admin) {
       user.roles.push(Roles.admin);

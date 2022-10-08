@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {User} from '../../../shared/User'
-import {MatDialog, MatDialogRef} from '@angular/material/dialog'
-import {PopupComponent} from '../../components/popup/popup.component'
+import {MatDialog} from '@angular/material/dialog'
+import {SessionStorageService} from "../../services/session-storage.service";
 
 @Component({
   selector: 'app-profile',
@@ -20,20 +20,15 @@ export class ProfileComponent implements OnInit {
 
   user!: User;
 
-  constructor(private dialog: MatDialog) { }
+  constructor(
+    private sessionStorage: SessionStorageService,) {
+  }
 
   ngOnInit(): void {
-    this.user = JSON.parse(sessionStorage.getItem('userDetails')!);
+    this.user = this.sessionStorage.getUserDetails();
   }
 
   onLoadImage() {
-   this.imageLoad = true;
-  }
-
-  openModal() {
-    let dialogRef: MatDialogRef<PopupComponent>;
-    dialogRef = this.dialog.open(PopupComponent);
-    // dialogRef.componentInstance.user = this.user;
-    return dialogRef.afterClosed();
+    this.imageLoad = true;
   }
 }
