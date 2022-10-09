@@ -29,6 +29,7 @@ import {DialogComponent} from './common/dialog/dialog.component';
 import {MaterialModule} from "./common/material.module";
 import {BrowserModule} from "@angular/platform-browser";
 import { CollapseTogglerComponent } from './components/collapse-toggler/collapse-toggler.component';
+import { WelcomeComponent } from './pages/welcome/welcome.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { CollapseTogglerComponent } from './components/collapse-toggler/collapse
     AdminDashboardComponent,
     DaysPipe,
     DialogComponent,
-    CollapseTogglerComponent
+    CollapseTogglerComponent,
+    WelcomeComponent
 
   ],
   imports: [

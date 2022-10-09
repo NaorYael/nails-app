@@ -21,8 +21,8 @@ export const api = remultExpress({
     if (await workHoursManRepo.count() === 0) {
       await workHoursManRepo.save(new WorkHoursManagement());
     }
-  // const eventsController = new EventsController(remult);
-  // const x = await eventsController.syncEvents();
-  // console.log(x)
+  const eventsController = new EventsController(remult);
+  const x = await eventsController.getNextEventOfUser('+972524854478');
+  console.log(x)
   }
 });

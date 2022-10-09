@@ -8,17 +8,32 @@ import {Remult} from 'remult';
 import {JwtHelperService} from '@auth0/angular-jwt'
 import {UserController} from '../../shared/controllers/UserController'
 import {SessionStorageService} from '../services/session-storage.service';
+import {UtilsService} from '../services/utils.service';
+import {Event} from '../../shared/entities/Event';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
 
   private loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private _user: BehaviorSubject<User> = new BehaviorSubject<User>(new User());
+  private _nextEvent: BehaviorSubject<Event> = new BehaviorSubject<Event>(new Event());
 
   private userController = new UserController(this.remult);
 
   get isLoggedIn() {
     return this.loggedIn.asObservable();
+  }
+
+  get nextEvent(): Observable<Event> {
+    return this._nextEvent;
+  }
+
+  setNextEvent(event: Event): void {
+    const currEvent = this._nextEvent.value.id;
+    if (currEvent && event.id! > currEvent) {
+      return;
+    }
+    this._nextEvent.next(event);
   }
 
   get user(): User {

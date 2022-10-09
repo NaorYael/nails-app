@@ -6,6 +6,7 @@ import {Remult} from 'remult';
 import {WorkHoursManagement} from '../shared/entities/WorkHoursManagement';
 import {WorkHourService} from './services/work-hour.service';
 import {AuthService} from './otp-auth/auth.service';
+import {EventsController} from '../shared/controllers/EventsController';
 
 @UntilDestroy()
 @Component({
@@ -31,21 +32,28 @@ export class AppComponent implements OnInit {
       untilDestroyed(this)).subscribe(item => {
       this.handleMobileMode(item)
     })
-    this.extractWorkHours();
+    this.extractWorkHoursAndNextAppointment();
   }
 
-  private extractWorkHours() {
+  private extractWorkHoursAndNextAppointment() {
+
     this.authService.isLoggedIn
       .pipe(
         filter((isLoggedIn: boolean) => isLoggedIn),
         switchMap(async () => {
           const workHoursManRepo = this.remult.repo(WorkHoursManagement);
-          return await workHoursManRepo.findFirst()
-        })).pipe(
-      untilDestroyed(this))
-      .subscribe(async (workHoursManagement: WorkHoursManagement) => {
-      await this.hoursService.setWorkHour(workHoursManagement)
-    });
+          const eventController = new EventsController(this.remult);
+          return {
+            workHoursManagement: await workHoursManRepo.findFirst(),
+            nextEvent: await eventController.getNextEventOfUser(this.authService.user.phone!)
+          };
+        }))
+      .pipe(
+        untilDestroyed(this))
+      .subscribe(async (data) => {
+        await this.hoursService.setWorkHour(data.workHoursManagement);
+        this.authService.setNextEvent(data.nextEvent)
+      });
   }
 
   private handleMobileMode(item: MediaChange[]) {

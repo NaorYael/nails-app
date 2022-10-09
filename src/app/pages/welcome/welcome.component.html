@@ -1,0 +1,22 @@
+<div>
+  <div fxLayout="column" fxLayoutAlign="start center" style="padding-top: 25%" *ngIf="(nextEvent | async) as event">
+    <div fxLayout="column" fxLayoutAlign="center center">{{event.id? 'פגישה קרובה' : 'אין פגישות קרובות'}}</div>
+    <div *ngIf="event.id">
+      <mat-card *ngIf="(nextEvent | async) as event" dir="rtl">
+        <mat-card-title>
+          <b>טיפול: </b>{{event.title}}
+        </mat-card-title>
+        <mat-card-subtitle>
+          <b>תאריך: </b>{{event.id | date : 'dd/MM/yyyy'}} - {{event.id | date : 'HH:mm'}}
+        </mat-card-subtitle>
+      </mat-card>
+    </div>
+  </div>
+  <div fxLayout="column" fxLayoutAlign="end center">
+    <footer>
+      <button mat-raised-button color="primary" routerLink="/appointment">
+        פגישה חדשה
+      </button>
+    </footer>
+  </div>
+</div>

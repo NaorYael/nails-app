@@ -15,6 +15,7 @@ import {UntilDestroy, untilDestroyed} from '@ngneat/until-destroy';
 import {DialogService} from '../../common/dialog/dialog.service';
 import {SessionStorageService} from '../../services/session-storage.service';
 import {User} from '../../../shared/entities/User';
+import {Router} from '@angular/router';
 
 @UntilDestroy()
 @Component({
@@ -75,6 +76,7 @@ export class AppointmentSchedulingComponent implements OnInit {
               private dateAdapter: DateAdapter<any>,
               private dialogService: DialogService,
               public remult: Remult,
+              private router: Router,
               private sessionStorage: SessionStorageService,
               private workHourService: WorkHourService,
               public authService: AuthService) {
@@ -223,7 +225,10 @@ export class AppointmentSchedulingComponent implements OnInit {
     // this.loading = false;
     this.dialogService.alert('פגישה נקבעה בהצלחה', 'פרטים נוספים נשלחו בהודעת sms', 'done')
       .pipe(untilDestroyed(this))
-      .subscribe(res => console.log(res))
+      .subscribe(res => {
+        this.authService.setNextEvent(event);
+        this.router.navigate(['/']);
+      })
   }
 
   private formatEndDate() {
