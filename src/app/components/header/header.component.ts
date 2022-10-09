@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
-import {AuthService} from "../../otp-auth/auth.service";
-import {User} from "../../../shared/entities/User";
-import {BehaviorSubject} from "rxjs";
+import {AuthService} from '../../otp-auth/auth.service';
+import {User} from '../../../shared/entities/User';
+import {Observable} from 'rxjs';
 import {Remult} from 'remult'
 import {Roles} from '../../models/roles'
-import {EventsController} from "../../../shared/controllers/EventsController";
+import {EventsController} from '../../../shared/controllers/EventsController';
 
 @Component({
   selector: 'app-header',
@@ -13,7 +13,7 @@ import {EventsController} from "../../../shared/controllers/EventsController";
 })
 export class HeaderComponent {
 
-  user: User = this.authService.user;
+  user: Observable<User> = this.authService.userObs;
   eventController = new EventsController(this.remult);
 
   constructor(public authService: AuthService,

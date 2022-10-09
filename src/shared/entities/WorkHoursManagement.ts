@@ -3,7 +3,8 @@ import {DailyWorkHours} from './DailyWorkHours';
 import {Roles} from '../../app/models/roles';
 
 @Entity<WorkHoursManagement>('workHoursManagement', {
-  allowApiCrud: Roles.admin
+  allowApiCrud: Roles.admin,
+  allowApiRead: true
 })
 export class WorkHoursManagement extends EntityBase {
 

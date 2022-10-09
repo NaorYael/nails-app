@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {User} from '../../shared/entities/User';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {UsernameModalComponent} from '../components/username-modal/username-modal.component';
@@ -23,6 +23,10 @@ export class AuthService {
 
   get user(): User {
     return this._user.value;
+  }
+
+  get userObs(): Observable<User> {
+    return this._user;
   }
 
   setUser(user: any) {
