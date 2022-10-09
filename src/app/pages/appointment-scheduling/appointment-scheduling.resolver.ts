@@ -14,13 +14,13 @@ export class AppointmentSchedulingResolver implements Resolve<boolean> {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    if (this.workHourService.getWorkHour()?.value?.careTimeLength) {
-      return of(true);
-    } else {
-      this.workHourService.setWorkHour().then(r => {
-        return of(true);
-      });
-    }
-    return of(false);
+    // if (this.workHourService.getWorkHour()?.value?.careTimeLength) {
+    //   return of(true);
+    // } else {
+    //   this.workHourService.setWorkHour().then(r => {
+    //     return of(true);
+    //   });
+    // }
+    return of(true);
   }
 }

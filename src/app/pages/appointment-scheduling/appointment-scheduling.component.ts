@@ -5,17 +5,16 @@ import {MatDialog} from '@angular/material/dialog'
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper'
 import {MatStepper} from '@angular/material/stepper'
 import {DateAdapter} from '@angular/material/core'
-import {MatDatepicker} from '@angular/material/datepicker'
+import {MatDatepicker, MatDatepickerInputEvent} from '@angular/material/datepicker'
 import {Event} from '../../../shared/entities/Event';
 import {Remult} from 'remult'
 import {EventsController} from '../../../shared/controllers/EventsController'
 import {WorkHourService} from '../../services/work-hour.service'
-import {AuthService} from "../../otp-auth/auth.service";
+import {AuthService} from '../../otp-auth/auth.service';
 import {UntilDestroy, untilDestroyed} from '@ngneat/until-destroy';
-import {DialogService} from "../../common/dialog/dialog.service";
-import {WorkHoursManagement} from "../../../shared/entities/WorkHoursManagement";
-import {SessionStorageService} from "../../services/session-storage.service";
-import {User} from "../../../shared/entities/User";
+import {DialogService} from '../../common/dialog/dialog.service';
+import {SessionStorageService} from '../../services/session-storage.service';
+import {User} from '../../../shared/entities/User';
 
 @UntilDestroy()
 @Component({
@@ -68,7 +67,7 @@ export class AppointmentSchedulingComponent implements OnInit {
 
   minDate = new Date();
   private eventsPerMonth: Event[] = [];
-  private workHourManagement!: WorkHoursManagement;
+  // private workHourManagement!: WorkHoursManagement;
   availableAppointmentsForSelectedDate: Array<number> = [];
 
 
@@ -89,11 +88,14 @@ export class AppointmentSchedulingComponent implements OnInit {
     this.dateAdapter.setLocale('he');
 
     // this.setInitWorkHoursAndBreak();
-
-    this.eventsPerMonth = await this.eventController.getEventsByMonth(new Date().getMonth());
-    this.workHourManagement = this.workHourService.getWorkHour().value;
+    // await this.getEventsOnTheMonth();
+    // this.workHourManagement = await this.workHourService.getWorkHour().value;
 
     // this.extractAvailableWorkHours()s
+  }
+
+  private async getEventsOnTheMonth() {
+    this.eventsPerMonth = await this.eventController.getEventsByMonth(this.selectedDate.getMonth());
   }
 
   myFilter = (d: Date | null): boolean => {
@@ -108,6 +110,7 @@ export class AppointmentSchedulingComponent implements OnInit {
       this.hideHourLabel = true;
       this.stepper.selectedIndex = 2;
     } else {
+      this.selectedDate = new Date();
       this.stepper.selectedIndex = 1;
       this.isEventSelected = false;
     }
@@ -116,13 +119,16 @@ export class AppointmentSchedulingComponent implements OnInit {
     });
   }
 
-  private extractAvailableWorkHours() {
-    this.workHourManagement.workHours.forEach(whm => {
-      const day = this.selectedDate.getDay();
+  private async extractAvailableWorkHours() {
+
+    const workHoursManagement = this.workHourService.getWorkHour().value;
+    const day = this.selectedDate.getDay();
+    const careTimeLength = workHoursManagement.careTimeLength;
+
+    workHoursManagement.workHours.forEach(whm => {
       if (day === whm.dayInTheWeek) {
         const startDay = whm.timeRange.startTime;
         const endDay = whm.timeRange.endTime;
-        const careTimeLength = this.workHourManagement.careTimeLength;
 
         if (startDay && endDay && careTimeLength) {
           const startDayDate = new Date(this.selectedDate);
@@ -131,13 +137,11 @@ export class AppointmentSchedulingComponent implements OnInit {
           endDayDate.setHours(endDay);
           const endDayMillis = endDayDate.getTime();
           const startDayMills = startDayDate.getTime();
-          // const promoteToNextAppointment(i: number, careTimeLength: number) => {
-          //   return new Date(i).setHours(new Date(i).getHours() + careTimeLength);
-          // }
+
           for (let i = startDayMills; i < endDayMillis; i = new Date(i).setHours(new Date(i).getHours() + careTimeLength)) {
             const index = this.eventsPerMonth.findIndex(e => e.id === i);
             if (index === -1) {
-              this.availableAppointmentsForSelectedDate.push(new Date(i).getHours())
+              this.availableAppointmentsForSelectedDate.push(new Date(i).getHours());
             }
           }
         }
@@ -170,10 +174,11 @@ export class AppointmentSchedulingComponent implements OnInit {
   //   date.setHours(hour, 0, 0, 0);
   // }
 
-  onSelectDate(event: any) {
+  async onSelectDate(event: MatDatepickerInputEvent<any>) {
     this.availableAppointmentsForSelectedDate = [];
-    this.selectedDate = event.value;
-    this.extractAvailableWorkHours();
+    this.selectedDate = new Date(event.value);
+    await this.getEventsOnTheMonth();
+    await this.extractAvailableWorkHours();
   }
 
   async onSelectTime(hour: number) {
@@ -181,7 +186,7 @@ export class AppointmentSchedulingComponent implements OnInit {
     this.selectedDate.setHours(hour);
     this.event.id = this.selectedDate.getTime();
     // this.appointmentArr.push(this.event);
-    this.extractAvailableWorkHours();
+    // await this.extractAvailableWorkHours();
     this.dateToString = this.parseDateToStr(this.selectedDate);
     await this.handleNextStep();
   }
@@ -204,8 +209,13 @@ export class AppointmentSchedulingComponent implements OnInit {
 
     const calendarId = await this.createEventOnGoggleCalendar(user, selectedDateEnd);
 
-    await this.updateEvent(user, calendarId);
+    const event = await this.updateEvent(user, calendarId);
+    this.eventsPerMonth.push(event);
+    const date = new Date(event.id!);
+    const start = this.availableAppointmentsForSelectedDate.findIndex(aafsd => date.getHours() === aafsd);
+    this.availableAppointmentsForSelectedDate.splice(start, 1)
 
+    // this.extractAvailableWorkHours();
     // TODO implement sms logic
     // const msg = 'פגישה נקבע בתאריך';
     // await sendSms(user.phone, msg)
@@ -237,7 +247,7 @@ export class AppointmentSchedulingComponent implements OnInit {
       calendarId: result,
     })
 
-    await this.event.save();
+    return await this.event.save();
   }
 
   private parseDateToStr(date: Date): string {
