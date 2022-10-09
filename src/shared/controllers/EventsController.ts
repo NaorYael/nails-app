@@ -1,6 +1,6 @@
 import {BackendMethod, Controller, ControllerBase} from "remult";
-import {Event} from './Event';
-import {GoggleEvent} from "../app/models/google-event";
+import {Event} from '../entities/Event';
+import {GoggleEvent} from "../../app/models/google-event";
 
 @Controller('eventsController')
 export class EventsController extends ControllerBase {

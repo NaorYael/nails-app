@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../auth.service";
 import {Remult} from "remult";
-import {User} from "../../../shared/User";
-import {UserController} from '../../../shared/UserController'
+import {User} from "../../../shared/entities/User";
+import {UserController} from '../../../shared/controllers/UserController'
 
 @Component({
   selector: 'app-confirm',
@@ -28,7 +28,7 @@ export class ConfirmComponent implements OnInit {
   async onCodeCompleted(code: string) {
     // const userRepo = this.remult.repo(User);
     // let user = await userRepo.findId(this.authService.user.value.phone!);
-    this.authService.user.next({...this.authService.user.value, password: String(this.code)} as User);
+    this.authService.setUser({...this.authService.user, password: String(this.code)} as User);
 
     await this.authService.login();
 

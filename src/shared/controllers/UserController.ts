@@ -1,6 +1,6 @@
 import {BackendMethod, Controller, ControllerBase, Fields, UserInfo} from "remult";
-import {User} from "./User";
-import {Roles} from '../app/models/roles'
+import {User} from "../entities/User";
+import {Roles} from '../../app/models/roles'
 
 @Controller('userController')
 export class UserController extends ControllerBase {

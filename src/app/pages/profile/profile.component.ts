@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {User} from '../../../shared/User'
+import {User} from '../../../shared/entities/User'
 import {MatDialog} from '@angular/material/dialog'
 import {SessionStorageService} from "../../services/session-storage.service";
 

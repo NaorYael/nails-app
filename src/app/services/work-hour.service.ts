@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs'
-import {WorkHoursManagement} from "../../shared/WorkHoursManagement";
+import {WorkHoursManagement} from "../../shared/entities/WorkHoursManagement";
 import {Remult} from "remult";
 
 

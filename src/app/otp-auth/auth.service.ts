@@ -1,22 +1,32 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {BehaviorSubject} from 'rxjs';
-import {User} from "../../shared/User";
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {UsernameModalComponent} from "../components/username-modal/username-modal.component";
-import {Remult} from "remult";
+import {User} from '../../shared/entities/User';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {UsernameModalComponent} from '../components/username-modal/username-modal.component';
+import {Remult} from 'remult';
 import {JwtHelperService} from '@auth0/angular-jwt'
-import {UserController} from '../../shared/UserController'
-import {SessionStorageService} from "../services/session-storage.service";
+import {UserController} from '../../shared/controllers/UserController'
+import {SessionStorageService} from '../services/session-storage.service';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
+
   private loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  user: BehaviorSubject<User> = new BehaviorSubject<User>(new User());
-  userController = new UserController(this.remult);
+  private _user: BehaviorSubject<User> = new BehaviorSubject<User>(new User());
+
+  private userController = new UserController(this.remult);
 
   get isLoggedIn() {
     return this.loggedIn.asObservable();
+  }
+
+  get user(): User {
+    return this._user.value;
+  }
+
+  setUser(user: any) {
+    this._user.next(user);
   }
 
   constructor(
@@ -32,7 +42,7 @@ export class AuthService {
       this.router.navigate(['/']);
     }
     const userDetails = this.sessionStorage.getUserDetails();
-      this.user.next(userDetails);
+    this._user.next(userDetails);
   }
 
   static fromStorage(): string {
@@ -51,9 +61,9 @@ export class AuthService {
   }
 
   async login() {
-    if ( !(await this.user.value.username)) {
+    if (!(await this.user.username)) {
       this.updateUsernameIfNotExists();
-      this.setUser();
+      this.setUserOnControllerAndSessionStorage();
       const token = await this.userController.signIn();
       if (token) {
         this.setAuthToken(token);
@@ -61,8 +71,8 @@ export class AuthService {
         await this.router.navigate(['/']);
         return token;
       }
-    } else if (this.user.value.password !== '') {
-      this.setUser();
+    } else if (this.user.password !== '') {
+      this.setUserOnControllerAndSessionStorage();
       const token = await this.userController.signIn();
       if (token) {
         this.setAuthToken(token);
@@ -77,9 +87,9 @@ export class AuthService {
   async logout() {
     this.loggedIn.next(false);
     await this.router.navigate(['/login']);
-    this.user.value.password = '';
+    this._user.next({...this.user, password: ''} as User)
     let userRepo = this.remult.repo(User);
-    await userRepo.save(this.user.value);
+    await userRepo.save(this.user);
     this.setAuthToken(null);
     this.sessionStorage.clearAll()
   }
@@ -87,13 +97,12 @@ export class AuthService {
   private updateUsernameIfNotExists() {
     let dialogRef: MatDialogRef<UsernameModalComponent>;
     dialogRef = this.dialog.open(UsernameModalComponent);
-    dialogRef.componentInstance.user = this.user.value;
+    dialogRef.componentInstance.user = this.user;
     dialogRef.afterClosed();
   }
 
-  private setUser() {
-    this.userController.user = this.user.value;
-    this.sessionStorage.setUserDetails(this.user.value)
-
+  private setUserOnControllerAndSessionStorage() {
+    this.userController.user = this.user;
+    this.sessionStorage.setUserDetails(this.user)
   }
 }

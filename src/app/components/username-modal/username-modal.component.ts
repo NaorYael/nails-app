@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {MatDialogRef} from '@angular/material/dialog';
-import {User} from "../../../shared/User";
+import {User} from "../../../shared/entities/User";
 import {FormBuilder} from "@angular/forms";
 import {AuthService} from "../../otp-auth/auth.service";
 import {Remult} from "remult";
@@ -31,7 +31,7 @@ export class UsernameModalComponent {
     if (this.form.valid) {
       this.user = {...this.user, ...this.form.value} as User;
       let userFromDB = this.remult.repo(User);
-      this.authService.user.next(await userFromDB.save(this.user));
+      this.authService.setUser(await userFromDB.save(this.user));
       this.sessionStorage.setUserDetails(this.user);
       this.dialogRef.close();
     }

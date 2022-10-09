@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {User} from "../../shared/User";
+import {User} from '../../shared/entities/User';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +11,7 @@ export class SessionStorageService {
   private readonly AUTH_TOKEN_KEY = 'authToken';
 
   isUserDetailsExists(): boolean {
-    const userDetails = this.getUserDetails();
-    return userDetails !== {} as User && !!userDetails;
+    return this.isNotEmptyAndNotUndefined(this.getUserDetails());
   }
 
   getUserDetails(): User {
@@ -42,12 +41,13 @@ export class SessionStorageService {
   }
 
   isTokenExists(): boolean {
-    return this.getToken() !== undefined;
+    return this.isNotEmptyAndNotUndefined(this.getToken());
   }
 
   static getToken(): string {
     return JSON.parse(sessionStorage.getItem(this.AUTH_TOKEN_KEY)!);
   }
+
   getToken(): string {
     return JSON.parse(sessionStorage.getItem(this.AUTH_TOKEN_KEY)!);
   }
@@ -73,5 +73,9 @@ export class SessionStorageService {
 
   clearAll() {
     return sessionStorage.clear();
-  };
+  }
+
+  private isNotEmptyAndNotUndefined(obj: Object) {
+    return obj !== {} && !!obj;
+  }
 }

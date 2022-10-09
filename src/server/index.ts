@@ -1,14 +1,14 @@
 import {config} from 'dotenv';
 import * as express from 'express';
 import {api} from './api';
-import {UserController} from "../shared/UserController";
+import {UserController} from "../shared/controllers/UserController";
 import helmet from 'helmet';
 import * as  compression from 'compression';
 import sslRedirect from 'heroku-ssl-redirect';
 import * as path from 'path';
 import {expressjwt} from 'express-jwt'
 import {sendSms} from "./sms";
-import {EventsController} from "../shared/EventsController";
+import {EventsController} from "../shared/controllers/EventsController";
 import {addEvent, getEvents} from "./google_calendar";
 
 config(); //loads the configuration from the .env file

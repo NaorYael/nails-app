@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Output, ViewEncapsulation} from '@angular/core';
-import {Event} from '../../../shared/Event'
+import {Event} from '../../../shared/entities/Event'
 
 @Component({
   selector: 'app-card',

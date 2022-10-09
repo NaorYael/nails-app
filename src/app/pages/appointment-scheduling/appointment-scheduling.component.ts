@@ -6,16 +6,16 @@ import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper'
 import {MatStepper} from '@angular/material/stepper'
 import {DateAdapter} from '@angular/material/core'
 import {MatDatepicker} from '@angular/material/datepicker'
-import {Event} from '../../../shared/Event';
+import {Event} from '../../../shared/entities/Event';
 import {Remult} from 'remult'
-import {EventsController} from '../../../shared/EventsController'
+import {EventsController} from '../../../shared/controllers/EventsController'
 import {WorkHourService} from '../../services/work-hour.service'
 import {AuthService} from "../../otp-auth/auth.service";
 import {UntilDestroy, untilDestroyed} from '@ngneat/until-destroy';
 import {DialogService} from "../../common/dialog/dialog.service";
-import {WorkHoursManagement} from "../../../shared/WorkHoursManagement";
+import {WorkHoursManagement} from "../../../shared/entities/WorkHoursManagement";
 import {SessionStorageService} from "../../services/session-storage.service";
-import {User} from "../../../shared/User";
+import {User} from "../../../shared/entities/User";
 
 @UntilDestroy()
 @Component({

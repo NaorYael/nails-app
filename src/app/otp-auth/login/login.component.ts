@@ -2,9 +2,9 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../auth.service'
 import {Router} from '@angular/router'
-import {UserController} from "../../../shared/UserController";
+import {UserController} from "../../../shared/controllers/UserController";
 import {Remult} from "remult";
-import {User} from "../../../shared/User";
+import {User} from "../../../shared/entities/User";
 import {DialogService} from "../../common/dialog/dialog.service";
 
 
@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
       // sendSms('0545870318', 'טסט');
       // if (response.status === 'queued') {
       this.user = this.userController.user;
-      this.authService.user.next(this.user);
+      this.authService.setUser(this.user);
       this.router.navigate(['/confirm']);
       // }
       // this.handleError(JSON.stringify('error code : ' + response.code))
@@ -75,7 +75,7 @@ export class LoginComponent implements OnInit {
 
   async onSubmit() {
     if (this.form.valid) {
-      this.authService.user.next({...this.authService.user.value, ...this.form.value})
+      this.authService.setUser({...this.authService.user, ...this.form.value})
       await this.authService.login();
     }
     this.formSubmitAttempt = true;

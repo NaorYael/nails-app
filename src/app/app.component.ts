@@ -3,7 +3,7 @@ import {MediaChange, MediaObserver} from '@angular/flex-layout';
 import {Observable, Subscription} from 'rxjs';
 import {UntilDestroy, untilDestroyed} from '@ngneat/until-destroy'
 import {Remult} from "remult";
-import {WorkHoursManagement} from "../shared/WorkHoursManagement";
+import {WorkHoursManagement} from "../shared/entities/WorkHoursManagement";
 import {WorkHourService} from "./services/work-hour.service";
 
 @UntilDestroy()

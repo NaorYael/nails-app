@@ -9,8 +9,8 @@
     <button *ngIf="(authService.isLoggedIn | async) && isAdmin()" mat-menu-item [routerLink]="['/admin-dashboard']">מנהל<span><mat-icon>manage_accounts</mat-icon></span></button>
     <button *ngIf="(authService.isLoggedIn | async) && isAdmin()" mat-menu-item (click)="sync()">סנכרון<span><mat-icon>sync</mat-icon></span></button>
   </mat-menu>
-  <span *ngIf="user | async as userHtml">
-  <span *ngIf="(authService.isLoggedIn | async)">שלום {{userHtml.username}}</span>
+  <span *ngIf="user">
+  <span *ngIf="(authService.isLoggedIn | async)">שלום {{user.username}}</span>
   </span>
   <span class="example-spacer"></span>
   <img src="../assets/NYB-logo-white.png" alt="" class="img">

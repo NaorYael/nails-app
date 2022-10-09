@@ -1,11 +1,11 @@
 import {remultExpress} from 'remult/remult-express';
-import {Event} from '../shared/Event'
-import {EventsController} from '../shared/EventsController'
-import {User} from '../shared/User';
-import {UserController} from '../shared/UserController';
+import {Event} from '../shared/entities/Event'
+import {EventsController} from '../shared/controllers/EventsController'
+import {User} from '../shared/entities/User';
+import {UserController} from '../shared/controllers/UserController';
 import {createPostgresConnection} from 'remult/postgres';
-import {WorkHoursManagementController} from '../shared/WorkHoursManagementController'
-import {WorkHoursManagement} from '../shared/WorkHoursManagement';
+import {WorkHoursManagementController} from '../shared/controllers/WorkHoursManagementController'
+import {WorkHoursManagement} from '../shared/entities/WorkHoursManagement';
 
 export const api = remultExpress({
   dataProvider: async () => {

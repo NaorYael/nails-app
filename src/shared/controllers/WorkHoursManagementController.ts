@@ -1,5 +1,5 @@
 import {BackendMethod, Controller, ControllerBase} from 'remult';
-import {WorkHoursManagement} from './WorkHoursManagement';
+import {WorkHoursManagement} from '../entities/WorkHoursManagement';
 
 @Controller('WorkHoursManagementController')
 export class WorkHoursManagementController extends ControllerBase {

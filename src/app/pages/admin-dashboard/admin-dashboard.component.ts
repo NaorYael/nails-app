@@ -3,11 +3,11 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms'
 import {Router} from '@angular/router'
 import * as moment from 'moment'
 import {WorkHourService} from '../../services/work-hour.service'
-import {DailyWorkHours} from '../../../shared/DailyWorkHours'
+import {DailyWorkHours} from '../../../shared/entities/DailyWorkHours'
 import {Remult} from 'remult'
 import {DialogService} from '../../common/dialog/dialog.service';
 import {UntilDestroy, untilDestroyed} from '@ngneat/until-destroy';
-import {WorkHoursManagement} from '../../../shared/WorkHoursManagement';
+import {WorkHoursManagement} from '../../../shared/entities/WorkHoursManagement';
 
 @UntilDestroy()
 @Component({
