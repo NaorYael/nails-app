@@ -17,7 +17,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'confirm', component: ConfirmComponent},
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
-  {path: 'days', component: AdminDashboardComponent, canActivate: [AdminGuard, AuthGuard]},
+  {path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AdminGuard, AuthGuard]},
   {path: '**', redirectTo: '', component: NotFoundComponent}
 
 ];

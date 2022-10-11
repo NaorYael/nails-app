@@ -1,15 +1,29 @@
 <div>
   <div fxLayout="column" fxLayoutAlign="start center" style="padding-top: 25%" *ngIf="(nextEvent | async) as event">
-    <div fxLayout="column" fxLayoutAlign="center center">{{event.id? 'פגישה קרובה' : 'אין פגישות קרובות'}}</div>
+
+    <div style="font-size: x-large; margin-bottom: 30px" fxLayout="column" fxLayoutAlign="center center">{{event.id? 'פגישה קרובה' : noIncomingAppointment}}</div>
+    <p dir="rtl" fxLayout="column" fxLayoutAlign="center center">{{event.id?? noIncomingAppointmentDesc}}</p>
     <div *ngIf="event.id">
-      <mat-card *ngIf="(nextEvent | async) as event" dir="rtl">
-        <mat-card-title>
-          <b>טיפול: </b>{{event.title}}
-        </mat-card-title>
-        <mat-card-subtitle>
-          <b>תאריך: </b>{{event.id | date : 'dd/MM/yyyy'}} - {{event.id | date : 'HH:mm'}}
-        </mat-card-subtitle>
+      <mat-card *ngIf="(nextEvent | async) as event" dir="rtl" [ngClass]="{'mat-elevation-z0':!imageLoad}" class="example-card">
+        <img mat-card-image [src]="imageSource" (load)="onLoadImage()">
+
+        <div *ngIf="!imageLoad">
+          <app-spinner></app-spinner>
+        </div>
+
+        <div *ngIf="imageLoad">
+          <mat-card-header>
+            <mat-card-title>
+              <b>טיפול: </b>{{event.title}}
+            </mat-card-title>
+            <mat-card-subtitle>
+              <b>תאריך: </b>{{event.id | date : 'dd/MM/yyyy'}} - {{event.id | date : 'HH:mm'}}
+            </mat-card-subtitle>
+          </mat-card-header>
+        </div>
+
       </mat-card>
+
     </div>
   </div>
   <div fxLayout="column" fxLayoutAlign="end center">

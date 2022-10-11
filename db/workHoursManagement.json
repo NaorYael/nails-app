@@ -46,8 +46,8 @@
         "dayInTheWeek": 5,
         "breaks": [],
         "timeRange": {
-          "startTime": 0,
-          "endTime": 0
+          "startTime": 8,
+          "endTime": 13
         }
       },
       {

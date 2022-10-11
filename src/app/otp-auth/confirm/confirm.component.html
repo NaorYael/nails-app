@@ -1,8 +1,7 @@
 <div class="signin-content">
   <mat-card>
-
     <mat-card-title fxLayoutAlign="center">הזדהות</mat-card-title>
-    <mat-card-subtitle fxLayoutAlign="center">הזן את הקוד שקיבלת לנייד</mat-card-subtitle>
+    <mat-card-subtitle fxLayoutAlign="center">לקוח יקר, ברגעים אלו נשלח אליך קוד זיהוי במסרון (sms) אנא הזן קוד זה</mat-card-subtitle>
     <mat-card-content>
       <code-input autofocus
                   [isCodeHidden]="false"
@@ -14,8 +13,14 @@
       <br>
       <button  mat-raised-button color="primary">שלח</button>
     </mat-card-content>
+    <mat-card-actions>
+      <div fxLayout="row" fxLayoutAlign="center">
+         <a (click)="authService.login()">שלח שוב</a>לא קיבלתי קוד
+      </div>
+    </mat-card-actions>
     <mat-card-footer fxLayoutAlign="center">
-       <a (click)="authService.login()">שלח שוב</a>לא קיבלתי קוד
+      <button [routerLink]="['/']" style="font-size: large" mat-button color="primary">חזרה</button>
     </mat-card-footer>
+
   </mat-card>
 </div>

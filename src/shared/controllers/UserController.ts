@@ -14,9 +14,8 @@ export class UserController extends ControllerBase {
   async loginOtp() {
 
     const userRepo = this.remult.repo(User);
-    const random = String(this.generateOtpCode());
-
     let userFromDB = await userRepo.findId(this.user.phone!);
+    const random = String(this.generateOtpCode());
     if (userFromDB === undefined) {
       this.user.password = random;
       await userRepo.insert(this.user);

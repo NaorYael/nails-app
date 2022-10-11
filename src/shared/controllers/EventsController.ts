@@ -83,5 +83,24 @@ export class EventsController extends ControllerBase {
     }
     return {} as Event;
   }
+
+  @BackendMethod({allowed: true})
+  async getUserEvents(userPhone: string): Promise<Event[]> {
+
+    const now = new Date();
+    const eventRepository = this.remult.repo(Event);
+    const arr: Event[] = [];
+
+    for await (const event of eventRepository.query({
+      where: {
+        id: { ">=": now.getTime()},
+        phone: userPhone
+      }})) {
+
+      arr.push(event);
+      return arr;
+    }
+    return [];
+  }
 }
 

@@ -16,6 +16,7 @@ import {DialogService} from '../../common/dialog/dialog.service';
 import {SessionStorageService} from '../../services/session-storage.service';
 import {User} from '../../../shared/entities/User';
 import {Router} from '@angular/router';
+import {sendSms} from "../../../server/sms";
 
 @UntilDestroy()
 @Component({
@@ -219,8 +220,8 @@ export class AppointmentSchedulingComponent implements OnInit {
 
     // this.extractAvailableWorkHours();
     // TODO implement sms logic
-    // const msg = 'פגישה נקבע בתאריך';
-    // await sendSms(user.phone, msg)
+    const msg = 'פגישה נקבע עבור לק גל בתאריך 01/01/2022 בשעה 14:00 כתובת הכרכום 7 דירה 8 ';
+    await sendSms(user.phone!, msg)
 
     // this.loading = false;
     this.dialogService.alert('פגישה נקבעה בהצלחה', 'פרטים נוספים נשלחו בהודעת sms', 'done')
@@ -250,6 +251,11 @@ export class AppointmentSchedulingComponent implements OnInit {
       phone: user.phone,
       username: user.username,
       calendarId: result,
+      completed: true,
+      title: this.selectedEvent.title,
+      subtitle: this.selectedEvent.subtitle,
+      price: this.selectedEvent.price,
+      time: this.selectedEvent.time,
     })
 
     return await this.event.save();

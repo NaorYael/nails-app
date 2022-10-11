@@ -3,9 +3,9 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../auth.service'
 import {Router} from '@angular/router'
 import {UserController} from "../../../shared/controllers/UserController";
-import {Remult} from "remult";
 import {User} from "../../../shared/entities/User";
 import {DialogService} from "../../common/dialog/dialog.service";
+import {Remult} from "remult";
 
 
 @Component({

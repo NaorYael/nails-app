@@ -1,3 +1,21 @@
+@use '../../../assets/global' as c;
+
+:host {
+  display: block;
+  padding: 30px;
+}
+
+mat-card.mat-card {
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.spinner-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 footer {
   background-color: white;
   text-align: center;
