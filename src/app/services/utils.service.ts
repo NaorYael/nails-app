@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -6,5 +6,9 @@ import { Injectable } from '@angular/core';
 export class UtilsService {
   static isNotEmptyAndNotUndefined(obj: Object): boolean {
     return obj !== {} && !!obj;
+  }
+
+  static isEmptyObject(obj: Object): boolean {
+    return (obj && (Object.keys(obj).length === 0));
   }
 }

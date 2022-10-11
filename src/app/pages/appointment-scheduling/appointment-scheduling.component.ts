@@ -17,6 +17,9 @@ import {SessionStorageService} from '../../services/session-storage.service';
 import {User} from '../../../shared/entities/User';
 import {Router} from '@angular/router';
 import {sendSms} from "../../../server/sms";
+import {finalize} from "rxjs";
+import {WorkHoursManagement} from "../../../shared/entities/WorkHoursManagement";
+import {UtilsService} from "../../services/utils.service";
 
 @UntilDestroy()
 @Component({
@@ -57,7 +60,7 @@ export class AppointmentSchedulingComponent implements OnInit {
   mode = 'indeterminate';
   value = 50;
 
-  loading = true;
+  loading = false;
 
   errMsg = '';
 
@@ -69,8 +72,10 @@ export class AppointmentSchedulingComponent implements OnInit {
 
   minDate = new Date();
   private eventsPerMonth: Event[] = [];
-  // private workHourManagement!: WorkHoursManagement;
+
+  workHourManagement!: WorkHoursManagement;
   availableAppointmentsForSelectedDate: Array<number> = [];
+  noHoursAvailable = false;
 
 
   constructor(private dialog: MatDialog,
@@ -90,11 +95,21 @@ export class AppointmentSchedulingComponent implements OnInit {
 
     this.dateAdapter.setLocale('he');
 
+    await this.isWorkHoursIsEmpty();
     // this.setInitWorkHoursAndBreak();
     // await this.getEventsOnTheMonth();
-    // this.workHourManagement = await this.workHourService.getWorkHour().value;
-
     // this.extractAvailableWorkHours()s
+  }
+
+
+  private async isWorkHoursIsEmpty() {
+    this.workHourManagement = await this.workHourService.getWorkHour().value;
+    const isEmpty = UtilsService.isEmptyObject(this.workHourManagement.workHours[0].timeRange);
+    if (isEmpty) {
+      this.noHoursAvailable = true;
+    } else {
+      this.noHoursAvailable = false;
+    }
   }
 
   private async getEventsOnTheMonth() {
@@ -123,7 +138,7 @@ export class AppointmentSchedulingComponent implements OnInit {
   }
 
   private async extractAvailableWorkHours() {
-
+    // TODO implements breaks logic
     const workHoursManagement = this.workHourService.getWorkHour().value;
     const day = this.selectedDate.getDay();
     const careTimeLength = workHoursManagement.careTimeLength;
@@ -205,7 +220,7 @@ export class AppointmentSchedulingComponent implements OnInit {
       return;
     }
 
-    // this.loading = true;
+    this.loading = true;
     const user = this.sessionStorage.getUserDetails();
 
     const selectedDateEnd = this.formatEndDate();
@@ -219,16 +234,23 @@ export class AppointmentSchedulingComponent implements OnInit {
     this.availableAppointmentsForSelectedDate.splice(start, 1)
 
     // this.extractAvailableWorkHours();
-    // TODO implement sms logic
-    const msg = 'פגישה נקבע עבור לק גל בתאריך 01/01/2022 בשעה 14:00 כתובת הכרכום 7 דירה 8 ';
-    await sendSms(user.phone!, msg)
 
-    // this.loading = false;
     this.dialogService.alert('פגישה נקבעה בהצלחה', 'פרטים נוספים נשלחו בהודעת sms', 'done')
       .pipe(untilDestroyed(this))
-      .subscribe(res => {
-        this.authService.setNextEvent(event);
-        this.router.navigate(['/']);
+      .pipe(finalize(() => {
+          console.log('finalize');
+          this.loading = false;
+        }
+      ))
+      .subscribe(async res => {
+        if (res) {
+          // TODO implement sms with full event details
+          const msg = 'פגישה נקבעה עבור לק גל בתאריך 01/01/2022 בשעה 14:00 הכתובת הינה הכרכום 7 דירה 8, לכל שינוי או ביטול אנא צור קשר ישירות עם בית העסק. ';
+          await sendSms(user.phone!, msg);
+          this.authService.setNextEvent(event);
+          await this.router.navigate(['/']);
+
+        }
       })
   }
 
@@ -270,7 +292,7 @@ export class AppointmentSchedulingComponent implements OnInit {
     // this.appointmentArr = [];
     // this.availableAppointmentsForSelectedDate = [];
     // this.extractAvailableWorkHours();
-    this.picker.select(undefined!)
+    // this.picker.select(undefined!)
     this.showEventTimes = false;
     this.isEventSelected = false
     this.dateToString = '';

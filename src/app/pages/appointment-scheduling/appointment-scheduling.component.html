@@ -124,10 +124,12 @@
 
     </div>
   </ng-container>
+</div >
+<ngx-loading
+  [show]="loading"
+  [config]="{ backdropBorderRadius: '3px' }"
+></ngx-loading>
 
+<div *ngIf="noHoursAvailable" style="font-size: larger" fxLayout="row" fxLayoutAlign="center center">
+  <p>לא הוגדרו שעות עבודה ,צור קשר עם בית העסק</p>
 </div>
-<!--TODO implement loading-->
-<!--<ngx-loading-->
-<!--  [show]="loading"-->
-<!--  [config]="{ backdropBorderRadius: '3px' }"-->
-<!--&gt;</ngx-loading>-->

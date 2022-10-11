@@ -7,7 +7,7 @@
         "breaks": [],
         "timeRange": {
           "startTime": 8,
-          "endTime": 17
+          "endTime": 18
         }
       },
       {
@@ -15,7 +15,7 @@
         "breaks": [],
         "timeRange": {
           "startTime": 8,
-          "endTime": 17
+          "endTime": 18
         }
       },
       {
@@ -23,7 +23,7 @@
         "breaks": [],
         "timeRange": {
           "startTime": 8,
-          "endTime": 17
+          "endTime": 18
         }
       },
       {
@@ -31,7 +31,7 @@
         "breaks": [],
         "timeRange": {
           "startTime": 8,
-          "endTime": 17
+          "endTime": 18
         }
       },
       {
@@ -39,24 +39,18 @@
         "breaks": [],
         "timeRange": {
           "startTime": 8,
-          "endTime": 17
+          "endTime": 18
         }
       },
       {
         "dayInTheWeek": 5,
         "breaks": [],
-        "timeRange": {
-          "startTime": 8,
-          "endTime": 13
-        }
+        "timeRange": {}
       },
       {
         "dayInTheWeek": 6,
         "breaks": [],
-        "timeRange": {
-          "startTime": 0,
-          "endTime": 0
-        }
+        "timeRange": {}
       }
     ]
   }
