@@ -1,10 +1,13 @@
 <div>
   <div fxLayout="column" fxLayoutAlign="start center" style="padding-top: 25%" *ngIf="(nextEvent | async) as event">
 
-    <div style="font-size: x-large; margin-bottom: 30px" fxLayout="column" fxLayoutAlign="center center">{{event.id? 'פגישה קרובה' : noIncomingAppointment}}</div>
-    <p dir="rtl" fxLayout="column" fxLayoutAlign="center center">{{event.id?? noIncomingAppointmentDesc}}</p>
+    <div style="font-size: x-large; margin-bottom: 30px" fxLayout="column"
+         fxLayoutAlign="center center">{{event.id ? 'פגישה קרובה' : noIncomingAppointment}}</div>
+    <p dir="rtl" fxLayout="column" fxLayoutAlign="center center">{{event.id ? '' : noIncomingAppointmentDesc}}</p>
     <div *ngIf="event.id">
-      <mat-card *ngIf="(nextEvent | async) as event" dir="rtl" [ngClass]="{'mat-elevation-z0':!imageLoad}" class="example-card">
+
+      <mat-card *ngIf="(nextEvent | async) as event" dir="rtl" [ngClass]="{'mat-elevation-z0':!imageLoad}"
+                class="example-card">
         <img mat-card-image [src]="imageSource" (load)="onLoadImage()">
 
         <div *ngIf="!imageLoad">
@@ -12,14 +15,51 @@
         </div>
 
         <div *ngIf="imageLoad">
-          <mat-card-header>
-            <mat-card-title>
-              <b>טיפול: </b>{{event.title}}
-            </mat-card-title>
-            <mat-card-subtitle>
-              <b>תאריך: </b>{{event.id | date : 'dd/MM/yyyy'}} - {{event.id | date : 'HH:mm'}}
-            </mat-card-subtitle>
-          </mat-card-header>
+
+          <mat-card-content fxLayout="row">
+<!--            <div>-->
+<!--              <div fxLayoutAlign="start center">טיפול:</div>-->
+<!--              <div fxLayout="row" fxLayoutAlign="end center">{{event.title}}</div>-->
+<!--            </div>-->
+<!--            <div class="item">-->
+<!--              <b>תאריך:</b> {{event.id | date : 'dd/MM/yyyy'}}-->
+<!--            </div>-->
+<!--            <div class="item">-->
+<!--              <b>יום:</b>{{convertMilliSecondsToDayNumber(event.id!) | days }}-->
+<!--            </div>-->
+<!--            <div class="item">-->
+<!--              <b>שעה:</b>{{event.id | date : 'HH:mm'}}-->
+<!--            </div>-->
+          </mat-card-content>
+          <mat-card-content fxLayout="column">
+
+            <div fxLayout="row" style="justify-content: space-between" fxFlex="50" fxLayoutGap="5px">
+              <div style="display: flex; align-items: center;padding-bottom: 20px;">
+                <mat-icon style="margin-inline-end: 5px">info</mat-icon>
+                <div class="" style="font-size: medium">{{event.title}}</div>
+              </div>
+            </div>
+
+            <div fxLayout="row" fxFlex style="justify-content: space-between">
+              <div style="display: flex; align-items: center;padding-bottom: 20px;">
+                <mat-icon style="margin-inline-end: 5px">calendar_month</mat-icon>
+                <div class="" style="font-size: medium">{{event.id | date : 'dd/MM/yyyy'}}</div>
+              </div>
+            </div>
+
+            <div fxLayout="row" fxFlex style="justify-content: space-between">
+              <div style="display: flex; align-items: center;padding-bottom: 20px;">
+                <mat-icon style="margin-inline-end: 5px">event</mat-icon>
+                <div class="" style="font-size: medium">{{convertMilliSecondsToDayNumber(event.id!) | days }}</div>
+              </div>
+            </div>
+            <div fxLayout="row" fxFlex style="justify-content: space-between">
+              <div style="display: flex; align-items: center;padding-bottom: 20px;">
+                <mat-icon style="margin-inline-end: 5px">schedule</mat-icon>
+                <div class="" style="font-size: medium">{{event.id | date : 'HH:mm'}}</div>
+              </div>
+            </div>
+          </mat-card-content>
         </div>
 
       </mat-card>

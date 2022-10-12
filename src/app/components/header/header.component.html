@@ -4,6 +4,7 @@
   </button>
   <mat-menu #menu="matMenu">
     <button *ngIf="(authService.isLoggedIn | async)" mat-menu-item [routerLink]="['/profile']">פרופיל<span><mat-icon>person</mat-icon></span></button>
+    <button *ngIf="(authService.isLoggedIn | async)" mat-menu-item [routerLink]="['/']">קבע פגישה<span><mat-icon>date_range</mat-icon></span></button>
     <button *ngIf="(authService.isLoggedIn | async)" (click)="logout()" mat-menu-item>התנתק<span><mat-icon>logout</mat-icon></span></button>
     <hr *ngIf="(authService.isLoggedIn | async) && isAdmin()">
     <button *ngIf="(authService.isLoggedIn | async) && isAdmin()" mat-menu-item [routerLink]="['/admin-dashboard']">מנהל<span><mat-icon>manage_accounts</mat-icon></span></button>

@@ -23,4 +23,9 @@ export class WelcomeComponent {
 
   constructor(private auth: AuthService) {
   }
+
+  convertMilliSecondsToDayNumber(id: number): number {
+    let date = new Date(id);
+    return date.getDay();
+  }
 }

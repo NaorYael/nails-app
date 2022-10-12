@@ -237,21 +237,16 @@ export class AppointmentSchedulingComponent implements OnInit {
 
     this.dialogService.alert('פגישה נקבעה בהצלחה', 'פרטים נוספים נשלחו בהודעת sms', 'done')
       .pipe(untilDestroyed(this))
-      .pipe(finalize(() => {
-          console.log('finalize');
-          this.loading = false;
-        }
-      ))
       .subscribe(async res => {
-        if (res) {
-          // TODO implement sms with full event details
-          const msg = 'פגישה נקבעה עבור לק גל בתאריך 01/01/2022 בשעה 14:00 הכתובת הינה הכרכום 7 דירה 8, לכל שינוי או ביטול אנא צור קשר ישירות עם בית העסק. ';
-          await sendSms(user.phone!, msg);
-          this.authService.setNextEvent(event);
-          await this.router.navigate(['/']);
-
-        }
+        this.loading = false;
       })
+
+    // TODO implement sms with full event details
+    // const msg = 'פגישה נקבעה עבור לק גל בתאריך 01/01/2022 בשעה 14:00 הכתובת הינה הכרכום 7 דירה 8, לכל שינוי או ביטול אנא צור קשר ישירות עם בית העסק. ';
+    // await sendSms(user.phone!, msg);
+    this.authService.setNextEvent(event);
+    await this.router.navigate(['/welcome']);
+    this.loading = false;
   }
 
   private formatEndDate() {
